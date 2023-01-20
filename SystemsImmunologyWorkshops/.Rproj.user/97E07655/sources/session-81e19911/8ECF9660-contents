@@ -1,0 +1,15 @@
+# Pre-Work
+
+## Install R and RStudio
+
+Before the first session, please install R and RStudio following the instructions @sec-install.
+
+If you already have R and RStudio installed, make sure that you have the latest versions installed (you can do this by simply following the installation instructions). 
+While this will likely not cause an issue for the first few sessions, it will in later sessions when we use more advanced packages and software. 
+
+If you encounter issues installing R or RStudio, please reach out to `christopher_magnano@hms.harvard.edu` or one of the TAs. 
+If we are unable to resolve your issue via email, we ask that you come 30 minutes early to the first session. 
+
+## Familiarize yourself with RStudio
+
+If you have never used RStudio or are completely new to programming, please review @sec-rstudio. This material will introduce you to the RStudio interface and how to assign values to variables in R. 

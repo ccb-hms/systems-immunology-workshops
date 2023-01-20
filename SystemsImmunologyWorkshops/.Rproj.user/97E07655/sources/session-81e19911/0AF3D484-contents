@@ -1,0 +1,11 @@
+# Session 1
+
+## Learning Objectives
+
+- Explore how probability distributions inform the mathematical form of statistical tests. 
+- Explore different types of hypothesis tests and when they should be used. 
+- Apply hypothesis tests commonly used in biological systems analyses. 
+- Install and manage packages from CRAN and Bioconductor. 
+- Identify different data types in R. 
+- Load different types of data into R.
+

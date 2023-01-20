@@ -1,0 +1,111 @@
+# Performing and choosing hypothesis tests
+
+There are many factors which can go into choosing an appropriate hypothesis test for a particular problem. As we've seen if we know or can reasonably assume a model for how our data was generated, we can directly calculate a p-value using a chosen distribution. Additionally, if our data is structured in a way which makes classical hypothesis tests difficult to apply, we can also use strategies involving randomization such as the Monte Carlo method or another strategy called **permutation testing**, where we randomize one of our variables to create null samples.
+
+If we consider the steps of a hypothesis test again we can identify a few factors:
+
+1.  Decide on the **effect** that you are interested in, design a suitable **experiment** or study, pick a data summary function and test statistic.
+2.  Set up a **null hypothesis**
+3.  Decide on the **rejection region**
+4.  Do the experiment and collect the data; compute the test statistic.
+5.  Make a decision: reject the null hypothesis if the test statistic is in the rejection region.
+
+Note that this is **not** meant to be a definitive guide. Instead, we aim to highlight some of the most common tests and factors which need to be considered.
+
+## Performing a Hypothesis Test
+
+Many experimental measurements are reported as rational numbers, and the simplest comparison we can make is between two groups, say, cells treated with a substance compared to cells that are not. The basic test for such situations is the t-test. The test statistic is defined as
+
+$$
+t = \frac{\bar{X_1} - \bar{X_2}}{\sqrt{\frac{S_1^2}{n_1} + \frac{S_2^2}{n_2}}}
+$$
+
+where $\bar{X}_1$ and $\bar{X}_2$ are the means of the two groups, $S^2_1$ and $S^2_2$ are the estimated variances of the groups, and $n_1$ and $n_2$ are the sizes of the two groups. Because the variance of a difference between two independent variables is the sum of the variances of each individual variable ($var(A - B) = var(A) + var(B)$), we add the variances for each group divided by their sample sizes in order to compute the standard error of the difference. Thus, one can view the the *t* statistic as a way of quantifying how large the difference between groups is in relation to the sampling variability of the difference between means.
+
+Let's try this out with the `PlantGrowth` data from R's **datasets** package.
+
+```{r}
+library("ggbeeswarm")
+data("PlantGrowth")
+ggplot(PlantGrowth, aes(y = weight, x = group, col = group)) +
+  geom_beeswarm() + theme(legend.position = "none")
+tt1 = t.test(PlantGrowth$weight[PlantGrowth$group =="ctrl"],
+      PlantGrowth$weight[PlantGrowth$group =="trt1"],
+      var.equal = TRUE)
+tt2 = t.test(PlantGrowth$weight[PlantGrowth$group =="ctrl"],
+      PlantGrowth$weight[PlantGrowth$group =="trt2"],
+      var.equal = TRUE)
+tt1
+tt2
+```
+
+To compute the p-value, the `t.test` function uses the asymptotic theory for the t-statistic. This theory states that under the null hypothesis of equal means in both groups, the statistic follows a known, mathematical distribution, the so-called t-distribution with $n_1 + n_2 - 2$ degrees of freedom. The theory uses additional technical assumptions, namely that the data are independent and come from a normal distribution with the same standard deviation.
+
+In fact, most of the tests we will look at assume that the data come from a normal distribution. That the normal distribution comes up so often is largly explained by the central limit theorem in statistics. The Central Limit Theorem tells us that as sample sizes get larger, the sampling distribution of the mean will become normally distributed, *even if the data within each sample are not normally distributed*.
+
+The normal distribution is also known as the *Gaussian* distribution. The normal distribution is described in terms of two parameters: the mean (which you can think of as the location of the peak), and the standard deviation (which specifies the width of the distribution).\
+The bell-like shape of the distribution never changes, only its location and width.
+
+An important note about the central limit theorem is that it is asymptotic, meaning that it is true as the size of our dataset approaches infinity. For very small sample sizes, even if we are taking the mean of our samples the data might not follow the normal distribution closely enough for tests which assume it to make sense.
+
+**The independence assumption**
+
+Now let's try something peculiar: duplicate the data.
+
+```{r}
+with(rbind(PlantGrowth, PlantGrowth),
+       t.test(weight[group == "ctrl"],
+              weight[group == "trt2"],
+              var.equal = TRUE))
+```
+
+Note that estimates of the group means (and thus the difference) are
+unchanged, but the $p$-value is now much smaller!
+
+## Choosing the Right Test
+
+### Variable Types (Effect)
+
+The types of our variables need to be considered. We will go through some choices if our variables are quantitative (continuous; a number or qualitative (discrete; a category or factor). However, note that other tests exist for some specific properties like proportions.
+
+If we wish to consider the relationship between **two quantitative variables**, we need to perform a correlation analysis. The Pearson correlation directly analyses the numbers (is parametric) while Spearman's rank correlation considers ranks (and is nonparametric).
+
+For **two qualitative variables**, we typically will use a Chi-square test of independence, though we may be able to use Fisher's exact test if the dataset is small enough.
+
+We often are interested in the case where we want to see the relationship between **one quantitative variable and one qualitative** **variable.** In this case, we most commonly use some variation of a t-test if we have only have 2 groups we are considering, and some variation of an ANOVA test if we have more than 2. We will get into more detail about ANOVA tests in a future session.
+
+### Paired vs Unpaired
+
+Paired and unpaired tests refer to whether or not there is a 1:1 correspondence between our different observations. Experiments which involve measuring the same set of biological samples, often as before and after some kind of treatment, are paired. In paired experiments we can look at each observation, see whether it individually changed between groups.
+
+In unpaired tests we consider our samples to be independent across groups. This is the case if we have two different groups, such as a control group and a treatment group.
+
+Performing a paired or unpaired test can be set as an argument in R's `t.test` function, but nonparametric tests have different names, the Mann-Whitney U test for unpaired samples and the Wilcoxon signed-rank test for paired samples in tests with 2 groups, and the Kruskal-Wallis test and Friedman test for more than two groups.
+
+### Parametric vs Non-Parametric
+
+So far, we have only seen parametric tests. These are tests which are based on a statistical distribution, and thus depends on having defined parameters. These tests inherently assume that the collected data follows some distribution, typically a normal distribution as discussed above.
+
+A nonparametric test makes many fewer assumptions about the distribution of our data. Instead of dealing with values directly, they typically perform their calculations on rank. This makes them especially good at dealing with extreme values and outliers. However, they are typically less powerful than parametric tests; they will be less likely to reject the null hypothesis (return a higher p-value) if the data did follow a normal distribution and you had performed a parametric test on it. Thus, they should only be used if necessary.
+
+A typical rule of thumb is that around $30$ samples is enough to not have to worry about the underlying distribution of your data. However, they are types of data, such as directly collecting ranking data or ratings, which should be analyzed with nonparametric methods.
+
+### One-tailed and Two-tailed tests
+
+All tests have one-tailed and two-tailed versions. A two-tailed test considers a result significant if it is extreme in either direction; it can be higher or lower than what would be expected under the null hypothesis. A one-tailed test will only consider a single direction, either higher or lower. Usually, the p value for the two-tailed test is twice as large as that for the one-tailed test, which reflects the fact that an extreme value is less surprising since it could have occurred in either direction.
+
+How do you choose whether to use a one-tailed versus a two-tailed test? The two-tailed test is always going to be more conservative, so it's always a good bet to use that one, unless you had a very strong prior reason for using a one-tailed test. This is set through the `alternative` argument in `t.test`.
+
+### Variance
+
+Another underlying assumption of many statistical tests is that different groups have the same variance. The t-test will perform a slightly more conservative calculation if equal variance is not assumed (called Welch's t-test instead of Student's t-test). This can be set as the `var.equal` argument of `t.test`.
+
+We often can assume equal variance, but as we will see in a later session, many modern sequencing technologies can produce data with patterns in its variance we will have to adjust for.
+
+### How Many Variables of Interest?
+
+All of the above discussion is for experiments with where we are interested in looking at the relationship between two variables. These, slightly confusingly, are called 2 sample tests, and line up with the classical experimental paradigm of a single dependent and a single independent variable. However, there are other options.
+
+-   One Sample: Instead of wanting to compare how a categorical variable (like treatment) affects some outcome variable, we could imagine comparing against some known value. When we considered whether or not a coin was fair, we were not comparing two coins, but instead comparing the output of one coin against a known value.
+
+-   More than two samples: Modern observational studies often, by necessity, need to consider how many variables affect some outcome. These analyses are performed via regression models, multiple linear regression for a quantitative dependent variable and logistic regression for a qualitative dependent variable.

@@ -1,0 +1,65 @@
+{
+  "index.qmd": {
+    "index.html": "49e86804"
+  },
+  "intro.qmd": {
+    "intro.html": "39d23b77"
+  },
+  "summary.qmd": {
+    "summary.html": "c8817f5b"
+  },
+  "references.qmd": {
+    "references.html": "082c1141"
+  },
+  "rstudio.qmd": {
+    "rstudio.html": "b598f3f0"
+  },
+  "pre_work.qmd": {
+    "pre_work.html": "f0fe5291"
+  },
+  "install.qmd": {
+    "install.html": "1b4a959c"
+  },
+  "session1.qmd": {
+    "session1.html": "87182803"
+  },
+  "prob.qmd": {
+    "prob.html": "a351ffc4"
+  },
+  "hypo_tests.qmd": {
+    "hypo_tests.html": "4f8c3fff"
+  },
+  "types.qmd": {
+    "types.html": "b4df66f7"
+  },
+  "packages.qmd": {
+    "packages.html": "993d84b5"
+  },
+  "loading_functions.qmd": {
+    "loading_functions.html": "9848c3a8"
+  },
+  "example_test.qmd": {
+    "example_test.html": "305f73c0"
+  },
+  "choosing_tests.qmd": {
+    "choosing_tests.html": "5fe883aa"
+  },
+  "session2.qmd": {
+    "session2.html": "ba268847"
+  },
+  "factors.qmd": {
+    "factors.html": "b71e11cd"
+  },
+  "pvals.qmd": {
+    "pvals.html": "202c63da"
+  },
+  "mult.qmd": {
+    "mult.html": "6c272ef3"
+  },
+  "making_functions.qmd": {
+    "making_functions.html": "b3ca2ca3"
+  },
+  "session2problems.qmd": {
+    "session2problems.html": "0eee9e0a"
+  }
+}

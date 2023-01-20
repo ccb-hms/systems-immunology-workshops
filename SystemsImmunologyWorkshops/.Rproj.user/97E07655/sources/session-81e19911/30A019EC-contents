@@ -1,0 +1,38 @@
+project:
+  type: book
+
+book:
+  title: "Systems Immunology Workshops"
+  author: "Center for Computational Biomedicine"
+  date: "1/18/2023"
+  chapters:
+    - index.qmd
+    - part: pre_work.qmd
+      chapters: 
+        - install.qmd
+        - rstudio.qmd
+    - part: session1.qmd
+      chapters:
+        - types.qmd
+        - prob.qmd
+        - hypo_tests.qmd
+        - factors.qmd
+        - choosing_tests.qmd
+    - part: session2.qmd
+      chapters:
+        - packages.qmd
+        - loading_functions.qmd
+        - pvals.qmd
+        - mult.qmd
+        - making_functions.qmd
+        - session2problems.qmd
+
+
+format:
+  html:
+    theme: cosmo
+  pdf:
+    documentclass: scrreprt
+
+editor: visual
+

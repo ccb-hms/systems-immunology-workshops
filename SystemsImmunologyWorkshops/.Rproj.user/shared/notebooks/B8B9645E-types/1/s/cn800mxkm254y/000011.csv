@@ -1,0 +1,5 @@
+"0","#| eval: False"
+"0","# Forget to put quotes around corn"
+"0","species <- c(""ecoli"", ""human"", corn)"
+"2","Error: object 'corn' not found
+"

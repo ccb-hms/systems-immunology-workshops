@@ -1,0 +1,7 @@
+"0",""
+"0","ggplot(binomDensity) +"
+"0","  geom_bar(aes(x = k, y = p, col = reject), stat = ""identity"") +"
+"0","  scale_colour_manual("
+"0","    values = c(`TRUE` = ""red"", `FALSE` = ""darkgrey"")) +"
+"0","  geom_vline(xintercept = numHeads, col = ""blue"") +"
+"0","  theme(legend.position = ""none"")"

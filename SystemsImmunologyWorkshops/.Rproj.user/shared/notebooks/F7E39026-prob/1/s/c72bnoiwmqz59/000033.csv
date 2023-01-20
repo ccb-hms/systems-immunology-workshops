@@ -1,0 +1,2 @@
+"0","simulations = rbinom(n = 300000, prob = 5e-4, size = 10000)"
+"0","barplot(table(simulations), col = ""lavender"")"

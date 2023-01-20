@@ -1,0 +1,32 @@
+{
+    "id": "37A5FF39",
+    "path": "~/rprojects/SystemsImmunologyWorkshops/loading_functions.qmd",
+    "project_path": "loading_functions.qmd",
+    "type": "quarto_markdown",
+    "hash": "179968184",
+    "contents": "",
+    "dirty": false,
+    "created": 1674177332064.0,
+    "source_on_save": false,
+    "relative_order": 12,
+    "properties": {
+        "rmdVisualMode": "false",
+        "rmdVisualWrapConfigured": "true",
+        "source_window_id": "",
+        "Source": "Source",
+        "docOutlineVisible": "1",
+        "rmdVisualCollapsedChunks": "",
+        "cursorPosition": "69,201",
+        "scrollLine": "59",
+        "rmdVisualModeLocation": "2657:1800",
+        "docOutlineSize": "121"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1674177437,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1674177437069,
+    "read_only": false,
+    "read_only_alternatives": []
+}

@@ -1,0 +1,5 @@
+"0","k <- 0:numFlips"
+"0","numHeads <- sum(coinFlips == ""H"")"
+"0","p <- dbinom(k, size = numFlips, prob = 0.5)"
+"0","binomDensity <- data.frame(k = k, p = p)"
+"0","head(binomDensity)"

@@ -1,0 +1,4 @@
+"0","library(""ggbeeswarm"")"
+"0","data(""PlantGrowth"")"
+"0","ggplot(PlantGrowth, aes(y = weight, x = group, col = group)) +"
+"0","  geom_beeswarm() + theme(legend.position = ""none"")"

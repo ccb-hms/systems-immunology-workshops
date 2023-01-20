@@ -1,0 +1,4 @@
+"0",""
+"0","ggplot(binomDensity) +"
+"0","  geom_bar(aes(x = k, y = p), stat = ""identity"") +"
+"0","  geom_vline(xintercept = numHeads, col = ""blue"")"
