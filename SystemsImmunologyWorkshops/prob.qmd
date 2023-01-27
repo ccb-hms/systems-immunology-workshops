@@ -103,6 +103,7 @@ counts <- c(4,2,0,0)
 probs <- c(0.25,0.25,0.25,0.25)
 dmultinom(counts, prob = probs)
 ```
+
 ------------------------------------------------------------------------
 
 *The materials in this lesson have been adapted from:* - [*Statistical Thinking for the 21st Century*](https://statsthinking21.github.io/statsthinking21-core-site/index.html) *by Russell A. Poldrack. This work is distributed under the terms of the [Attribution-NonCommercial 4.0 International](https://creativecommons.org/licenses/by-nc/4.0/) (CC BY-NC 4.0), which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited and the material is used for noncommercial purposes.* - [*Modern Statistics for Modern Biology*](https://www.huber.embl.de/msmb/) *by Susan Holmes and Wolfgang Huber. This work is distributed under the terms of the [Attribution-NonCommercial-ShareAlike 2.0 Generic](https://creativecommons.org/licenses/by-nc-sa/2.0/) (CC BY-NC-SA 2.0), which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited, the material is used for noncommercial purposes, and the same license is used for any derivative material.*

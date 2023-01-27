@@ -1,6 +1,6 @@
 # Distributions to Hypothesis Tests
 
-## Calculating the chance of an event
+## Calculating the chance of an event {#sec-epitope}
 
 When testing certain pharmaceutical compounds, it is important to detect proteins that provoke an allergic reaction. The molecular sites that are responsible for such reactions are called epitopes.
 
@@ -91,13 +91,9 @@ Now, if the coin were fair, we would expect half of the time to get heads. Let's
 table(coinFlips)
 ```
 
-That is different from 50/50. However, does the data deviates strong
-enough to conclude that this coin isn't fair?
-We know that the total number of heads seen in 100 coin tosses for a
-fair coin follows $B(100, 0.5)$, making it a suitable test statistic.
+That is different from 50/50. However, does the data deviates strong enough to conclude that this coin isn't fair? We know that the total number of heads seen in 100 coin tosses for a fair coin follows $B(100, 0.5)$, making it a suitable test statistic.
 
-To decide, let's look at the sampling distribution of our test statistic -- the total number of heads seen in 100 coin tosses -- for a fair coin.
-As we learned, we can do this with the binomial distribution. Let's plot a fair coin and mark our observation with a blue line:
+To decide, let's look at the sampling distribution of our test statistic -- the total number of heads seen in 100 coin tosses -- for a fair coin. As we learned, we can do this with the binomial distribution. Let's plot a fair coin and mark our observation with a blue line:
 
 ```{r}
 library("dplyr")
@@ -114,7 +110,7 @@ ggplot(binomDensity) +
   geom_vline(xintercept = numHeads, col = "blue")
 ```
 
-How do we quantify whether the observed value is among those values that we are likely to see from a fair coin, or whether its deviation from the expected value is already large enough for us to conclude with enough confidence that the coin is biased? 
+How do we quantify whether the observed value is among those values that we are likely to see from a fair coin, or whether its deviation from the expected value is already large enough for us to conclude with enough confidence that the coin is biased?
 
 We divide the set of all possible $k(0-100)$ in two complementary subsets, the **rejection region** and the region of no rejection. We want to make the rejection region as large as possible while keeping their total probability, assuming the null hypothesis, below some threshold $\alpha$(say, 0.05).
 
@@ -131,29 +127,20 @@ ggplot(binomDensity) +
   geom_vline(xintercept = numHeads, col = "blue") +
   theme(legend.position = "none")
 ```
-We sorted the $p$-values from lowest to highest (`order`), and added a
-column `reject` by computing the cumulative sum (`cumsum`) of the
-$p$-values and thresholding it against `alpha`.
 
-The logical column `reject` therefore marks with `TRUE` a set of $k$s
-whose total probability is less than $\alpha$.
+We sorted the $p$-values from lowest to highest (`order`), and added a column `reject` by computing the cumulative sum (`cumsum`) of the $p$-values and thresholding it against `alpha`.
 
-The rejection region is marked in red, containing both very large and
-very small values of $k$, which can be considered unlikely under the
-null hypothesis.
+The logical column `reject` therefore marks with `TRUE` a set of $k$s whose total probability is less than $\alpha$.
 
-`R` provides not only functions for the densities (e.g., `dbinom`) but
-also for the cumulative distribution functions (`pbinom`). Those are
-more precise and faster than `cumsum` over the probabilities.
+The rejection region is marked in red, containing both very large and very small values of $k$, which can be considered unlikely under the null hypothesis.
 
-The (cumulative) *distribution function* is defined as the probability
-that a random variable $X$ will take a value less than or equal to $x$.
+`R` provides not only functions for the densities (e.g., `dbinom`) but also for the cumulative distribution functions (`pbinom`). Those are more precise and faster than `cumsum` over the probabilities.
+
+The (cumulative) *distribution function* is defined as the probability that a random variable $X$ will take a value less than or equal to $x$.
 
 $$F(x) = P(X \le x)$$
 
-We have just gone through the steps of a **binomial test**. This is a
-frequently used test and therefore available in `R` as a single
-function.
+We have just gone through the steps of a **binomial test**. This is a frequently used test and therefore available in `R` as a single function.
 
 We have just gone through the steps of a binomial test. In fact, this is such a frequent activity in R that it has been wrapped into a single function, and we can compare its output to our results.
 

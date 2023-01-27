@@ -1,0 +1,53 @@
+# Problem Set 2
+
+## Problem 1
+
+Write a function to compute the probability of having a maximum as big as `m` when looking across `n` Poisson variables with rate `lambda`. Give these arguments default values in your function declaration.
+
+## Problem 2
+
+Let's answer a question about C. *elegans* genome nucleotide frequency: Is the mitochondrial sequence of C. *elegans* consistent with a model of equally likely nucleotides?
+
+Setup: This is our opportunity to use Bioconductor for the first time. Since Bioconductor's package management is more tightly controlled than CRAN's, we need to use a special install function (from the BiocManager package) to install Bioconductor packages.
+
+```{r}
+#| output: FALSE
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+BiocManager::install(c("Biostrings", "BSgenome.Celegans.UCSC.ce2"))
+```
+
+After that, we can load the genome sequence package as we load any other R packages.
+
+```{r}
+library("BSgenome.Celegans.UCSC.ce2",quietly = TRUE )
+Celegans
+seqnames(Celegans)
+Celegans$chrM
+class(Celegans$chrM)
+```
+
+We can take advantage of the `Biostrings` library to get base counts:
+
+```{r}
+library("Biostrings", quietly = TRUE)
+lfM = letterFrequency(Celegans$chrM, letters=c("A", "C", "G", "T"))
+lfM
+```
+
+Test whether the C. elegans data is consistent with the uniform model (all nucleotide frequencies the same) using a simulation. For the purposes of this simulation, we can assume that all base pairs are independent from each other. Your solution should compute a simulated p-value based on $10,000$ simulations.
+
+*Hint:* The multinomial distribution is similar to the binomial distribution but can model experiments with more than $2$ outcomes. For instance suppose we have 8 characters of four different, equally likely types:
+
+```{r}
+pvec = rep(1/4, 4)
+t(rmultinom(1, prob = pvec, size = 8))
+```
+
+## Problem 3
+
+Instead of testing accross the entire mitochondria, let's now see if we can find certain nucleotides being enriched locally. To do this, split up the mitochondrial sequence into 100 base pair chunks, and perform your test from problem $3$ on each chunk. Perform a multiple hypothesis correction at an FDR of $0.01$.
+
+------------------------------------------------------------------------
+
+*The materials in this lesson have been adapted from:* [*Modern Statistics for Modern Biology*](https://www.huber.embl.de/msmb/) *by Susan Holmes and Wolfgang Huber. This work is distributed under the terms of the [Attribution-NonCommercial-ShareAlike 2.0 Generic](https://creativecommons.org/licenses/by-nc-sa/2.0/) (CC BY-NC-SA 2.0), which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited, the material is used for noncommercial purposes, and the same license is used for any derivative material.*

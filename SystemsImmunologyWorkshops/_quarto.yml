@@ -18,6 +18,7 @@ book:
         - hypo_tests.qmd
         - factors.qmd
         - choosing_tests.qmd
+        - pSet1.qmd
     - part: session2.qmd
       chapters:
         - packages.qmd
@@ -26,7 +27,7 @@ book:
         - mult.qmd
         - making_functions.qmd
         - session2problems.qmd
-
+        - pSet2.qmd
 
 format:
   html:

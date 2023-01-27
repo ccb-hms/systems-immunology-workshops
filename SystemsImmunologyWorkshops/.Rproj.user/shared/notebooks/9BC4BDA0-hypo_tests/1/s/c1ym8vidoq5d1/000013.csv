@@ -1,4 +1,0 @@
-"0","alpha <- 0.05"
-"0","binomDensity <- binomDensity[order(p),]"
-"0","binomDensity$reject <- cumsum(binomDensity$p) <= alpha"
-"0","head(binomDensity)"
