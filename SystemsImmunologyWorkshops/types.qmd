@@ -1,4 +1,4 @@
-#R Syntax and Data Structures
+# R Syntax and Data Structures
 
 ## Basic Data Types
 

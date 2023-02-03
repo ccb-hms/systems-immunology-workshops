@@ -1,0 +1,12 @@
+# Session 4
+
+## Learning Objectives
+
+- Create and export histograms, boxplots, line plots, and scatter plots using ggplot2. 
+- Apply custom styling to plots using functions. 
+- Explore analysis-specific common plots such as volcano plots, heatmaps, clustergrams, networks, and set enrichment visualizations. 
+- Create reports using RMarkdown or Quarto. 
+- Define R data structures.
+- Use SummarizedExperiment objects.
+
+

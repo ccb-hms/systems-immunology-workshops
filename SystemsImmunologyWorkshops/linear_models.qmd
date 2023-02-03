@@ -1,0 +1,252 @@
+# Linear Models
+
+## Returning to count data
+
+```{r}
+#| output: false
+library(tidyverse)
+library(pasilla)
+```
+
+```{r}
+fn = system.file("extdata", "pasilla_gene_counts.tsv",
+                  package = "pasilla", mustWork = TRUE)
+counts = as.matrix(read.csv(fn, sep = "\t", row.names = "gene_id"))
+annotationFile = system.file("extdata",
+  "pasilla_sample_annotation.csv",
+  package = "pasilla", mustWork = TRUE)
+pasillaSampleAnno = readr::read_csv(annotationFile)
+pasillaSampleAnno = mutate(pasillaSampleAnno,
+condition = factor(condition, levels = c("untreated", "treated")),
+type = factor(sub("-.*", "", type), levels = c("single", "paired")))
+mt = match(colnames(counts), sub("fb$", "", pasillaSampleAnno$file))
+stopifnot(!any(is.na(mt)))
+
+pasilla = DESeqDataSetFromMatrix(
+  countData = counts,
+  colData   = pasillaSampleAnno[mt, ],
+  design    = ~ condition)
+```
+
+Let's assume that in addition to the siRNA knockdown of the pasilla gene, we also want to test the effect of a certain drug. We could then envisage an experiment in which the experimenter treats the cells either with negative control, with the siRNA against pasilla, with the drug, or with both. To analyse this experiment, we can use the notation:
+
+$$
+y = \beta_0 + x_1\beta_1 + x_2\beta_2 + x_1x_2\beta_2
+$$
+
+This equation can be parsed as follows. The left hand side, $y$ , is the experimental measurement of interest. In our case, this is the suitably transformed expression level of a gene. Since in an RNA-Seq experiment there are lots of genes, we'll have as many copies of Equation the above equation, one for each. The coefficient $\beta_0$ is the base level of the measurement in the negative control; often it is called the intercept.
+
+The design factors $x_1$ and $x_2$ and are binary indicator variables, sometimes called dummy variables: $x_1$ takes the value 1 if the siRNA was transfected and 0 if not, and similarly, $x_2$ indicates whether the drug was administered. In the experiment where only the siRNA is used, $x_1 = 1$ and $x_2 = 0$, and the third and fourth terms of the equation vanish. Then, the equation simplifies to $y = \beta+0 + \beta_1$. This means that $\beta_1$ represents the difference between treatment and control.
+
+We can succinctly encode the design of the experiment in the *design matrix*. For instance, for the combinatorial experiment described above, the design matrix is
+
+| x_0 | x_1 | x_2 |
+|-----|-----|-----|
+| 1   | 0   | 0   |
+| 1   | 1   | 0   |
+| 1   | 0   | 1   |
+| 1   | 1   | 1   |
+
+Many R packges such as `limma` and `edgeR` use the design matrix to represent experimental design.
+
+The columns of the design matrix correspond to the experimental factors, and its rows represent the different experimental conditions, four in our case since we are including an interaction effect.
+
+However, for the pasilla data we're not done yet. While the above equation would function if our data was perfect, in reality we have small differences between our replicates and other sources of variation in our data. We need to slightly extend the equation,
+
+$$
+y = x_{j0}\beta_0 + x_{j1}\beta_1 + x_{j2}\beta_2 + x_{j1}x_{j2}\beta_2 + \epsilon_j
+$$
+
+We have added the index $j$ and a new term $\epsilon_j$. The index $j$ now explicitly counts over our individual replicate experiments; for instance, if for each of the four conditions we perform three replicates, then $j$ counts from 1 to 12. The design matrix has now 12 rows, and $x_{jk}$ is the value of the matrix in its $j$th row and $k$th column. The additional terms $\epsilon_j$, which we call the residuals, are there to absorb differences between replicates. Under the assumptions of our experimental design, we require the residuals to be small. For instance, we can minimize the sum of the square of all the residuals, which is called least sum of squares fitting. The R function `lm` performs least squares.
+
+## Defining linear models
+
+The above is an example of a linear model. A linear model is a model for a continuous outcome Y of the form $$Y = \beta_0 + \beta_{1}X_{1} + \beta_{2}X_{2} + \dots + \beta_{p}X_{p} + \epsilon$$ The covariates X can be:
+
+-   a continuous variable (age, weight, temperature, etc.)
+-   Dummy variables coding a categorical covariate (more later)
+
+The $\beta$'s are unknown parameters to be estimated.
+
+The error term $\epsilon$ is assumed to be normally distributed with a variance that is constant across the range of the data.
+
+Models with all categorical covariates are referred to as ANOVA models and models with continuous covariates are referred to as linear regression models. These are all linear models, and R doesn't distinguish between them.
+
+We have already seen the t-test, but it can also be viewed as an application of the general linear model. In this case, the model would look like this:
+
+$$
+{y} = {\beta_1}*x_1 + {\beta_0}
+$$ Many of the statistical tests we have seen can be represented as special cases of linear models.
+
+## Linear models in R
+
+R uses the function `lm` to fit linear models.
+
+Read in 'lm_example_data.csv\`:
+
+```{r}
+dat <- read.csv("https://raw.githubusercontent.com/ucdavis-bioinformatics-training/2018-September-Bioinformatics-Prerequisites/master/friday/lm_example_data.csv")
+head(dat)
+str(dat)
+```
+
+Fit a linear model using `expression` as the outcome and `treatment` as a categorical covariate:
+
+```{r}
+oneway.model <- lm(expression ~ treatment, data = dat)
+```
+
+In R model syntax, the outcome is on the left side, with covariates (separated by `+`) following the `~`
+
+```{r}
+oneway.model
+class(oneway.model)
+```
+
+We can look at the design matrix:
+
+```{r}
+X <- model.matrix(~treatment, data = dat)
+X
+```
+
+Note that this is a one-way ANOVA model.
+
+`summary()` applied to an `lm` object will give p-values and other relevant information:
+
+```{r}
+summary(oneway.model)
+```
+
+In the output:
+
+-   "Coefficients" refer to the $\beta$'s
+-   "Estimate" is the estimate of each coefficient
+-   "Std. Error" is the standard error of the estimate
+-   "t value" is the coefficient divided by its standard error
+-   "Pr(\>\|t\|)" is the p-value for the coefficient
+-   The residual standard error is the estimate of the variance of $\epsilon$
+-   Degrees of freedom is the sample size minus \# of coefficients estimated
+-   R-squared is (roughly) the proportion of variance in the outcome explained by the model
+-   The F-statistic compares the fit of the model *as a whole* to the null model (with no covariates)
+
+`coef()` gives you model coefficients:
+
+```{r}
+coef(oneway.model)
+```
+
+What do the model coefficients mean?
+
+By default, R uses reference group coding or "treatment contrasts". For categorical covariates, the first level alphabetically (or first factor level) is treated as the reference group. The reference group doesn't get its own coefficient, it is represented by the intercept. Coefficients for other groups are the difference from the reference:
+
+For our simple design:
+
+-   `(Intercept)` is the mean of expression for treatment = A
+-   `treatmentB` is the mean of expression for treatment = B minus the mean for treatment = A
+-   `treatmentC` is the mean of expression for treatment = C minus the mean for treatment = A
+-   etc.
+
+```{r}
+# Get means in each treatment
+treatmentmeans <- tapply(dat$expression, dat$treatment, mean)
+treatmentmeans["A"] 
+# Difference in means gives you the "treatmentB" coefficient from oneway.model
+treatmentmeans["B"] - treatmentmeans["A"] 
+```
+
+What if you don't want reference group coding? Another option is to fit a model without an intercept:
+
+```{r}
+no.intercept.model <- lm(expression ~ 0 + treatment, data = dat) # '0' means 'no intercept' here
+summary(no.intercept.model)
+coef(no.intercept.model)
+```
+
+Without the intercept, the coefficients here estimate the mean in each level of treatment:
+
+```{r}
+treatmentmeans
+```
+
+The no-intercept model is the SAME model as the reference group coded model, in the sense that it gives the same estimate for any comparison between groups:
+
+Treatment B - treatment A, reference group coded model:
+
+```{r}
+coefs <- coef(oneway.model)
+coefs["treatmentB"]
+```
+
+Treatment B - treatment A, no-intercept model:
+
+```{r}
+coefs <- coef(no.intercept.model)
+coefs["treatmentB"] - coefs["treatmentA"]
+```
+
+## Batch Adjustment
+
+Suppose we want to adjust for batch differences in our model. We do this by adding the covariate "batch" to the model formula:
+
+```{r}
+batch.model <- lm(expression ~ treatment + batch, data = dat)
+summary(batch.model)
+coef(batch.model)
+```
+
+For a model with more than one coefficient, `summary` provides estimates and tests for each coefficient adjusted for all the other coefficients in the model.
+
+## Two-factor analysis
+
+Suppose our experiment involves two factors, treatment and time. `lm` can be used to fit a two-way ANOVA model:
+
+```{r}
+twoway.model <- lm(expression ~ treatment*time, data = dat)
+summary(twoway.model)
+coef(twoway.model)
+```
+
+The notation `treatment*time` refers to treatment, time, and the interaction effect of treatment by time.
+
+Interpretation of coefficients:
+
+-   Each coefficient for treatment represents the difference between the indicated group and the reference group *at the reference level for the other covariates*
+-   For example, "treatmentB" is the difference in expression between treatment B and treatment A at time 1
+-   Similarly, "timetime2" is the difference in expression between time2 and time1 for treatment A
+-   The interaction effects (coefficients with ":") estimate the difference between treatment groups in the effect of time
+-   The interaction effects ALSO estimate the difference between times in the effect of treatment
+
+To estimate the difference between treatment B and treatment A at time 2, we need to include the interaction effects:
+
+```{r}
+# A - B at time 2
+coefs <- coef(twoway.model)
+coefs["treatmentB"] + coefs["treatmentB:timetime2"]
+```
+
+We can see from `summary` that one of the interaction effects is significant. Here's what that interaction effect looks like graphically:
+
+```{r}
+interaction.plot(x.factor = dat$time, trace.factor = dat$treatment, response = dat$expression)
+```
+
+In the pasilla data, we can consider the affects of both the `type` and `condition` variables.
+
+```{r}
+#| output: false
+pasillaTwoFactor = pasilla
+design(pasillaTwoFactor) = formula(~ type + condition)
+pasillaTwoFactor = DESeq(pasillaTwoFactor)
+```
+
+We access the results using the `results` function, which returns a dataframe with the statistics of each gene.
+
+```{r}
+res2 = results(pasillaTwoFactor)
+head(res2, n = 3)
+```
+
+------------------------------------------------------------------------
+
+*The materials in this lesson have been adapted from:* - [*Statistical Thinking for the 21st Century*](https://statsthinking21.github.io/statsthinking21-core-site/index.html) *by Russell A. Poldrack. This work is distributed under the terms of the [Attribution-NonCommercial 4.0 International](https://creativecommons.org/licenses/by-nc/4.0/) (CC BY-NC 4.0), which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited and the material is used for noncommercial purposes.* - [*Modern Statistics for Modern Biology*](https://www.huber.embl.de/msmb/) *by Susan Holmes and Wolfgang Huber. This work is distributed under the terms of the [Attribution-NonCommercial-ShareAlike 2.0 Generic](https://creativecommons.org/licenses/by-nc-sa/2.0/) (CC BY-NC-SA 2.0), which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited, the material is used for noncommercial purposes, and the same license is used for any derivative material.*
