@@ -19,27 +19,27 @@ book:
         - factors.qmd
         - choosing_tests.qmd
         - pSet1.qmd
-    - part: session2.qmd
-      chapters:
-        - packages.qmd
-        - loading_functions.qmd
-        - pvals.qmd
-        - mult.qmd
-        - making_functions.qmd
-        - session2problems.qmd
-        - pSet2.qmd
-    - part: session3.qmd
-      chapters:
-        - wrangling.qmd
-        - matching_reordering.qmd
-        - count_data1.qmd
-        - tidyverse.qmd
-    - part: session4.qmd
-      chapters:
-        - ggplot.qmd
-        - exporting.qmd
-        - linear_models.qmd
-        - other_plots.qmd
+    # - part: session2.qmd
+    #   chapters:
+    #     - packages.qmd
+    #     - loading_functions.qmd
+    #     - pvals.qmd
+    #     - mult.qmd
+    #     - making_functions.qmd
+    #     - session2problems.qmd
+    #     - pSet2.qmd
+    # - part: session3.qmd
+    #   chapters:
+    #     - wrangling.qmd
+    #     - matching_reordering.qmd
+    #     - count_data1.qmd
+    #     - tidyverse.qmd
+    # - part: session4.qmd
+    #   chapters:
+    #     - ggplot.qmd
+    #     - exporting.qmd
+    #     - linear_models.qmd
+    #     - other_plots.qmd
 format:
   html:
     theme: cosmo
