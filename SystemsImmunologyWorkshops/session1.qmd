@@ -7,3 +7,7 @@
 -   Apply hypothesis tests commonly used in biological systems analyses.
 -   Install and manage packages from CRAN and Bioconductor.
 -   Identify and use different data types in R.
+
+## Note
+
+If you haven't been to get R/RStudio running on your laptop, you can use [this collab notebook](https://colab.research.google.com/drive/1pSdvOy7wx8QpR9gqI2VmLLU_Jd6VJwhc?usp=sharing) today.
