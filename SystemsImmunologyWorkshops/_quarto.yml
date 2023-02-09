@@ -4,7 +4,7 @@ project:
 book:
   title: "Systems Immunology Workshops"
   author: "Center for Computational Biomedicine"
-  date: "1/18/2023"
+  date: today
   chapters:
     - index.qmd
     - part: preWork/pre_work.qmd

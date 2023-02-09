@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.269">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>linear_models</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="linear_models_files/libs/clipboard/clipboard.min.js"></script>
+<script src="linear_models_files/libs/quarto-html/quarto.js"></script>
+<script src="linear_models_files/libs/quarto-html/popper.min.js"></script>
+<script src="linear_models_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="linear_models_files/libs/quarto-html/anchor.min.js"></script>
+<link href="linear_models_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="linear_models_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="linear_models_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="linear_models_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="linear_models_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+
+
+<section id="linear-models" class="level1">
+<h1>Linear Models</h1>
+<section id="returning-to-count-data" class="level2">
+<h2 class="anchored" data-anchor-id="returning-to-count-data">Returning to count data</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pasilla)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>fn <span class="ot">=</span> <span class="fu">system.file</span>(<span class="st">"extdata"</span>, <span class="st">"pasilla_gene_counts.tsv"</span>,</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">package =</span> <span class="st">"pasilla"</span>, <span class="at">mustWork =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>counts <span class="ot">=</span> <span class="fu">as.matrix</span>(<span class="fu">read.csv</span>(fn, <span class="at">sep =</span> <span class="st">"</span><span class="sc">\t</span><span class="st">"</span>, <span class="at">row.names =</span> <span class="st">"gene_id"</span>))</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>annotationFile <span class="ot">=</span> <span class="fu">system.file</span>(<span class="st">"extdata"</span>,</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"pasilla_sample_annotation.csv"</span>,</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">package =</span> <span class="st">"pasilla"</span>, <span class="at">mustWork =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>pasillaSampleAnno <span class="ot">=</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(annotationFile)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 7 Columns: 6
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr (4): file, condition, type, total number of reads
+dbl (2): number of lanes, exon counts
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>pasillaSampleAnno <span class="ot">=</span> <span class="fu">mutate</span>(pasillaSampleAnno,</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="at">condition =</span> <span class="fu">factor</span>(condition, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"untreated"</span>, <span class="st">"treated"</span>)),</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="at">type =</span> <span class="fu">factor</span>(<span class="fu">sub</span>(<span class="st">"-.*"</span>, <span class="st">""</span>, type), <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"single"</span>, <span class="st">"paired"</span>)))</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>mt <span class="ot">=</span> <span class="fu">match</span>(<span class="fu">colnames</span>(counts), <span class="fu">sub</span>(<span class="st">"fb$"</span>, <span class="st">""</span>, pasillaSampleAnno<span class="sc">$</span>file))</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="sc">!</span><span class="fu">any</span>(<span class="fu">is.na</span>(mt)))</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>pasilla <span class="ot">=</span> <span class="fu">DESeqDataSetFromMatrix</span>(</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">countData =</span> counts,</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">colData   =</span> pasillaSampleAnno[mt, ],</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">design    =</span> <span class="sc">~</span> condition)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Let’s assume that in addition to the siRNA knockdown of the pasilla gene, we also want to test the effect of a certain drug. We could then envisage an experiment in which the experimenter treats the cells either with negative control, with the siRNA against pasilla, with the drug, or with both. To analyse this experiment, we can use the notation:</p>
+<p><span class="math display">\[
+y = \beta_0 + x_1\beta_1 + x_2\beta_2 + x_1x_2\beta_2
+\]</span></p>
+<p>This equation can be parsed as follows. The left hand side, <span class="math inline">\(y\)</span> , is the experimental measurement of interest. In our case, this is the suitably transformed expression level of a gene. Since in an RNA-Seq experiment there are lots of genes, we’ll have as many copies of Equation the above equation, one for each. The coefficient <span class="math inline">\(\beta_0\)</span> is the base level of the measurement in the negative control; often it is called the intercept.</p>
+<p>The design factors <span class="math inline">\(x_1\)</span> and <span class="math inline">\(x_2\)</span> and are binary indicator variables, sometimes called dummy variables: <span class="math inline">\(x_1\)</span> takes the value 1 if the siRNA was transfected and 0 if not, and similarly, <span class="math inline">\(x_2\)</span> indicates whether the drug was administered. In the experiment where only the siRNA is used, <span class="math inline">\(x_1 = 1\)</span> and <span class="math inline">\(x_2 = 0\)</span>, and the third and fourth terms of the equation vanish. Then, the equation simplifies to <span class="math inline">\(y = \beta+0 + \beta_1\)</span>. This means that <span class="math inline">\(\beta_1\)</span> represents the difference between treatment and control.</p>
+<p>We can succinctly encode the design of the experiment in the <em>design matrix</em>. For instance, for the combinatorial experiment described above, the design matrix is</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th>x_0</th>
+<th>x_1</th>
+<th>x_2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr class="odd">
+<td>1</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p>Many R packges such as <code>limma</code> and <code>edgeR</code> use the design matrix to represent experimental design.</p>
+<p>The columns of the design matrix correspond to the experimental factors, and its rows represent the different experimental conditions, four in our case since we are including an interaction effect.</p>
+<p>However, for the pasilla data we’re not done yet. While the above equation would function if our data was perfect, in reality we have small differences between our replicates and other sources of variation in our data. We need to slightly extend the equation,</p>
+<p><span class="math display">\[
+y = x_{j0}\beta_0 + x_{j1}\beta_1 + x_{j2}\beta_2 + x_{j1}x_{j2}\beta_2 + \epsilon_j
+\]</span></p>
+<p>We have added the index <span class="math inline">\(j\)</span> and a new term <span class="math inline">\(\epsilon_j\)</span>. The index <span class="math inline">\(j\)</span> now explicitly counts over our individual replicate experiments; for instance, if for each of the four conditions we perform three replicates, then <span class="math inline">\(j\)</span> counts from 1 to 12. The design matrix has now 12 rows, and <span class="math inline">\(x_{jk}\)</span> is the value of the matrix in its <span class="math inline">\(j\)</span>th row and <span class="math inline">\(k\)</span>th column. The additional terms <span class="math inline">\(\epsilon_j\)</span>, which we call the residuals, are there to absorb differences between replicates. Under the assumptions of our experimental design, we require the residuals to be small. For instance, we can minimize the sum of the square of all the residuals, which is called least sum of squares fitting. The R function <code>lm</code> performs least squares.</p>
+</section>
+<section id="defining-linear-models" class="level2">
+<h2 class="anchored" data-anchor-id="defining-linear-models">Defining linear models</h2>
+<p>The above is an example of a linear model. A linear model is a model for a continuous outcome Y of the form <span class="math display">\[Y = \beta_0 + \beta_{1}X_{1} + \beta_{2}X_{2} + \dots + \beta_{p}X_{p} + \epsilon\]</span> The covariates X can be:</p>
+<ul>
+<li>a continuous variable (age, weight, temperature, etc.)</li>
+<li>Dummy variables coding a categorical covariate (more later)</li>
+</ul>
+<p>The <span class="math inline">\(\beta\)</span>’s are unknown parameters to be estimated.</p>
+<p>The error term <span class="math inline">\(\epsilon\)</span> is assumed to be normally distributed with a variance that is constant across the range of the data.</p>
+<p>Models with all categorical covariates are referred to as ANOVA models and models with continuous covariates are referred to as linear regression models. These are all linear models, and R doesn’t distinguish between them.</p>
+<p>We have already seen the t-test, but it can also be viewed as an application of the general linear model. In this case, the model would look like this:</p>
+<p><span class="math display">\[
+{y} = {\beta_1}*x_1 + {\beta_0}
+\]</span> Many of the statistical tests we have seen can be represented as special cases of linear models.</p>
+</section>
+<section id="linear-models-in-r" class="level2">
+<h2 class="anchored" data-anchor-id="linear-models-in-r">Linear models in R</h2>
+<p>R uses the function <code>lm</code> to fit linear models.</p>
+<p>Read in ’lm_example_data.csv`:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"https://raw.githubusercontent.com/ucdavis-bioinformatics-training/2018-September-Bioinformatics-Prerequisites/master/friday/lm_example_data.csv"</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  sample expression  batch treatment  time temperature
+1      1  1.2139625 Batch1         A time1    11.76575
+2      2  1.4796581 Batch1         A time2    12.16330
+3      3  1.0878287 Batch1         A time1    10.54195
+4      4  1.4438585 Batch1         A time2    10.07642
+5      5  0.6371621 Batch1         A time1    12.03721
+6      6  2.1226740 Batch1         B time2    13.49573</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(dat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>'data.frame':   25 obs. of  6 variables:
+ $ sample     : int  1 2 3 4 5 6 7 8 9 10 ...
+ $ expression : num  1.214 1.48 1.088 1.444 0.637 ...
+ $ batch      : chr  "Batch1" "Batch1" "Batch1" "Batch1" ...
+ $ treatment  : chr  "A" "A" "A" "A" ...
+ $ time       : chr  "time1" "time2" "time1" "time2" ...
+ $ temperature: num  11.8 12.2 10.5 10.1 12 ...</code></pre>
+</div>
+</div>
+<p>Fit a linear model using <code>expression</code> as the outcome and <code>treatment</code> as a categorical covariate:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>oneway.model <span class="ot">&lt;-</span> <span class="fu">lm</span>(expression <span class="sc">~</span> treatment, <span class="at">data =</span> dat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>In R model syntax, the outcome is on the left side, with covariates (separated by <code>+</code>) following the <code>~</code></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>oneway.model</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = expression ~ treatment, data = dat)
+
+Coefficients:
+(Intercept)   treatmentB   treatmentC   treatmentD   treatmentE  
+     1.1725       0.4455       0.9028       2.5537       7.4140  </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(oneway.model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "lm"</code></pre>
+</div>
+</div>
+<p>We can look at the design matrix:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(<span class="sc">~</span>treatment, <span class="at">data =</span> dat)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>X</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   (Intercept) treatmentB treatmentC treatmentD treatmentE
+1            1          0          0          0          0
+2            1          0          0          0          0
+3            1          0          0          0          0
+4            1          0          0          0          0
+5            1          0          0          0          0
+6            1          1          0          0          0
+7            1          1          0          0          0
+8            1          1          0          0          0
+9            1          1          0          0          0
+10           1          1          0          0          0
+11           1          0          1          0          0
+12           1          0          1          0          0
+13           1          0          1          0          0
+14           1          0          1          0          0
+15           1          0          1          0          0
+16           1          0          0          1          0
+17           1          0          0          1          0
+18           1          0          0          1          0
+19           1          0          0          1          0
+20           1          0          0          1          0
+21           1          0          0          0          1
+22           1          0          0          0          1
+23           1          0          0          0          1
+24           1          0          0          0          1
+25           1          0          0          0          1
+attr(,"assign")
+[1] 0 1 1 1 1
+attr(,"contrasts")
+attr(,"contrasts")$treatment
+[1] "contr.treatment"</code></pre>
+</div>
+</div>
+<p>Note that this is a one-way ANOVA model.</p>
+<p><code>summary()</code> applied to an <code>lm</code> object will give p-values and other relevant information:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(oneway.model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = expression ~ treatment, data = dat)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-3.9310 -0.5353  0.1790  0.7725  3.6114 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)   1.1725     0.7783   1.506    0.148    
+treatmentB    0.4455     1.1007   0.405    0.690    
+treatmentC    0.9028     1.1007   0.820    0.422    
+treatmentD    2.5537     1.1007   2.320    0.031 *  
+treatmentE    7.4140     1.1007   6.735 1.49e-06 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 1.74 on 20 degrees of freedom
+Multiple R-squared:  0.7528,    Adjusted R-squared:  0.7033 
+F-statistic: 15.22 on 4 and 20 DF,  p-value: 7.275e-06</code></pre>
+</div>
+</div>
+<p>In the output:</p>
+<ul>
+<li>“Coefficients” refer to the <span class="math inline">\(\beta\)</span>’s</li>
+<li>“Estimate” is the estimate of each coefficient</li>
+<li>“Std. Error” is the standard error of the estimate</li>
+<li>“t value” is the coefficient divided by its standard error</li>
+<li>“Pr(&gt;|t|)” is the p-value for the coefficient</li>
+<li>The residual standard error is the estimate of the variance of <span class="math inline">\(\epsilon\)</span></li>
+<li>Degrees of freedom is the sample size minus # of coefficients estimated</li>
+<li>R-squared is (roughly) the proportion of variance in the outcome explained by the model</li>
+<li>The F-statistic compares the fit of the model <em>as a whole</em> to the null model (with no covariates)</li>
+</ul>
+<p><code>coef()</code> gives you model coefficients:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(oneway.model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(Intercept)  treatmentB  treatmentC  treatmentD  treatmentE 
+  1.1724940   0.4455249   0.9027755   2.5536669   7.4139642 </code></pre>
+</div>
+</div>
+<p>What do the model coefficients mean?</p>
+<p>By default, R uses reference group coding or “treatment contrasts”. For categorical covariates, the first level alphabetically (or first factor level) is treated as the reference group. The reference group doesn’t get its own coefficient, it is represented by the intercept. Coefficients for other groups are the difference from the reference:</p>
+<p>For our simple design:</p>
+<ul>
+<li><code>(Intercept)</code> is the mean of expression for treatment = A</li>
+<li><code>treatmentB</code> is the mean of expression for treatment = B minus the mean for treatment = A</li>
+<li><code>treatmentC</code> is the mean of expression for treatment = C minus the mean for treatment = A</li>
+<li>etc.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get means in each treatment</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>treatmentmeans <span class="ot">&lt;-</span> <span class="fu">tapply</span>(dat<span class="sc">$</span>expression, dat<span class="sc">$</span>treatment, mean)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>treatmentmeans[<span class="st">"A"</span>] </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       A 
+1.172494 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Difference in means gives you the "treatmentB" coefficient from oneway.model</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>treatmentmeans[<span class="st">"B"</span>] <span class="sc">-</span> treatmentmeans[<span class="st">"A"</span>] </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        B 
+0.4455249 </code></pre>
+</div>
+</div>
+<p>What if you don’t want reference group coding? Another option is to fit a model without an intercept:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>no.intercept.model <span class="ot">&lt;-</span> <span class="fu">lm</span>(expression <span class="sc">~</span> <span class="dv">0</span> <span class="sc">+</span> treatment, <span class="at">data =</span> dat) <span class="co"># '0' means 'no intercept' here</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(no.intercept.model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = expression ~ 0 + treatment, data = dat)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-3.9310 -0.5353  0.1790  0.7725  3.6114 
+
+Coefficients:
+           Estimate Std. Error t value Pr(&gt;|t|)    
+treatmentA   1.1725     0.7783   1.506 0.147594    
+treatmentB   1.6180     0.7783   2.079 0.050717 .  
+treatmentC   2.0753     0.7783   2.666 0.014831 *  
+treatmentD   3.7262     0.7783   4.787 0.000112 ***
+treatmentE   8.5865     0.7783  11.032 5.92e-10 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 1.74 on 20 degrees of freedom
+Multiple R-squared:  0.8878,    Adjusted R-squared:  0.8598 
+F-statistic: 31.66 on 5 and 20 DF,  p-value: 7.605e-09</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(no.intercept.model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>treatmentA treatmentB treatmentC treatmentD treatmentE 
+  1.172494   1.618019   2.075270   3.726161   8.586458 </code></pre>
+</div>
+</div>
+<p>Without the intercept, the coefficients here estimate the mean in each level of treatment:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>treatmentmeans</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       A        B        C        D        E 
+1.172494 1.618019 2.075270 3.726161 8.586458 </code></pre>
+</div>
+</div>
+<p>The no-intercept model is the SAME model as the reference group coded model, in the sense that it gives the same estimate for any comparison between groups:</p>
+<p>Treatment B - treatment A, reference group coded model:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>coefs <span class="ot">&lt;-</span> <span class="fu">coef</span>(oneway.model)</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>coefs[<span class="st">"treatmentB"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>treatmentB 
+ 0.4455249 </code></pre>
+</div>
+</div>
+<p>Treatment B - treatment A, no-intercept model:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>coefs <span class="ot">&lt;-</span> <span class="fu">coef</span>(no.intercept.model)</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>coefs[<span class="st">"treatmentB"</span>] <span class="sc">-</span> coefs[<span class="st">"treatmentA"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>treatmentB 
+ 0.4455249 </code></pre>
+</div>
+</div>
+</section>
+<section id="batch-adjustment" class="level2">
+<h2 class="anchored" data-anchor-id="batch-adjustment">Batch Adjustment</h2>
+<p>Suppose we want to adjust for batch differences in our model. We do this by adding the covariate “batch” to the model formula:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>batch.model <span class="ot">&lt;-</span> <span class="fu">lm</span>(expression <span class="sc">~</span> treatment <span class="sc">+</span> batch, <span class="at">data =</span> dat)</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(batch.model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = expression ~ treatment + batch, data = dat)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-3.9310 -0.8337  0.0415  0.7725  3.6114 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)   1.1725     0.7757   1.512 0.147108    
+treatmentB    0.4455     1.0970   0.406 0.689186    
+treatmentC    1.9154     1.4512   1.320 0.202561    
+treatmentD    4.2414     1.9263   2.202 0.040231 *  
+treatmentE    9.1017     1.9263   4.725 0.000147 ***
+batchBatch2  -1.6877     1.5834  -1.066 0.299837    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 1.735 on 19 degrees of freedom
+Multiple R-squared:  0.7667,    Adjusted R-squared:  0.7053 
+F-statistic: 12.49 on 5 and 19 DF,  p-value: 1.835e-05</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(batch.model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(Intercept)  treatmentB  treatmentC  treatmentD  treatmentE batchBatch2 
+  1.1724940   0.4455249   1.9153967   4.2413688   9.1016661  -1.6877019 </code></pre>
+</div>
+</div>
+<p>For a model with more than one coefficient, <code>summary</code> provides estimates and tests for each coefficient adjusted for all the other coefficients in the model.</p>
+</section>
+<section id="two-factor-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="two-factor-analysis">Two-factor analysis</h2>
+<p>Suppose our experiment involves two factors, treatment and time. <code>lm</code> can be used to fit a two-way ANOVA model:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>twoway.model <span class="ot">&lt;-</span> <span class="fu">lm</span>(expression <span class="sc">~</span> treatment<span class="sc">*</span>time, <span class="at">data =</span> dat)</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(twoway.model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = expression ~ treatment * time, data = dat)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-2.0287 -0.4463  0.1082  0.4915  1.7623 
+
+Coefficients:
+                     Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)           0.97965    0.69239   1.415  0.17752    
+treatmentB            0.40637    1.09476   0.371  0.71568    
+treatmentC            1.00813    0.97918   1.030  0.31953    
+treatmentD            3.07266    1.09476   2.807  0.01328 *  
+treatmentE            9.86180    0.97918  10.071 4.55e-08 ***
+timetime2             0.48211    1.09476   0.440  0.66594    
+treatmentB:timetime2 -0.09544    1.54822  -0.062  0.95166    
+treatmentC:timetime2 -0.26339    1.54822  -0.170  0.86718    
+treatmentD:timetime2 -1.02568    1.54822  -0.662  0.51771    
+treatmentE:timetime2 -6.11958    1.54822  -3.953  0.00128 ** 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 1.199 on 15 degrees of freedom
+Multiple R-squared:  0.912, Adjusted R-squared:  0.8591 
+F-statistic: 17.26 on 9 and 15 DF,  p-value: 2.242e-06</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(twoway.model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         (Intercept)           treatmentB           treatmentC 
+          0.97965110           0.40636785           1.00813264 
+          treatmentD           treatmentE            timetime2 
+          3.07265513           9.86179766           0.48210723 
+treatmentB:timetime2 treatmentC:timetime2 treatmentD:timetime2 
+         -0.09544075          -0.26339279          -1.02568281 
+treatmentE:timetime2 
+         -6.11958364 </code></pre>
+</div>
+</div>
+<p>The notation <code>treatment*time</code> refers to treatment, time, and the interaction effect of treatment by time.</p>
+<p>Interpretation of coefficients:</p>
+<ul>
+<li>Each coefficient for treatment represents the difference between the indicated group and the reference group <em>at the reference level for the other covariates</em></li>
+<li>For example, “treatmentB” is the difference in expression between treatment B and treatment A at time 1</li>
+<li>Similarly, “timetime2” is the difference in expression between time2 and time1 for treatment A</li>
+<li>The interaction effects (coefficients with “:”) estimate the difference between treatment groups in the effect of time</li>
+<li>The interaction effects ALSO estimate the difference between times in the effect of treatment</li>
+</ul>
+<p>To estimate the difference between treatment B and treatment A at time 2, we need to include the interaction effects:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># A - B at time 2</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>coefs <span class="ot">&lt;-</span> <span class="fu">coef</span>(twoway.model)</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>coefs[<span class="st">"treatmentB"</span>] <span class="sc">+</span> coefs[<span class="st">"treatmentB:timetime2"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>treatmentB 
+ 0.3109271 </code></pre>
+</div>
+</div>
+<p>We can see from <code>summary</code> that one of the interaction effects is significant. Here’s what that interaction effect looks like graphically:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">interaction.plot</span>(<span class="at">x.factor =</span> dat<span class="sc">$</span>time, <span class="at">trace.factor =</span> dat<span class="sc">$</span>treatment, <span class="at">response =</span> dat<span class="sc">$</span>expression)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="linear_models_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>In the pasilla data, we can consider the affects of both the <code>type</code> and <code>condition</code> variables.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>pasillaTwoFactor <span class="ot">=</span> pasilla</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="fu">design</span>(pasillaTwoFactor) <span class="ot">=</span> <span class="fu">formula</span>(<span class="sc">~</span> type <span class="sc">+</span> condition)</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>pasillaTwoFactor <span class="ot">=</span> <span class="fu">DESeq</span>(pasillaTwoFactor)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We access the results using the <code>results</code> function, which returns a dataframe with the statistics of each gene.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>res2 <span class="ot">=</span> <span class="fu">results</span>(pasillaTwoFactor)</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(res2, <span class="at">n =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>log2 fold change (MLE): condition treated vs untreated 
+Wald test p-value: condition treated vs untreated 
+DataFrame with 3 rows and 6 columns
+             baseMean log2FoldChange     lfcSE       stat    pvalue      padj
+            &lt;numeric&gt;      &lt;numeric&gt; &lt;numeric&gt;  &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt;
+FBgn0000003  0.171569      0.6745518  3.871091  0.1742537  0.861666        NA
+FBgn0000008 95.144079     -0.0406731  0.222215 -0.1830351  0.854770  0.951975
+FBgn0000014  1.056572     -0.0849880  2.111821 -0.0402439  0.967899        NA</code></pre>
+</div>
+</div>
+<hr>
+<p><em>The materials in this lesson have been adapted from:</em> - <a href="https://statsthinking21.github.io/statsthinking21-core-site/index.html"><em>Statistical Thinking for the 21st Century</em></a> <em>by Russell A. Poldrack. This work is distributed under the terms of the <a href="https://creativecommons.org/licenses/by-nc/4.0/">Attribution-NonCommercial 4.0 International</a> (CC BY-NC 4.0), which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited and the material is used for noncommercial purposes.</em> - <a href="https://www.huber.embl.de/msmb/"><em>Modern Statistics for Modern Biology</em></a> <em>by Susan Holmes and Wolfgang Huber. This work is distributed under the terms of the <a href="https://creativecommons.org/licenses/by-nc-sa/2.0/">Attribution-NonCommercial-ShareAlike 2.0 Generic</a> (CC BY-NC-SA 2.0), which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited, the material is used for noncommercial purposes, and the same license is used for any derivative material. and the UCDavis Bioinformatics Core</em></p>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

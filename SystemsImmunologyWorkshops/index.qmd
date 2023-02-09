@@ -1,7 +1,25 @@
 # Systems Immunology Workshops {.unnumbered}
 
-We will be working from this workbook for our first 4 workshop sessions. 
+We will be working from this workbook for our first 4 workshop sessions.
 
-Before the first session, be sure to complete all pre-work steps. 
+Before the first session, be sure to complete all pre-work steps.
 
-*Note: These materials are still a little unrefined, I mainly plan to add reccomended additional readings a resources, as well as a thorough proofreading*
+Many of the exercise in this workbook have three levels: *basic*, *advanced* and *challenge*.
+
+::: {.callout-note appearance="simple" icon="false"}
+## Basic
+
+This exercise is appropriate to those new to R/programming. Being able to complete these is enough to fulfill the objectives of the workshop.
+:::
+
+::: {.callout-caution appearance="simple" icon="false"}
+## Advanced
+
+This exercise is appropriate for those new to R/programming who have already completed the basic exercise and want a challenge or those who already have computational experience. It may assume knowledge of concepts not yet covered in workshops.
+:::
+
+::: {.callout-important appearance="simple" icon="false"}
+## Challenge
+
+This exercise provides an extra challenge and is geared towards those with significant computational experience. It may assume knowledge of concepts not yet covered in workshops.
+:::

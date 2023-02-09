@@ -10,7 +10,7 @@
 ::: {.callout-note appearance="simple" icon="false"}
 ## Basic
 
-In a spreadsheet editor like excel or Google sheets, open the file `../data/mouse_data.csv`.
+In a spreadsheet editor like excel or Google sheets, open the file `../data/messy_temperature_data.csv`.
 
 - What problems will arise when we load this data into R? If you're unsure, try it out and take a look at the data. Are the columns the types you expected? Does the data appear correct?
 - Inside your spreadsheet editor of choice, fix the problems with the data. Save it under a new file name in your data folder (so that the original data file is not overwritten). 
