@@ -7,39 +7,39 @@ book:
   date: "1/18/2023"
   chapters:
     - index.qmd
-    - part: pre_work.qmd
-      chapters: 
-        - install.qmd
-        - rstudio.qmd
-    - part: session1.qmd
+    - part: preWork/pre_work.qmd
       chapters:
-        - types.qmd
-        - prob.qmd
-        - hypo_tests.qmd
-        - factors.qmd
-        - choosing_tests.qmd
-        - pSet1.qmd
-    # - part: session2.qmd
+        - preWork/install.qmd
+        - preWork/rstudio.qmd
+    - part: session1/session1.qmd
+      chapters:
+        - session1/types.qmd
+        - session1/prob.qmd
+        - session1/hypo_tests.qmd
+        - session1/factors.qmd
+        - session1/choosing_tests.qmd
+        - session1/pSet1.qmd
+    - part: session2/session2.qmd
+      chapters:
+        - session2/packages.qmd
+        - session2/loading_functions.qmd
+        - session2/pvals.qmd
+        - session2/mult.qmd
+        - session2/making_functions.qmd
+        - session2/session2problems.qmd
+        - session2/pSet2.qmd
+    # - part: session3/session3.qmd
     #   chapters:
-    #     - packages.qmd
-    #     - loading_functions.qmd
-    #     - pvals.qmd
-    #     - mult.qmd
-    #     - making_functions.qmd
-    #     - session2problems.qmd
-    #     - pSet2.qmd
-    # - part: session3.qmd
+    #     - session3/wrangling.qmd
+    #     - session3/matching_reordering.qmd
+    #     - session3/count_data1.qmd
+    #     - session3/tidyverse.qmd
+    # - part: session4/session4.qmd
     #   chapters:
-    #     - wrangling.qmd
-    #     - matching_reordering.qmd
-    #     - count_data1.qmd
-    #     - tidyverse.qmd
-    # - part: session4.qmd
-    #   chapters:
-    #     - ggplot.qmd
-    #     - exporting.qmd
-    #     - linear_models.qmd
-    #     - other_plots.qmd
+    #     - session4/ggplot.qmd
+    #     - session4/exporting.qmd
+    #     - session4/linear_models.qmd
+    #     - session4/other_plots.qmd
 format:
   html:
     theme: cosmo

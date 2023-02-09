@@ -1,0 +1,69 @@
+# Practice Exercises
+
+1.  **Importing Data into R**
+
+    -   Use the `class()` function on `awde` and `aw`, how does the output differ between the two?
+    -   Use the `summary()` function on the `awde` dataframe to find the highest fold-change in the dataset.
+    -   When you use the `rownames()` function on `awde`, what is the *data structure* of the output?
+    
+    
+::: {.callout-note appearance="simple" icon="false"}
+## Basic
+
+In a spreadsheet editor like excel or Google sheets, open the file `../data/mouse_data.csv`.
+
+- What problems will arise when we load this data into R? If you're unsure, try it out and take a look at the data. Are the columns the types you expected? Does the data appear correct?
+- Inside your spreadsheet editor of choice, fix the problems with the data. Save it under a new file name in your data folder (so that the original data file is not overwritten). 
+- Load the dataset into R.
+- What are the dimensions of the dataset? How rows and columns does it have?
+
+:::
+
+::: {.callout-caution appearance="simple" icon="false"}
+## Advanced
+
+As opposed to manually fixing the problems with this dataset, try to fix the dataset problems using R. 
+
+:::
+
+::: {.callout-important appearance="simple" icon="false"}
+## Challenge
+
+Try loading the dataset `../data/corrupted_data.txt`. 
+Take a look at the the gene symbols. Some of the gene symbols appear to be dates!
+[This is actually a common problem in biology.](https://www.nature.com/articles/d41586-021-02211-4)
+
+Try installing the [HGCNhelper](https://cran.r-project.org/web/packages/HGNChelper/index.html) package and using it to correct the date-converted gene symbols. 
+:::
+
+
+2.  **Working with distributions**
+    
+::: {.callout-note appearance="simple" icon="false"}
+## Basic
+
+Generate 100 instances of a Poisson(3) random variable.
+
+-   What is the mean?
+
+-   What is the variance as computed by the R function `var`?
+
+:::
+
+::: {.callout-caution appearance="simple" icon="false"}
+## Advanced
+
+Conduct a binomial test for the following scenario: out of 1 million reads, 19 reads are mapped to a gene of interest, with the probability for mapping a read to that gene being $10^{-5}$.
+
+    -   Are these more or less reads than we would expect to be mapped to that gene?
+
+    -   Is the finding statistically significant?
+
+:::
+
+::: {.callout-important appearance="simple" icon="false"}
+## Challenge
+
+Create a function, `bh_correction`, which takes in a vector of p-values and a target FDR, performs the Benjamini-Hochberg procedure, and returns a vector of p-values which should be rejected at that FDR.
+
+:::

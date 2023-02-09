@@ -1,0 +1,9 @@
+# Session 4
+
+## Learning Objectives
+
+-   Create and export histograms, boxplots, line plots, and scatter plots using ggplot2.
+-   Apply basic linear models and ANOVA tests.
+-   Explore analysis-specific common plots such as volcano plots, heatmaps, clustergrams, networks, and set enrichment visualizations.
+-   Define R data structures.
+-   Use SummarizedExperiment objects.

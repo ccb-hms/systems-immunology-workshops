@@ -1,0 +1,36 @@
+# Problem Set 1
+
+## Problem 1
+
+R can generate numbers from all known distributions. We now know how to generate random discrete data using the specialized R functions tailored for each type of distribution. We use the functions that start with an `r` as in `rXXXX`, where `XXXX` could be `pois`, `binom`, `multinom`. If we need a theoretical computation of a probability under one of these models, we use the functions `dXXXX`, such as `dbinom`, which computes the probabilities of events in the discrete binomial distribution, and `dnorm`, which computes the probability density function for the continuous normal distribution. When computing tail probabilities such as $P(X > a)$ it is convenient to use the cumulative distribution functions, which are called `pXXXX`. Find two other discrete distributions that could replace the `XXXX` above.
+
+## Problem 2
+
+How would you calculate the *probability mass* at the value $X=2$ for a binomial $B(10, 0.3)$ with `dbinom`? Use `dbinom` to compute the *cumulative* distribution at the value 2, corresponding to $P(X \leq 2)$, and check your answer with another R function. *Hint: You will probably want to use the `sum` function.*
+
+## Problem 3
+
+In the epitope example (@sec-epitope), use a simulation to find the probability of
+having a maximum of 9 or larger in 100 trials. How many simulations do
+you need if you would like to prove that \"the probability is smaller
+than 0.000001\"?
+
+## Problem 4
+
+Find a paper in your research area which uses a hypothesis test. Cite the paper and note:
+
+-   The null hypothesis.
+-   The alternative hypothesis.
+-   Was the test two-tailed or one-tailed?
+-   What types of variables were compared?
+-   Was the test parametric or non-parametric?
+-   Can we safely assume equal variance?
+-   What was the sample size?
+
+If the necessary details to determine any of the above are not in the paper, you can note that instead.
+
+Given what you've written and the author's decisions, do you agree with the choice of hypothesis test and the conclusions drawn?
+
+------------------------------------------------------------------------
+
+*The materials in this lesson have been adapted from:* [*Modern Statistics for Modern Biology*](https://www.huber.embl.de/msmb/) *by Susan Holmes and Wolfgang Huber. This work is distributed under the terms of the [Attribution-NonCommercial-ShareAlike 2.0 Generic](https://creativecommons.org/licenses/by-nc-sa/2.0/) (CC BY-NC-SA 2.0), which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited, the material is used for noncommercial purposes, and the same license is used for any derivative material.*

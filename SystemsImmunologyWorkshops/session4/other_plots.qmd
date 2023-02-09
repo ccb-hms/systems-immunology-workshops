@@ -1,0 +1,133 @@
+# Common visualizations in biological analyses
+
+For looking at other common plots, let's take a lot at another data package. This is the [airway](https://bioconductor.org/packages/release/data/experiment/html/airway.html) package, which provides a RangedSummarizedExperiment object of read counts in genes for an RNA-Seq experiment on four human airway smooth muscle cell lines treated with dexamethasone. 
+
+```{r}
+#| output: false
+library("DESeq2")
+library(airway)
+library(tidyverse)
+library(ggplot2)
+library(Rtsne)
+```
+
+```{r}
+data(airway)
+se <- airway
+dds <- DESeqDataSet(se, design = ~ cell + dex)
+rld <- rlog(dds)
+
+
+keep <- rowSums(counts(dds)) >= 4
+dds <- dds[keep,]
+dds <- DESeq(dds)
+res <- as.data.frame(results(dds))
+```
+## PCA plot
+
+First we can create a principle component analysis (PCA) of the data. 
+
+```{r}
+plotPCA(rld, intgroup = c("dex", "cell"))
+```
+
+
+PCA is a **dimentionality reduction** method. 
+It reduced the dimensionality of our data while maintaining as much variation as possible. 
+In the above data, it would be impossible to view how each of our samples compare across every gene at the same time. 
+PCA finds linear combinations of genes which best explain the variance between each sample.
+We can see how much variance is explained by each principle component. 
+When examining a PCA plot, we want to make sure that our samples group as expected, mainly, that replicates are closer to each other than to other samples. 
+
+For other data, we can use the `prcomp` function to perform a PCA analysis. 
+
+```{r}
+library(ggfortify, quietly=TRUE)
+df <- iris[1:4]
+pca_res <- prcomp(df, scale. = TRUE)
+autoplot(pca_res, data = iris, colour = 'Species')
+```
+
+## tSNE Plots
+
+t-Distributed Neighbor Embedding (tSNE) is another dimensionality reduction method mainly used for visualization which can preform non-linear transformations. 
+It finds the distances between points in the original, high-dimensional space, then attempts to find a low-dimensional space which maintains distances between points and their close neighbors. 
+tSNE is stochastic, meaning that there is some randomness in its final embedding.
+Running tSNE multiple times on the same data will give slightly different results. 
+
+Many biological analysis pipelines also have built-in TSNE analyses and visualizations. This one is a part of the Bioconductor [scater](https://bioconductor.org/packages/release/bioc/html/scater.html) package. 
+
+```{r}
+#| output: false
+library(scRNAseq)
+library(scater)
+library(scran)
+library(BiocSingular)
+```
+```{r}
+load("data/processedZeisel.RData")
+sce.zeisel <- runTSNE(sce.zeisel, dimred="PCA")
+plotTSNE(sce.zeisel, colour_by="label")
+```
+
+## Volcano plot
+
+A volcano plot is a common visualization to see the distribution of fold-changes and p values accross our dataset. 
+It plots the $log_2$ fold-change against the p values from our statistical analysis. 
+
+```{r}
+res %>% 
+  mutate(sig = padj < 0.05 & abs(log2FoldChange) > 2) %>%
+  ggplot(aes(x = log2FoldChange, y = -log10(padj), col=sig)) +
+       geom_point() +
+       geom_vline(xintercept=c(-2, 2), col="red") +
+       geom_hline(yintercept=-log10(0.05), col="red")
+```
+
+## Heatmap/Clustergram
+
+Heatmaps are a common visualization in a variety of analyses. 
+By default in the heatmap package `pheatmap`, the rows and columns of our data are **clustered** using a heirarchical clustering method. 
+This allows us to view which samples are most similar, and here how the most differentially expressed genes cluster and change accross different samples. 
+
+```{r}
+library(pheatmap, quietly=TRUE)
+
+normalized_counts <- counts(dds, normalized=T) %>% 
+                     data.frame() %>%
+                     rownames_to_column(var="gene") 
+top_genes <- arrange(res, padj) %>%
+              slice(1:20)
+top_gene_counts <- normalized_counts[match(rownames(top_genes),normalized_counts$gene),]
+pheatmap(top_gene_counts[,2:9],
+    cluster_rows = T,
+    cluster_cols = T,
+    show_rownames = T,
+    labels_row = top_gene_counts$gene,
+    border_color = NA,
+    fontsize = 10,
+    scale = "row",
+    fontsize_row = 10,
+    height = 20)
+```
+
+## Network visualization
+
+We also sometimes want to visualize networks in R. 
+Network visualization can be difficult, and it is reccomended to use programs like [cytoscape](https://cytoscape.org/) for creating publication-ready network figures. 
+However, `igraph` is a popular package for handling and visualizing network data in R. 
+
+```{r}
+#| output: false
+library(igraph, quietly = TRUE)
+```
+```{r}
+g <- make_ring(10)
+plot(g, layout=layout_with_kk, vertex.color="green")
+```
+
+
+
+------------------------------------------------------------------------
+
+*The materials in this lesson have been adapted from work created by the (HBC)\](http://bioinformatics.sph.harvard.edu/) and Data Carpentry (http://datacarpentry.org/). These are open access materials distributed under the terms of the [Creative Commons Attribution license](https://creativecommons.org/licenses/by/4.0/) (CC BY 4.0), which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.*
