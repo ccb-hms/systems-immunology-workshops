@@ -55,9 +55,9 @@ Generate 100 instances of a Poisson(3) random variable.
 
 Conduct a binomial test for the following scenario: out of 1 million reads, 19 reads are mapped to a gene of interest, with the probability for mapping a read to that gene being $10^{-5}$.
 
-    -   Are these more or less reads than we would expect to be mapped to that gene?
+-   Are these more or less reads than we would expect to be mapped to that gene?
 
-    -   Is the finding statistically significant?
+-   Is the finding statistically significant?
 
 :::
 
