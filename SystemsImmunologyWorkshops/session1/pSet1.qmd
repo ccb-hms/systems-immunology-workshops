@@ -4,16 +4,102 @@
 
 R can generate numbers from all known distributions. We now know how to generate random discrete data using the specialized R functions tailored for each type of distribution. We use the functions that start with an `r` as in `rXXXX`, where `XXXX` could be `pois`, `binom`, `multinom`. If we need a theoretical computation of a probability under one of these models, we use the functions `dXXXX`, such as `dbinom`, which computes the probabilities of events in the discrete binomial distribution, and `dnorm`, which computes the probability density function for the continuous normal distribution. When computing tail probabilities such as $P(X > a)$ it is convenient to use the cumulative distribution functions, which are called `pXXXX`. Find two other discrete distributions that could replace the `XXXX` above.
 
+::: {.callout-tip icon=false collapse=true}
+
+## Solution
+
+Other discrete distributions in R:
+
+- Geometric distribution: `geom`
+- Hypergeometric distribution: `hyper`
+- Negative binomial distribution: `nbinom`
+
+You can type in `?Distributions` to see a list of available distributions in base R. You can also view this information online  [here](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Distributions.html), and a list of distributions included in other packages [here](https://cran.r-project.org/web/views/Distributions.html).
+
+:::
+
 ## Problem 2
 
 How would you calculate the *probability mass* at the value $X=2$ for a binomial $B(10, 0.3)$ with `dbinom`? Use `dbinom` to compute the *cumulative* distribution at the value 2, corresponding to $P(X \leq 2)$, and check your answer with another R function. *Hint: You will probably want to use the `sum` function.*
 
+::: {.callout-tip icon=false collapse=true}
+
+## Solution
+
+The `dbinom` function directly gives us the probabilty mass:
+```{r}
+dbinom(2, 10, 0.3)
+```
+
+Since the binomial distribution is discrete, we can get the cumulative distribution function by simply summing the mass at 0, 1, and 2. Note that if this were a continuous distribution, we would have to integrate the mass function over the range instead. 
+
+Recall that we can pass a vector into functions like `dbinom` to get multiple values at once:
+
+```{r}
+dbinom(0:2, 10, 0.3)
+```
+
+We can then simply sum the result:
+
+```{r}
+sum(dbinom(0:2, 10, 0.3))
+```
+
+We can now check our answer with the `pbinom` function which directly gives the cumulative distribution function:
+```{r}
+pbinom(2, 10, 0.3)
+```
+
+:::
+
 ## Problem 3
 
-In the epitope example (@sec-epitope), use a simulation to find the probability of
-having a maximum of 9 or larger in 100 trials. How many simulations do
-you need if you would like to prove that \"the probability is smaller
-than 0.000001\"?
+In the epitope example (@sec-epitope), use a simulation to find the probability of having a maximum of 9 or larger in 100 trials. How many simulations do you need if you would like to prove that "the probability is smaller than 0.000001"?
+
+::: {.callout-tip icon=false collapse=true}
+
+## Solution
+
+**Simulation solution (what was asked for)**
+
+We can re-examine the results of the simulation we ran during class:
+```{r}
+maxes = replicate(100000, {
+  max(rpois(100, 0.5))
+})
+table(maxes)
+```
+However, most of the time we don't even get a single 9! We need to increase the number of trials in order to see more extreme numbers:
+```{r}
+maxes = replicate(10000000, {
+  max(rpois(100, 0.5))
+})
+table(maxes)
+```
+This calculation may take awhile to run. When running it I got 6 instances of 9 counts, so we can estimate the probability as: $6/10000000 = 6\times 10^{-7}$.
+We can see that the lower-probability of an event we want to estimate, the more simulations we need to run and the more computational power we need. 
+
+We would need at least a million runs in order to be able to estimate a probability of $0.000001$, as $1/0.000001 = 1000000$. 
+
+**How you would caluclate things exactly**
+
+In the epitope example we were able to calculate the probability of a single assay having a count of at least 7 as:
+
+```{r}
+1 - ppois(6, 0.5)
+```
+And then the probability of seeing a number this extreme at least once among 100 assays as:
+```{r}
+1 - ppois(6, 0.5)^100
+```
+
+In order to calculate the probability of a maximum of 9 or larger, we simply need to alter our complementary event probabilty calculation to 8:
+```{r}
+1 - ppois(8, 0.5)^100
+```
+:::
+
+ 
 
 ## Problem 4
 
@@ -30,6 +116,17 @@ Find a paper in your research area which uses a hypothesis test. Cite the paper 
 If the necessary details to determine any of the above are not in the paper, you can note that instead.
 
 Given what you've written and the author's decisions, do you agree with the choice of hypothesis test and the conclusions drawn?
+
+::: {.callout-tip icon=false collapse=true}
+
+## Solution
+
+The solution here obviously varies. In order to determine whether or not a test was used correctly, we need to at least consider:
+- The validity of the null and alternative hypotheses
+- Whether or not the assumptions of the test (independent samples, variable type, parametric or non-parametric, etc., uniform variance, etc.) hold or at least *probably mostly* hold for the experiment. 
+- Whether there is any indication of p-hacking or sources of experimental bias. 
+
+:::
 
 ------------------------------------------------------------------------
 

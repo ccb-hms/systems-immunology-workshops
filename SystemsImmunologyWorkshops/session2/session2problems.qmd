@@ -1,12 +1,5 @@
 # Practice Exercises
 
-1.  **Importing Data into R**
-
-    -   Use the `class()` function on `awde` and `aw`, how does the output differ between the two?
-    -   Use the `summary()` function on the `awde` dataframe to find the highest fold-change in the dataset.
-    -   When you use the `rownames()` function on `awde`, what is the *data structure* of the output?
-    
-    
 ::: {.callout-note appearance="simple" icon="false"}
 ## Basic
 

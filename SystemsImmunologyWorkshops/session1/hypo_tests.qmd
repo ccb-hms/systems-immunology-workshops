@@ -80,8 +80,12 @@ Let's simulate the experiment in R, using a biased coin:
 set.seed(0xdada)
 numFlips = 100
 probHead = 0.6
+# Sample is a function in base R which let's us take a random sample from a vector, with or without replacement. 
+# This line is sampling numFlips times from the vector ['H','T'] with replacement, with the probabilities for 
+# each item in the vector being defined in the prob argument as [probHead, 1-probHead]
 coinFlips = sample(c("H", "T"), size = numFlips,
   replace = TRUE, prob = c(probHead, 1 - probHead))
+# Thus, coinFlips is a character vector of a random sequence of 'T' and 'H'. 
 head(coinFlips)
 ```
 
@@ -99,12 +103,21 @@ To decide, let's look at the sampling distribution of our test statistic -- the 
 library("dplyr")
 library("ggplot2")
 
+# This line sets k as the vector [0, 1, 2,...,numFlips]
 k <- 0:numFlips
+# Recall that binary variables (TRUE and FALSE) are interpreted as 1 and 0, so we can use this operation
+# to count the number of heads in coinFlips. We practice these kinds of operations in session 3. 
 numHeads <- sum(coinFlips == "H")
+# We use dbinom here to get the probability mass at every integer from 1-numFlips so that we can plot the distribution. 
 p <- dbinom(k, size = numFlips, prob = 0.5)
+# We then convert it into a dataframe for easier plotting. 
 binomDensity <- data.frame(k = k, p = p)
 head(binomDensity)
 
+# Here, we are plotting the binomial distribution, with a vertical line representing
+# the number of heads we actually observed. We will learn how to create plots in session 4. 
+# Thus, to complete our test we simply need to identify whether or not the blue line
+# is in our rejection region. 
 ggplot(binomDensity) +
   geom_bar(aes(x = k, y = p), stat = "identity") +
   geom_vline(xintercept = numHeads, col = "blue")
@@ -116,10 +129,16 @@ We divide the set of all possible $k(0-100)$ in two complementary subsets, the *
 
 ```{r}
 alpha <- 0.05
+# We get the density of our plot in sorted order, meaning that we'll see binomDensity
+# jump back and forth between the distribution's tails as p increases. 
 binomDensity <- binomDensity[order(p),]
+# We then manually calculate our rejection region by finding where the cumulative sum in the distribution
+# is less than or equal to our chosen alpha level. 
 binomDensity$reject <- cumsum(binomDensity$p) <= alpha
 head(binomDensity)
 
+# Now we recreate the same plot as before, but adding red borders around the parts of our distribution
+# in the rejection region. 
 ggplot(binomDensity) +
   geom_bar(aes(x = k, y = p, col = reject), stat = "identity") +
   scale_colour_manual(

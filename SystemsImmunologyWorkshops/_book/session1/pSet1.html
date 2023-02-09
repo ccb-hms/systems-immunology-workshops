@@ -20,6 +20,69 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1.6em;
   vertical-align: middle;
 }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 
@@ -243,14 +306,144 @@ ul.task-list li input[type="checkbox"] {
 <section id="problem-1" class="level2" data-number="8.1">
 <h2 data-number="8.1" class="anchored" data-anchor-id="problem-1"><span class="header-section-number">8.1</span> Problem 1</h2>
 <p>R can generate numbers from all known distributions. We now know how to generate random discrete data using the specialized R functions tailored for each type of distribution. We use the functions that start with an <code>r</code> as in <code>rXXXX</code>, where <code>XXXX</code> could be <code>pois</code>, <code>binom</code>, <code>multinom</code>. If we need a theoretical computation of a probability under one of these models, we use the functions <code>dXXXX</code>, such as <code>dbinom</code>, which computes the probabilities of events in the discrete binomial distribution, and <code>dnorm</code>, which computes the probability density function for the continuous normal distribution. When computing tail probabilities such as <span class="math inline">\(P(X &gt; a)\)</span> it is convenient to use the cumulative distribution functions, which are called <code>pXXXX</code>. Find two other discrete distributions that could replace the <code>XXXX</code> above.</p>
+<div class="callout-tip callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Other discrete distributions in R:</p>
+<ul>
+<li>Geometric distribution: <code>geom</code></li>
+<li>Hypergeometric distribution: <code>hyper</code></li>
+<li>Negative binomial distribution: <code>nbinom</code></li>
+</ul>
+<p>You can type in <code>?Distributions</code> to see a list of available distributions in base R. You can also view this information online <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Distributions.html">here</a>, and a list of distributions included in other packages <a href="https://cran.r-project.org/web/views/Distributions.html">here</a>.</p>
+</div>
+</div>
+</div>
 </section>
 <section id="problem-2" class="level2" data-number="8.2">
 <h2 data-number="8.2" class="anchored" data-anchor-id="problem-2"><span class="header-section-number">8.2</span> Problem 2</h2>
 <p>How would you calculate the <em>probability mass</em> at the value <span class="math inline">\(X=2\)</span> for a binomial <span class="math inline">\(B(10, 0.3)\)</span> with <code>dbinom</code>? Use <code>dbinom</code> to compute the <em>cumulative</em> distribution at the value 2, corresponding to <span class="math inline">\(P(X \leq 2)\)</span>, and check your answer with another R function. <em>Hint: You will probably want to use the <code>sum</code> function.</em></p>
+<div class="callout-tip callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The <code>dbinom</code> function directly gives us the probabilty mass:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbinom</span>(<span class="dv">2</span>, <span class="dv">10</span>, <span class="fl">0.3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.2334744</code></pre>
+</div>
+</div>
+<p>Since the binomial distribution is discrete, we can get the cumulative distribution function by simply summing the mass at 0, 1, and 2. Note that if this were a continuous distribution, we would have to integrate the mass function over the range instead.</p>
+<p>Recall that we can pass a vector into functions like <code>dbinom</code> to get multiple values at once:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbinom</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">2</span>, <span class="dv">10</span>, <span class="fl">0.3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.02824752 0.12106082 0.23347444</code></pre>
+</div>
+</div>
+<p>We can then simply sum the result:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">dbinom</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">2</span>, <span class="dv">10</span>, <span class="fl">0.3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.3827828</code></pre>
+</div>
+</div>
+<p>We can now check our answer with the <code>pbinom</code> function which directly gives the cumulative distribution function:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pbinom</span>(<span class="dv">2</span>, <span class="dv">10</span>, <span class="fl">0.3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.3827828</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
 </section>
 <section id="problem-3" class="level2" data-number="8.3">
 <h2 data-number="8.3" class="anchored" data-anchor-id="problem-3"><span class="header-section-number">8.3</span> Problem 3</h2>
-<p>In the epitope example (<a href="hypo_tests.html#sec-epitope"><span>Section&nbsp;5.1</span></a>), use a simulation to find the probability of having a maximum of 9 or larger in 100 trials. How many simulations do you need if you would like to prove that "the probability is smaller than 0.000001"?</p>
+<p>In the epitope example (<a href="hypo_tests.html#sec-epitope"><span>Section&nbsp;5.1</span></a>), use a simulation to find the probability of having a maximum of 9 or larger in 100 trials. How many simulations do you need if you would like to prove that “the probability is smaller than 0.000001”?</p>
+<div class="callout-tip callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Simulation solution (what was asked for)</strong></p>
+<p>We can re-examine the results of the simulation we ran during class:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>maxes <span class="ot">=</span> <span class="fu">replicate</span>(<span class="dv">100000</span>, {</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">max</span>(<span class="fu">rpois</span>(<span class="dv">100</span>, <span class="fl">0.5</span>))</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(maxes)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>maxes
+    1     2     3     4     5     6     7     8 
+    8 23287 60587 14420  1550   137     9     2 </code></pre>
+</div>
+</div>
+<p>However, most of the time we don’t even get a single 9! We need to increase the number of trials in order to see more extreme numbers:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>maxes <span class="ot">=</span> <span class="fu">replicate</span>(<span class="dv">10000000</span>, {</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">max</span>(<span class="fu">rpois</span>(<span class="dv">100</span>, <span class="fl">0.5</span>))</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(maxes)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>maxes
+      1       2       3       4       5       6       7       8       9 
+    761 2345330 6046383 1436857  156284   13338     975      69       3 </code></pre>
+</div>
+</div>
+<p>This calculation may take awhile to run. When running it I got 6 instances of 9 counts, so we can estimate the probability as: <span class="math inline">\(6/10000000 = 6\times 10^{-7}\)</span>. We can see that the lower-probability of an event we want to estimate, the more simulations we need to run and the more computational power we need.</p>
+<p>We would need at least a million runs in order to be able to estimate a probability of <span class="math inline">\(0.000001\)</span>, as <span class="math inline">\(1/0.000001 = 1000000\)</span>.</p>
+<p><strong>How you would caluclate things exactly</strong></p>
+<p>In the epitope example we were able to calculate the probability of a single assay having a count of at least 7 as:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">ppois</span>(<span class="dv">6</span>, <span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.00238e-06</code></pre>
+</div>
+</div>
+<p>And then the probability of seeing a number this extreme at least once among 100 assays as:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">ppois</span>(<span class="dv">6</span>, <span class="fl">0.5</span>)<span class="sc">^</span><span class="dv">100</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.000100233</code></pre>
+</div>
+</div>
+<p>In order to calculate the probability of a maximum of 9 or larger, we simply need to alter our complementary event probabilty calculation to 8:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">ppois</span>(<span class="dv">8</span>, <span class="fl">0.5</span>)<span class="sc">^</span><span class="dv">100</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3.43549e-07</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
 </section>
 <section id="problem-4" class="level2" data-number="8.4">
 <h2 data-number="8.4" class="anchored" data-anchor-id="problem-4"><span class="header-section-number">8.4</span> Problem 4</h2>
@@ -266,6 +459,22 @@ ul.task-list li input[type="checkbox"] {
 </ul>
 <p>If the necessary details to determine any of the above are not in the paper, you can note that instead.</p>
 <p>Given what you’ve written and the author’s decisions, do you agree with the choice of hypothesis test and the conclusions drawn?</p>
+<div class="callout-tip callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The solution here obviously varies. In order to determine whether or not a test was used correctly, we need to at least consider: - The validity of the null and alternative hypotheses - Whether or not the assumptions of the test (independent samples, variable type, parametric or non-parametric, etc., uniform variance, etc.) hold or at least <em>probably mostly</em> hold for the experiment. - Whether there is any indication of p-hacking or sources of experimental bias.</p>
+</div>
+</div>
+</div>
 <hr>
 <p><em>The materials in this lesson have been adapted from:</em> <a href="https://www.huber.embl.de/msmb/"><em>Modern Statistics for Modern Biology</em></a> <em>by Susan Holmes and Wolfgang Huber. This work is distributed under the terms of the <a href="https://creativecommons.org/licenses/by-nc-sa/2.0/">Attribution-NonCommercial-ShareAlike 2.0 Generic</a> (CC BY-NC-SA 2.0), which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited, the material is used for noncommercial purposes, and the same license is used for any derivative material.</em></p>
 
