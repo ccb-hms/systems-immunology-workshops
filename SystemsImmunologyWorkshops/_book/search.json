@@ -355,5 +355,12 @@
     "title": "15  Problem Set 2",
     "section": "15.3 Problem 3",
     "text": "15.3 Problem 3\nInstead of testing across the entire mitochondria, let’s now see if we can find certain nucleotides being enriched locally. To do this, split up the mitochondrial sequence into 100 base pair chunks, and perform your test from problem \\(3\\) on each chunk. Perform a multiple hypothesis correction at an FDR of \\(0.01\\).\n\nThe materials in this lesson have been adapted from: Modern Statistics for Modern Biology by Susan Holmes and Wolfgang Huber. This work is distributed under the terms of the Attribution-NonCommercial-ShareAlike 2.0 Generic (CC BY-NC-SA 2.0), which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited, the material is used for noncommercial purposes, and the same license is used for any derivative material."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Systems Immunology Workshops",
+    "section": "",
+    "text": "Systems Immunology Workshops\nWe will be working from this workbook for our first 4 workshop sessions.\nBefore the first session, be sure to complete all pre-work steps.\nMany of the exercise in this workbook have three levels: basic, advanced and challenge.\n\n\n\n\n\n\nBasic\n\n\n\nThis exercise is appropriate to those new to R/programming. Being able to complete these is enough to fulfill the objectives of the workshop.\n\n\n\n\n\n\n\n\nAdvanced\n\n\n\nThis exercise is appropriate for those new to R/programming who have already completed the basic exercise and want a challenge or those who already have computational experience. It may assume knowledge of concepts not yet covered in workshops.\n\n\n\n\n\n\n\n\nChallenge\n\n\n\nThis exercise provides an extra challenge and is geared towards those with significant computational experience. It may assume knowledge of concepts not yet covered in workshops."
   }
 ]
