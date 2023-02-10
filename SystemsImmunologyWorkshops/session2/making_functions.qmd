@@ -93,7 +93,7 @@ round(3.14159, digits=2)
 >
 > round(3.14159, 2)
 >
-> However, it's usually not recommended practice because it involves a lot of memorization. In addition, it makes your code difficult to read for your future self and others, especially if your code includes functions that are not commonly used. (It's however OK to not include the names of the arguments for basic functions like `mean`, `min`, etc...). Another advantage of naming arguments, is that the order doesn't matter. This is useful when a function has many arguments. 
+> However, it's usually not recommended practice because it involves a lot of memorization. In addition, it makes your code difficult to read for your future self and others, especially if your code includes functions that are not commonly used. (It's however OK to not include the names of the arguments for basic functions like `mean`, `min`, etc...). Another advantage of naming arguments, is that the order doesn't matter. This is useful when a function has many arguments.
 
 **Exercise**
 
@@ -103,24 +103,21 @@ round(3.14159, digits=2)
 1.  Let's use base R function to calculate **mean** value of the `glengths` vector. You might need to search online to find what function can perform this task.
 2.  Create a new vector `test <- c(1, NA, 2, 3, NA, 4)`. Use the same base R function from exercise 1 (with addition of proper argument), and calculate mean value of the `test` vector. The output should be `2.5`. \> *NOTE:* In R, missing values are represented by the symbol `NA` (not available). It's a way to make sure that users know they have missing data, and make a conscious decision on how to deal with it. There are ways to ignore `NA` during statistical calculation, or to remove `NA` from the vector. If you want more information related to missing data or `NA` you can [go to this page](https://stats.oarc.ucla.edu/r/faq/how-does-r-handle-missing-values/) (please note that there are many advanced concepts on that page that have not been covered in class).
 3.  Another commonly used base function is `sort()`. Use this function to sort the `glengths` vector in **descending** order.
-
 :::
 
 ::: {.callout-caution appearance="simple" icon="false"}
 ## Advanced
- 
-1. Use `rnorm` and the `matrix` functions to create a random square matrix with $6$ rows/columns. 
-2. Calculate the mean of each *row* in the matrix, so you should have 6 means total.  
 
+1.  Use `rnorm` and the `matrix` functions to create a random square matrix with $6$ rows/columns.
+2.  Calculate the mean of each *row* in the matrix, so you should have 6 means total.
 :::
 
 ::: {.callout-important appearance="simple" icon="false"}
 ## Challenge
 
-1. Create vector `c_data <- c(1, NA, 2, 3, NA, 4, 4, 3, 2, NA, NA, 2, 4, 2, 3, 4, 4, 2, 1, NA, 1, 1, 1)`. Fill in the NA values with the mean of all non-missing values. 
+1.  Create vector `c_data <- c(1, NA, 2, 3, NA, 4, 4, 3, 2, NA, NA, 2, 4, 2, 3, 4, 4, 2, 1, NA, 1, 1, 1)`. Fill in the NA values with the mean of all non-missing values.
 
-2. Re-create the vector with its `NA`s. Instead of filling in the missing data with the mean, estimate the parameter of a Poisson distribution from the data and sample from it to fill in the missing data. 
-
+2.  Re-create the vector with its `NA`s. Instead of filling in the missing data with the mean, estimate the parameter of a Poisson distribution from the data and sample from it to fill in the missing data.
 :::
 
 ------------------------------------------------------------------------
@@ -189,13 +186,11 @@ We have only scratched the surface here when it comes to creating functions! We 
 ::: {.callout-caution appearance="simple" icon="false"}
 ## Advanced
 
-The Fibonacci sequence is $0, 1, 1, 2, 3, 5, 8, ...$ where the first two terms are 0 and 1, and for all other terms $n^{th}$ term is the sum of the $(n-1)^{th}$ and $(n-2)^{th}$ terms.
+The Fibonacci sequence is $0, 1, 1, 2, 3, 5, 8, ...$ where the first two terms are 0 and 1, and for all other terms $n^{th}$ term is the sum of the $(n-1)^{th}$ and $(n-2)^{th}$ terms. Note that for `n=0` you should return 0 and for `n=1` you should return 1 as the first 2 terms. 
 
 1.  Write a function `fibonacci` which takes in a single integer argument `n` and returns the $n^{th}$ term in the Fibonacci sequence.
 
-2.  Have your function `stop` with an appropriate message if the argument `n` is not an integer.
-[Stop](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/stop) allows you to create your own errors in R. 
-[This StackOverflow thread](https://stackoverflow.com/questions/3476782/check-if-the-number-is-integer) contains useful informtion on how to tell if something is or is not an integer in R. 
+2.  Have your function `stop` with an appropriate message if the argument `n` is not an integer. [Stop](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/stop) allows you to create your own errors in R. [This StackOverflow thread](https://stackoverflow.com/questions/3476782/check-if-the-number-is-integer) contains useful information on how to tell if something is or is not an integer in R.
 :::
 
 ::: {.callout-important appearance="simple" icon="false"}

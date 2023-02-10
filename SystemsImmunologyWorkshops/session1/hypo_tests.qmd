@@ -184,7 +184,7 @@ We can summarize what we just did with a series of steps:
 Having set out the mechanics of testing, we can assess how well we are doing. The following table, called a **confusion matrix**, compares reality (whether or not the null hypothesis is in fact true) with our decision whether or not to reject the null hypothesis after we have seen the data.
 
 | Test vs reality        | Null is true                  | Null is false                  |
-|--------------------|--------------------------|--------------------------|
+|------------------------|-------------------------------|--------------------------------|
 | **Reject null**        | Type I error (false positive) | True postitive                 |
 | **Do not reject null** | True negative                 | Type II error (false negative) |
 
