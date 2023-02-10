@@ -361,14 +361,14 @@ P(x_{(100)} \ge 7) = \prod\limits_{i=1}^{100}P(x_i \le 6) = (P(x_i \le 6))^{100}
 <div class="cell-output cell-output-stdout">
 <pre><code>maxes
     1     2     3     4     5     6     7     8 
-    7 23439 60557 14282  1563   142     8     2 </code></pre>
+    6 23367 60625 14298  1566   129     7     2 </code></pre>
 </div>
 </div>
 <p>So we can approximate the probability of seeing a <span class="math inline">\(7\)</span> as:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>( maxes <span class="sc">&gt;=</span> <span class="dv">7</span> )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 1e-04</code></pre>
+<pre><code>[1] 9e-05</code></pre>
 </div>
 </div>
 <p>We arrive at a similarly small number, and in both cases would determine that there are real epitopes in the dataset.</p>
@@ -536,7 +536,7 @@ probability of success
 <table class="table">
 <colgroup>
 <col style="width: 27%">
-<col style="width: 36%">
+<col style="width: 35%">
 <col style="width: 36%">
 </colgroup>
 <thead>
