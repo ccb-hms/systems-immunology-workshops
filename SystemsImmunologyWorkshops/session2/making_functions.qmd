@@ -105,11 +105,46 @@ round(3.14159, digits=2)
 3.  Another commonly used base function is `sort()`. Use this function to sort the `glengths` vector in **descending** order.
 :::
 
+::: {.callout-tip icon="false" collapse="true"}
+## Solution
+
+```{r}
+# Setup
+glengths <- c(4.6, 3000, 50000)
+glengths <- c(glengths, 90) # adding at the end 
+glengths <- c(30, glengths) # adding at the beginning
+
+# Basic 
+# 1
+mean(glengths)
+# 2
+test <- c(1, NA, 2, 3, NA, 4)
+mean(test, na.rm=TRUE)
+# 3
+sort(glengths, decreasing = TRUE)
+```
+:::
+
 ::: {.callout-caution appearance="simple" icon="false"}
 ## Advanced
 
 1.  Use `rnorm` and the `matrix` functions to create a random square matrix with $6$ rows/columns.
 2.  Calculate the mean of each *row* in the matrix, so you should have 6 means total.
+:::
+
+::: {.callout-tip icon="false" collapse="true"}
+## Solution
+```{r}
+
+# We need to sample a length 36 vector, then coerce it into a matrix
+my_matrix <- matrix(rnorm(36), nrow=6)
+
+# There's a built-in function called rowMeans! It's always good to look things up. 
+rowMeans(my_matrix)
+
+# We could also use apply to call mean on each row of the matrix
+apply(my_matrix, 1, mean)
+```
 :::
 
 ::: {.callout-important appearance="simple" icon="false"}
@@ -118,6 +153,26 @@ round(3.14159, digits=2)
 1.  Create vector `c_data <- c(1, NA, 2, 3, NA, 4, 4, 3, 2, NA, NA, 2, 4, 2, 3, 4, 4, 2, 1, NA, 1, 1, 1)`. Fill in the NA values with the mean of all non-missing values.
 
 2.  Re-create the vector with its `NA`s. Instead of filling in the missing data with the mean, estimate the parameter of a Poisson distribution from the data and sample from it to fill in the missing data.
+:::
+
+::: {.callout-tip icon="false" collapse="true"}
+## Solution
+```{r}
+# 1
+c_data <- c(1, NA, 2, 3, NA, 4, 4, 3, 2, NA, NA, 2, 4, 2, 3, 4, 4, 2, 1, NA, 1, 1, 1)
+c_data[is.na(c_data)] <- mean(c_data, na.rm = TRUE)
+
+# 2
+c_data <- c(1, NA, 2, 3, NA, 4, 4, 3, 2, NA, NA, 2, 4, 2, 3, 4, 4, 2, 1, NA, 1, 1, 1)
+
+# We need this to calculate how many numbers we need to sample
+num_na <- sum(is.na(c_data)) 
+# A poisson distribution is paramaterized by it's mean. 
+# so we just need the mean of the data to model
+new_vals <- rpois(num_na, mean(c_data, na.rm = TRUE))
+# And finally, we can index the data to set the sampled values equal to it
+c_data[is.na(c_data)] <- new_vals
+```
 :::
 
 ------------------------------------------------------------------------
@@ -183,6 +238,25 @@ We have only scratched the surface here when it comes to creating functions! We 
 2.  Now we want to round the temperature in Kelvin (output of `temp_conv()`) to a single decimal place. Use the `round()` function with the newly-created `temp_conv()` function to achieve this in one line of code. If your input is 70, the output should now be 294.3.
 :::
 
+::: {.callout-tip icon="false" collapse="true"}
+## Solution
+
+```{r}
+# Basic
+
+# 1
+temp_conv <- function(temp_f) {
+  temp_c = (temp_f - 32) * 5 / 9
+  temp_k = temp_c + 273.15
+  return (temp_k)
+}
+
+# 2
+round(temp_conv(70), digits = 1)
+```
+:::
+
+
 ::: {.callout-caution appearance="simple" icon="false"}
 ## Advanced
 
@@ -193,12 +267,58 @@ The Fibonacci sequence is $0, 1, 1, 2, 3, 5, 8, ...$ where the first two terms a
 2.  Have your function `stop` with an appropriate message if the argument `n` is not an integer. [Stop](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/stop) allows you to create your own errors in R. [This StackOverflow thread](https://stackoverflow.com/questions/3476782/check-if-the-number-is-integer) contains useful information on how to tell if something is or is not an integer in R.
 :::
 
+::: {.callout-tip icon="false" collapse="true"}
+## Solution
+
+```{r}
+# Advanced
+fibonacci <- function(n){
+  
+  # These next 3 lines are part 2
+  if((n %% 1)!=0){
+    stop("Must provide an integer to fibonacci")
+  }
+  fibs <- c(0,1)
+  for (i in 2:n){
+    fibs <- c(fibs, fibs[i-1]+fibs[i])
+  }
+  return(fibs[n+1])
+}
+```
+:::
+
+
 ::: {.callout-important appearance="simple" icon="false"}
 ## Challenge
 
 Re-write your `fibonacci` function so that it calculates the Fibonacci sequence *recursively*, meaning that it calls itself. Your function should contain no loops or iterative code.
 
 You will need to define two *base cases*, where the function does not call itself.
+:::
+
+::: {.callout-tip icon="false" collapse="true"}
+## Solution
+
+```{r}
+#Challenge
+fibonacci2 <- function(n){
+  if((n %% 1)!=0){
+    stop("Must provide an integer to fibonacci")
+  }
+  # We call these two if statement the 'base cases' of the recursion
+  if (n==0){
+    return(0)
+  }
+  if (n==1){
+    return(1)
+  }
+  # And this is the recursive case, where the function calls itself
+  return(fibonacci2(n-1)+fibonacci2(n-2))
+}
+```
+Recursion isn't relevant to most data analysis, as it is often significantly slower than a non-recursive solution in most programming languages. 
+
+However, setting up a solution as recursive sometimes allows us to perform an algorithmic strategy called [dynamic programming](https://en.wikipedia.org/wiki/Dynamic_programming) and is fundamental to most [sequence alignment algorithms](https://open.oregonstate.education/appliedbioinformatics/chapter/chapter-3/).
 :::
 
 ------------------------------------------------------------------------

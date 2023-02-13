@@ -13,16 +13,17 @@ In a spreadsheet editor like excel or Google sheets, open the file `../data/mess
 
 ::: {.callout-caution appearance="simple" icon="false"}
 ## Advanced
-
-As opposed to manually fixing the problems with this dataset, try to fix the dataset problems using R.
-:::
-
-::: {.callout-important appearance="simple" icon="false"}
-## Challenge
-
 Try loading the dataset `../data/corrupted_data.txt`. Take a look at the the gene symbols. Some of the gene symbols appear to be dates! [This is actually a common problem in biology.](https://www.nature.com/articles/d41586-021-02211-4)
 
 Try installing the [HGCNhelper](https://cran.r-project.org/web/packages/HGNChelper/index.html) package and using it to correct the date-converted gene symbols.
+
+:::
+
+::: {.callout-important appearance="simple" icon="false"}
+## Challenge 
+
+As opposed to manually fixing the problems with the dataset from the basic exercise, try to fix the dataset problems using R. 
+
 :::
 
 2.  **Working with distributions**
@@ -37,6 +38,17 @@ Generate 100 instances of a Poisson(3) random variable.
 -   What is the variance as computed by the R function `var`?
 :::
 
+::: {.callout-tip icon="false" collapse="true"}
+## Solution
+```{r}
+# Basic
+pVars <- rpois(100,3)
+mean(pVars)
+var(pVars)
+```
+:::
+
+
 ::: {.callout-caution appearance="simple" icon="false"}
 ## Advanced
 
@@ -47,8 +59,46 @@ Conduct a binomial test for the following scenario: out of 1 million reads, 19 r
 -   Is the finding statistically significant?
 :::
 
+::: {.callout-tip icon="false" collapse="true"}
+## Solution
+```{r}
+# Advanced
+# Let's check our intuition
+table(rbinom(100000, n=1e6, p=1e-6))
+
+# Let's run the test
+binom.test(x = 19, n = 1e6, p = 1e-6)
+```
+:::
+
+
 ::: {.callout-important appearance="simple" icon="false"}
 ## Challenge
 
 Create a function, `bh_correction`, which takes in a vector of p-values and a target FDR, performs the Benjamini-Hochberg procedure, and returns a vector of p-values which should be rejected at that FDR.
 :::
+
+::: {.callout-tip icon="false" collapse="true"}
+## Solution
+```{r}
+# Challenge
+
+bh_correction <- function(pvals, phi){
+  pvals <- sort(pvals)
+  m <- length(pvals)
+  k <- 1
+  test_val <- phi/m
+  while((test_val>pvals[k]) && (k<m)){
+    k <- k+1
+    test_val <- (phi*k)/m
+  }
+  return(pvals[1:k])
+}
+
+# Let's test the solution
+x <- rnorm(50, mean = c(rep(0, 25), rep(3, 25)))
+pvals <- 2*pnorm(sort(-abs(x)))
+bh_correction(pvals,0.05)
+```
+:::
+
