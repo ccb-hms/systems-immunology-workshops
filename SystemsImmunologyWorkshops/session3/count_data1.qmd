@@ -8,7 +8,7 @@ Ideally we might want to sequence and count all molecules of interest in the sam
 
 Let's define some terminology related to count data.
 
--   A *sequencing library* is the collection of DNA molecules used as input for the sequencing machine. Note that *library size* can either mean the total number of reads that were sequenced in the run or the total number of mapped reads. 
+-   A *sequencing library* is the collection of DNA molecules used as input for the sequencing machine. Note that *library size* can either mean the total number of reads that were sequenced in the run or the total number of mapped reads.
 
 -   *Fragments* are the molecules being sequenced. Since the currently most widely used technology1 can only deal with molecules of length around 300--1000 nucleotides, these are obtained by fragmenting the (generally longer) DNA or cDNA molecules of interest.
 
@@ -30,11 +30,11 @@ How would we check the dimension of `counts` and preview its contents?
 
 What are the challenges that we need to overcome with such count data?
 
-- The data have a large dynamic range, starting from zero up to millions. The variance, and more generally, the distribution shape of the data in different parts of the dynamic range are very different. We need to take this phenomenon, called heteroskedasticity, into account.
+-   The data have a large dynamic range, starting from zero up to millions. The variance, and more generally, the distribution shape of the data in different parts of the dynamic range are very different. We need to take this phenomenon, called heteroskedasticity, into account.
 
-- The data are non-negative integers, and their distribution is not symmetric – thus normal or log-normal distribution models may be a poor fit.
+-   The data are non-negative integers, and their distribution is not symmetric -- thus normal or log-normal distribution models may be a poor fit.
 
-- We need to understand the systematic sampling biases and adjust for them. This is often called normalization, but has a different meaning from other types of normalization. Examples are the total sequencing depth of an experiment (even if the true abundance of a gene in two libraries is the same, we expect different numbers of reads for it depending on the total number of reads sequenced), or differing sampling probabilities (even if the true abundance of two genes within a biological sample is the same, we expect different numbers of reads for them if their biophysical properties differ, such as length, GC content, secondary structure, binding partners).
+-   We need to understand the systematic sampling biases and adjust for them. This is often called normalization, but has a different meaning from other types of normalization. Examples are the total sequencing depth of an experiment (even if the true abundance of a gene in two libraries is the same, we expect different numbers of reads for it depending on the total number of reads sequenced), or differing sampling probabilities (even if the true abundance of two genes within a biological sample is the same, we expect different numbers of reads for them if their biophysical properties differ, such as length, GC content, secondary structure, binding partners).
 
 ## Modeling count data
 
@@ -42,7 +42,7 @@ Consider a sequencing library that contains $n_1$ fragments corresponding to gen
 
 We can consider the probability that a given read maps to the $i^{th}$ gene is $p_i = n_i \ n$, and that this is pretty much independent of the outcomes for all the other reads. So we can model the number of reads for gene by a Poisson distribution, where the rate of the Poisson process is the product of $p_i$, the initial proportion of fragments for the $i^{th}$ gene, times $r$, that is: $\lambda_i = rp_i$.
 
-In practice, we are usually not interested in modeling the read counts within a single library, but in comparing the counts between libraries. That is, we want to know whether any differences that we see between different biological conditions – say, the same cell line with and without drug treatment – are larger than expected “by chance”, i.e., larger than what we may expect even between biological replicates. Empirically, it turns out that replicate experiments vary more than what the Poisson distribution predicts.
+In practice, we are usually not interested in modeling the read counts within a single library, but in comparing the counts between libraries. That is, we want to know whether any differences that we see between different biological conditions -- say, the same cell line with and without drug treatment -- are larger than expected "by chance", i.e., larger than what we may expect even between biological replicates. Empirically, it turns out that replicate experiments vary more than what the Poisson distribution predicts.
 
 Intuitively, what happens is that $p_i$ and therefore $\lambda_i$ also vary even between biological replicates; perhaps the temperature at which the cells grew was slightly different, or the amount of drug added varied by a few percent, or the incubation time was slightly longer. To account for that, we need to add another layer of modeling on top. It turns out that the gamma-Poisson (a.k.a. negative binomial) distribution suits our modeling needs. Instead of a single $\lambda$ which represents both mean and variance, this distribution has two parameters. In principle, these can be different for each gene.
 
@@ -62,23 +62,21 @@ ggplot(tibble(
   geom_point()
 ```
 
-Normalization is often used to account for known biases, such as batch effects accross different samples in many types of analyses. 
-The most classic example of normalization, and thus its name, would be to transform a dataset such that its mean is 0 and its variance is 1, thus matching a normal distribution. 
+Normalization is often used to account for known biases, such as batch effects accross different samples in many types of analyses. The most classic example of normalization, and thus its name, would be to transform a dataset such that its mean is 0 and its variance is 1, thus matching a normal distribution.
 
 ## Log transformations
 
-For testing for differential expression we operate on raw counts and use discrete distributions. For other downstream analyses – e.g., for visualization or clustering – it might however be useful to work with transformed versions of the count data.
+For testing for differential expression we operate on raw counts and use discrete distributions. For other downstream analyses -- e.g., for visualization or clustering -- it might however be useful to work with transformed versions of the count data.
 
 Maybe the most obvious choice of transformation is the logarithm. However, since count values for a gene can become zero, some advocate the use of pseudocounts, i.e., transformations of the form
 
 $$
 y = log_2(n+n_0)
-$$
-where $n$ represents the count values and $n_0$ is a somehow chosen positive constant (often just 1).
+$$ where $n$ represents the count values and $n_0$ is a somehow chosen positive constant (often just 1).
 
 ## Classes in R
 
-Let’s return to the pasilla data. These data are from an experiment on *Drosophila melanogaster* cell cultures that investigated the effect of RNAi knock-down of the splicing factor *pasilla* on the cells’ transcriptome. There were two experimental conditions, termed untreated and treated in the header of the count table that we loaded. They correspond to negative control and to siRNA against *pasilla*. The experimental metadata of the 7 samples in this dataset are provided in a spreadsheet-like table, which we load.
+Let's return to the pasilla data. These data are from an experiment on *Drosophila melanogaster* cell cultures that investigated the effect of RNAi knock-down of the splicing factor *pasilla* on the cells' transcriptome. There were two experimental conditions, termed untreated and treated in the header of the count table that we loaded. They correspond to negative control and to siRNA against *pasilla*. The experimental metadata of the 7 samples in this dataset are provided in a spreadsheet-like table, which we load.
 
 ```{r}
 annotationFile = system.file("extdata",
@@ -100,7 +98,7 @@ with(pasillaSampleAnno,
        table(condition, type))
 ```
 
-DESeq2 uses a specialized data container, called `DESeqDataSet` to store the datasets it works with. Such use of specialized containers – or, in R terminology, classes – is a common principle of the Bioconductor project, as it helps users to keep together related data. While this way of doing things requires users to invest a little more time upfront to understand the classes, compared to just using basic R data types like matrix and dataframe, it helps avoiding bugs due to loss of synchronization between related parts of the data. It also enables the abstraction and encapsulation of common operations that could be quite wordy if always expressed in basic terms. DESeqDataSet is an extension of the class `SummarizedExperiment` in Bioconductor. The `SummarizedExperiment` class is also used by many other packages, so learning to work with it will enable you to use quite a range of tools.
+DESeq2 uses a specialized data container, called `DESeqDataSet` to store the datasets it works with. Such use of specialized containers -- or, in R terminology, classes -- is a common principle of the Bioconductor project, as it helps users to keep together related data. While this way of doing things requires users to invest a little more time upfront to understand the classes, compared to just using basic R data types like matrix and dataframe, it helps avoiding bugs due to loss of synchronization between related parts of the data. It also enables the abstraction and encapsulation of common operations that could be quite wordy if always expressed in basic terms. DESeqDataSet is an extension of the class `SummarizedExperiment` in Bioconductor. The `SummarizedExperiment` class is also used by many other packages, so learning to work with it will enable you to use quite a range of tools.
 
 We use the constructor function `DESeqDataSetFromMatrix` to create a `DESeqDataSet` from the count data matrix counts and the sample annotation dataframe `pasillaSampleAnno`.
 
@@ -115,7 +113,7 @@ pasilla = DESeqDataSetFromMatrix(
 class(pasilla)
 ```
 
-The SummarizedExperiment class – and therefore DESeqDataSet – also contains facilities for storing annotation of the rows of the count matrix. For now, we are content with the gene identifiers from the row names of the `counts` table.
+The SummarizedExperiment class -- and therefore DESeqDataSet -- also contains facilities for storing annotation of the rows of the count matrix. For now, we are content with the gene identifiers from the row names of the `counts` table.
 
 ------------------------------------------------------------------------
 

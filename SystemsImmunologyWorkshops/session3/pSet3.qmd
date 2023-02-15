@@ -1,0 +1,70 @@
+# Problem Set 3
+
+## Instructions
+
+In this problem set, you will be going through an analysis resolve a potential label swap in phosphoproteomic mass spec data. 
+
+It is recommended to create a Quarto notebook for your report. You can create a new notebook in RSTudio by going to `file->new file->quarto document`. Set the default output to be a PDF. As an example, the entire workbook is a quarto document. More information can be [found here](https://quarto.org/docs/get-started/hello/rstudio.html). However, if you are finding it difficult to render your document, feel free to instead submit a script and separate writeup document. 
+
+## Data Description
+
+We are collaborating with a lab that is studying phosphorylation changes during covid infection. This dataset consists of phosphoproteomic TMT mass spec data from 2 10-plexes. We took samples at 0, 5, and 60 minutes post-infection. We also wanted to explore the specific role of 2 genes thought to be used in covid infection, RAB7A and NPC1. To do this, we included cell lines with each of these genes knocked out. 
+
+We wanted to have 2 replicates for each condition we were looking at, so we have a total of 3X2X3 or 18 different samples we want to measure. We decide to replicate wild type at 0 minutes in each 10plex for our total 20 wells accross the 2 10-plexes. 
+
+*Our collaborator has alerted us that there may have been a label swap in the dataset. We need to see if we can find two samples which seem to have been swapped, and correct the error if we feel confident that we know what swap took place.*
+
+**Note:** This data has been adapted with permission from an unpublished study. 
+The biological context of the original data has been changed, and all gene names were shuffled. 
+
+## Loading Data
+
+Load in the data `phospho_exp2_safe.csv` and `phospho_exp2_safe.csv`. 
+
+There are two variables of interest, the time, 0, 5, or 60 minutes post-infection, and the genotype, WT, NPC1 knockout and RAB7A knockout. 
+
+Unfortunately, all of this data is embedded in the column names of the dataset. 
+
+Create a `metadata_plex#` dataframes to contain this data instead. 
+You can try to do this programatically from the column names, or you can type out the data manually. 
+
+## PCA 
+
+As an initial quality check, let's run PCA on our data. We can use `prcomp` to run pca, and `autoplot` to plot the result. Let's try making 2 pca plots, 1 for each 10plex. We can set the color equal to the genotype and the shape of the points equal to the time. 
+
+You can call `prcomp` and `autoplot` like this:
+
+```
+library(ggfortify)
+#PCA Plots
+pca_res2 <- prcomp(plex2_data, scale = FALSE)
+autoplot(pca_res2, data=metadata_plex2, color = 'condition', shape='time', size=3)
+```
+
+*Hint: `prcomp` might be expecting data in a wide format as opposed to a long format, meaning that we need to make each peptide a column and each row a sample. We can use the t() function and convert the result to a dataframe to get our data into this format.*
+
+*Note: You may need to set the `scale` parameter to `FALSE` to avoid an error in `prcomp`.*
+
+We should look at how our replicates are clustered. Does everything look good in both 10-plexes? 
+
+## Heatmaps
+
+Let's explore this more by looking at some heatmaps of our data. We can use the `heatmap` function to plot a heatmap of the correlation between each of the samples in each 10plex. 
+
+Below is how to calculate the correlation and call the `heatmap` function. You can try to use the `RowSideColors` argument or change the column names to improve the visualization. 
+
+```
+heatmap(x=cor(plex2_data))
+```
+*Hint: `heatmap` only accepts numeric columns.`
+
+Is there anything unexpected in how the samples have clustered here?
+
+## Resolving the issue
+
+Decide what to do about the potential label swap and explain your reasoning. You could declare there to be too much uncertainty and report to your collaborator that they will have to redo the experiment, decide there is no label swap, or correct a label swap and continue the analysis. 
+
+Do you feel confident enough to continue the analysis, or is there too much uncertainty to use this data? 
+What other factors might influence your decision?
+
+If there is additional analysis you want to perform or calculations you want to make to support your answer, feel free to do so. If you are unsure how to perform that analysis or it would be outside the scope of a problem set, instead describe what you would do and how you would use the results.

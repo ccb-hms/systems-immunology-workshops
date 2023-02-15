@@ -267,6 +267,41 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </li>
       </ul>
   </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../session3/session3.html" class="sidebar-item-text sidebar-link">Session 3</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../session3/wrangling.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Data Wrangling</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../session3/matching_reordering.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Matching and Reordering Data in R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../session3/count_data1.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Count Data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../session3/tidyverse.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Tidyverse</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../session3/pSet3.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Problem Set 3</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
     </ul>
     </div>
 </nav>
@@ -377,11 +412,11 @@ Solution
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>pVars <span class="ot">&lt;-</span> <span class="fu">rpois</span>(<span class="dv">100</span>,<span class="dv">3</span>)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(pVars)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 2.73</code></pre>
+<pre><code>[1] 2.96</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(pVars)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 2.401111</code></pre>
+<pre><code>[1] 3.170101</code></pre>
 </div>
 </div>
 </div>
@@ -423,7 +458,7 @@ Solution
 <div class="cell-output cell-output-stdout">
 <pre><code>
      0      1      2      3      4 
-904635  90627   4573    163      2 </code></pre>
+905672  89698   4474    151      5 </code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Let's run the test</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">binom.test</span>(<span class="at">x =</span> <span class="dv">19</span>, <span class="at">n =</span> <span class="fl">1e6</span>, <span class="at">p =</span> <span class="fl">1e-6</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -489,9 +524,11 @@ Solution
 <span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>pvals <span class="ot">&lt;-</span> <span class="dv">2</span><span class="sc">*</span><span class="fu">pnorm</span>(<span class="fu">sort</span>(<span class="sc">-</span><span class="fu">abs</span>(x)))</span>
 <span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a><span class="fu">bh_correction</span>(pvals,<span class="fl">0.05</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] 4.893316e-05 1.090015e-04 1.278707e-04 1.434256e-04 2.239751e-04
- [6] 2.916768e-04 3.569700e-04 4.200485e-04 4.488674e-04 7.932351e-04
-[11] 5.709352e-03 1.149438e-02 1.180981e-02 1.573462e-02</code></pre>
+<pre><code> [1] 3.958492e-06 1.693070e-05 3.156727e-05 3.269199e-05 5.556655e-05
+ [6] 7.146096e-05 7.457843e-05 1.429892e-04 1.653987e-04 3.381682e-04
+[11] 4.589747e-04 7.340335e-04 7.566873e-04 1.881698e-03 2.172266e-03
+[16] 2.812296e-03 5.873386e-03 8.222307e-03 1.322639e-02 1.444331e-02
+[21] 2.165735e-02</code></pre>
 </div>
 </div>
 </div>
