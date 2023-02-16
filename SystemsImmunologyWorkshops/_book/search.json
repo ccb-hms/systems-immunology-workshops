@@ -131,5 +131,12 @@
     "title": "19  Tidyverse",
     "section": "20.12 Compare code",
     "text": "20.12 Compare code\nTake a look at your code verses your partner’s code. Which method do you think results in cleaner, more readable code? Which steps were easier in base R, and which in Tidyverse?\n\n20.12.1 Additional resources\n\nR for Data Science\nteach the tidyverse\ntidy style guide\n\n\nThe materials in this lesson have been adapted from work created by the (HBC)](http://bioinformatics.sph.harvard.edu/) and Data Carpentry (http://datacarpentry.org/). These are open access materials distributed under the terms of the Creative Commons Attribution license (CC BY 4.0), which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Systems Immunology Workshops",
+    "section": "",
+    "text": "Systems Immunology Workshops\nWe will be working from this workbook for our first 4 workshop sessions.\nBefore the first session, be sure to complete all pre-work steps.\nMany of the exercise in this workbook have three levels: basic, advanced and challenge.\n\n\n\n\n\n\nBasic\n\n\n\nThis exercise is appropriate to those new to R/programming. Being able to complete these is enough to fulfill the objectives of the workshop.\n\n\n\n\n\n\n\n\nAdvanced\n\n\n\nThis exercise is appropriate for those new to R/programming who have already completed the basic exercise and want a challenge or those who already have computational experience. It may assume knowledge of concepts not yet covered in workshops.\n\n\n\n\n\n\n\n\nChallenge\n\n\n\nThis exercise provides an extra challenge and is geared towards those with significant computational experience. It may assume knowledge of concepts not yet covered in workshops. Some of the exercises help teach computational ideas behind bioinformatics methods."
   }
 ]

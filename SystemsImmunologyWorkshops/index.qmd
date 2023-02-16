@@ -21,5 +21,5 @@ This exercise is appropriate for those new to R/programming who have already com
 ::: {.callout-important appearance="simple" icon="false"}
 ## Challenge
 
-This exercise provides an extra challenge and is geared towards those with significant computational experience. It may assume knowledge of concepts not yet covered in workshops.
+This exercise provides an extra challenge and is geared towards those with significant computational experience. It may assume knowledge of concepts not yet covered in workshops. Some of the exercises help teach computational ideas behind bioinformatics methods.
 :::
