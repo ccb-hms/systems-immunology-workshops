@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Systems Immunology Workshops - 16&nbsp; Data Wrangling</title>
+<title>Systems Immunology Workshops - 17&nbsp; Data Wrangling</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -94,7 +94,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
 <link href="../session3/matching_reordering.html" rel="next">
-<link href="../session3/session3.html" rel="prev">
+<link href="../session3/count_data1.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -133,7 +133,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Data Wrangling</span></h1>
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Data Wrangling</span></h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -276,17 +276,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../session3/wrangling.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Data Wrangling</span></a>
+  <a href="../session3/count_data1.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Count Data</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../session3/matching_reordering.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Matching and Reordering Data in R</span></a>
+  <a href="../session3/wrangling.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Data Wrangling</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../session3/count_data1.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Count Data</span></a>
+  <a href="../session3/matching_reordering.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Matching and Reordering Data in R</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -310,11 +310,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#selecting-data-using-indices-and-sequences" id="toc-selecting-data-using-indices-and-sequences" class="nav-link active" data-scroll-target="#selecting-data-using-indices-and-sequences"><span class="toc-section-number">16.1</span>  Selecting data using indices and sequences</a>
+  <li><a href="#selecting-data-using-indices-and-sequences" id="toc-selecting-data-using-indices-and-sequences" class="nav-link active" data-scroll-target="#selecting-data-using-indices-and-sequences"><span class="toc-section-number">17.1</span>  Selecting data using indices and sequences</a>
   <ul class="collapse">
-  <li><a href="#vectors" id="toc-vectors" class="nav-link" data-scroll-target="#vectors"><span class="toc-section-number">16.1.1</span>  Vectors</a></li>
-  <li><a href="#dataframes" id="toc-dataframes" class="nav-link" data-scroll-target="#dataframes"><span class="toc-section-number">16.1.2</span>  Dataframes</a></li>
-  <li><a href="#lists" id="toc-lists" class="nav-link" data-scroll-target="#lists"><span class="toc-section-number">16.1.3</span>  Lists</a></li>
+  <li><a href="#vectors" id="toc-vectors" class="nav-link" data-scroll-target="#vectors"><span class="toc-section-number">17.1.1</span>  Vectors</a></li>
+  <li><a href="#dataframes" id="toc-dataframes" class="nav-link" data-scroll-target="#dataframes"><span class="toc-section-number">17.1.2</span>  Dataframes</a></li>
+  <li><a href="#lists" id="toc-lists" class="nav-link" data-scroll-target="#lists"><span class="toc-section-number">17.1.3</span>  Lists</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -324,7 +324,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Data Wrangling</span></h1>
+<h1 class="title d-none d-lg-block"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Data Wrangling</span></h1>
 </div>
 
 
@@ -339,13 +339,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header>
 
-<section id="selecting-data-using-indices-and-sequences" class="level2" data-number="16.1">
-<h2 data-number="16.1" class="anchored" data-anchor-id="selecting-data-using-indices-and-sequences"><span class="header-section-number">16.1</span> Selecting data using indices and sequences</h2>
+<section id="selecting-data-using-indices-and-sequences" class="level2" data-number="17.1">
+<h2 data-number="17.1" class="anchored" data-anchor-id="selecting-data-using-indices-and-sequences"><span class="header-section-number">17.1</span> Selecting data using indices and sequences</h2>
 <p>When analyzing data, we often want to <strong>partition the data so that we are only working with selected columns or rows.</strong> A data frame or data matrix is simply a collection of vectors combined together. So let’s begin with vectors and how to access different elements, and then extend those concepts to dataframes.</p>
-<section id="vectors" class="level3" data-number="16.1.1">
-<h3 data-number="16.1.1" class="anchored" data-anchor-id="vectors"><span class="header-section-number">16.1.1</span> Vectors</h3>
-<section id="selecting-using-indices" class="level4" data-number="16.1.1.1">
-<h4 data-number="16.1.1.1" class="anchored" data-anchor-id="selecting-using-indices"><span class="header-section-number">16.1.1.1</span> Selecting using indices</h4>
+<section id="vectors" class="level3" data-number="17.1.1">
+<h3 data-number="17.1.1" class="anchored" data-anchor-id="vectors"><span class="header-section-number">17.1.1</span> Vectors</h3>
+<section id="selecting-using-indices" class="level4" data-number="17.1.1.1">
+<h4 data-number="17.1.1.1" class="anchored" data-anchor-id="selecting-using-indices"><span class="header-section-number">17.1.1.1</span> Selecting using indices</h4>
 <p>If we want to extract one or several values from a vector, we must provide one or several indices using square brackets <code>[ ]</code> syntax. The <strong>index represents the element number within a vector</strong> (or the compartment number, if you think of the bucket analogy). R indices start at 1. Programming languages like Fortran, MATLAB, and R start counting at 1, because that’s what human beings typically do. Languages in the C family (including C++, Java, Perl, and Python) count from 0 because that’s simpler for computers to do.</p>
 <p>Let’s start by creating a vector called age:</p>
 <div class="cell">
@@ -395,8 +395,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <p>Alternatively, if you wanted the reverse could try <code>4:1</code> for instance, and see what is returned.</p>
 </section>
-<section id="selecting-using-indices-with-logical-operators" class="level4" data-number="16.1.1.2">
-<h4 data-number="16.1.1.2" class="anchored" data-anchor-id="selecting-using-indices-with-logical-operators"><span class="header-section-number">16.1.1.2</span> Selecting using indices with logical operators</h4>
+<section id="selecting-using-indices-with-logical-operators" class="level4" data-number="17.1.1.2">
+<h4 data-number="17.1.1.2" class="anchored" data-anchor-id="selecting-using-indices-with-logical-operators"><span class="header-section-number">17.1.1.2</span> Selecting using indices with logical operators</h4>
 <p>We can also use indices with logical operators. Logical operators include greater than (&gt;), less than (&lt;), and equal to (==). A full list of logical operators in R is displayed below:</p>
 <table class="table">
 <thead>
@@ -471,8 +471,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code>[1] 15 52 73 81</code></pre>
 </div>
 </div>
-<section id="indexing-with-logical-operators-using-the-which-function" class="level5" data-number="16.1.1.2.1">
-<h5 data-number="16.1.1.2.1" class="anchored" data-anchor-id="indexing-with-logical-operators-using-the-which-function"><span class="header-section-number">16.1.1.2.1</span> Indexing with logical operators using the <code>which()</code> function</h5>
+<section id="indexing-with-logical-operators-using-the-which-function" class="level5" data-number="17.1.1.2.1">
+<h5 data-number="17.1.1.2.1" class="anchored" data-anchor-id="indexing-with-logical-operators-using-the-which-function"><span class="header-section-number">17.1.1.2.1</span> Indexing with logical operators using the <code>which()</code> function</h5>
 <p>While logical expressions will return a vector of TRUE and FALSE values of the same length, we could use the <code>which()</code> function to output the indices where the values are TRUE. Indexing with either method generates the same results, and personal preference determines which method you choose to use. For example:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">which</span>(age <span class="sc">&gt;</span> <span class="dv">50</span> <span class="sc">|</span> age <span class="sc">&lt;</span> <span class="dv">18</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -488,8 +488,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </section>
 </section>
 </section>
-<section id="dataframes" class="level3" data-number="16.1.2">
-<h3 data-number="16.1.2" class="anchored" data-anchor-id="dataframes"><span class="header-section-number">16.1.2</span> Dataframes</h3>
+<section id="dataframes" class="level3" data-number="17.1.2">
+<h3 data-number="17.1.2" class="anchored" data-anchor-id="dataframes"><span class="header-section-number">17.1.2</span> Dataframes</h3>
 <p>Dataframes (and matrices) have 2 dimensions (rows and columns), so if we want to select some specific data from it we need to specify the “coordinates” we want from it. We use the same square bracket notation but rather than providing a single index, there are <em>two indices required</em>. Within the square bracket, <strong>row numbers come first followed by column numbers (and the two are separated by a comma)</strong>. Let’s explore the <code>metadata</code> dataframe, shown below are the first six samples:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -625,8 +625,8 @@ sample6       KO    typeA         3</code></pre>
 </div>
 </div>
 <p>Unfortunately, there is no equivalent <code>$</code> syntax to select a row by name.</p>
-<section id="selecting-using-indices-with-logical-operators-1" class="level4" data-number="16.1.2.1">
-<h4 data-number="16.1.2.1" class="anchored" data-anchor-id="selecting-using-indices-with-logical-operators-1"><span class="header-section-number">16.1.2.1</span> Selecting using indices with logical operators</h4>
+<section id="selecting-using-indices-with-logical-operators-1" class="level4" data-number="17.1.2.1">
+<h4 data-number="17.1.2.1" class="anchored" data-anchor-id="selecting-using-indices-with-logical-operators-1"><span class="header-section-number">17.1.2.1</span> Selecting using indices with logical operators</h4>
 <p>With data frames, similar to vectors, we can use logical expressions to extract the rows or columns in the data frame with specific values. First, we need to determine the indices in a rows or columns where a logical expression is <code>TRUE</code>, then we can extract those rows or columns from the data frame.</p>
 <p>For example, if we want to return only those rows of the data frame with the <code>celltype</code> column having a value of <code>typeA</code>, we would perform two steps:</p>
 <ol type="1">
@@ -657,8 +657,8 @@ sample5       KO    typeA         2
 sample6       KO    typeA         3</code></pre>
 </div>
 </div>
-<section id="selecting-indices-with-logical-operators-using-the-which-function" class="level5" data-number="16.1.2.1.1">
-<h5 data-number="16.1.2.1.1" class="anchored" data-anchor-id="selecting-indices-with-logical-operators-using-the-which-function"><span class="header-section-number">16.1.2.1.1</span> Selecting indices with logical operators using the <code>which()</code> function</h5>
+<section id="selecting-indices-with-logical-operators-using-the-which-function" class="level5" data-number="17.1.2.1.1">
+<h5 data-number="17.1.2.1.1" class="anchored" data-anchor-id="selecting-indices-with-logical-operators-using-the-which-function"><span class="header-section-number">17.1.2.1.1</span> Selecting indices with logical operators using the <code>which()</code> function</h5>
 <p>As you might have guessed, we can also use the <code>which()</code> function to return the indices for which the logical expression is TRUE. For example, we can find the indices where the <code>celltype</code> is <code>typeA</code> within the <code>metadata</code> dataframe:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">which</span>(metadata<span class="sc">$</span>celltype <span class="sc">==</span> <span class="st">"typeA"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -729,7 +729,6 @@ sample12       KO    typeB         3</code></pre>
 </div>
 <hr>
 <p><strong>Exercises</strong></p>
-<p><strong>Exercises</strong></p>
 <div class="callout-note callout callout-style-simple no-icon callout-captioned">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -740,8 +739,22 @@ Basic
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><strong>Vectors</strong> 1. Create a vector called alphabets with the following letters, C, D, X, L, F. 2. Use the associated indices along with <code>[ ]</code> to do the following: - only display C, D and F - display all except X - display the letters in the opposite order (F, L, X, D, C)</p>
-<p><strong>Dataframes</strong> 1. Return a dataframe with only the <code>genotype</code> and <code>replicate</code> column values for <code>sample2</code> and <code>sample8</code>. 2. Return the fourth and ninth values of the <code>replicate</code> column. 3. Extract the <code>replicate</code> column as a data frame.</p>
+<p><strong>Vectors</strong></p>
+<ol type="1">
+<li><p>Create a vector called alphabets with the following letters, C, D, X, L, F.</p></li>
+<li><p>Use the associated indices along with <code>[ ]</code> to do the following:</p></li>
+</ol>
+<ul>
+<li>only display C, D and F</li>
+<li>display all except X</li>
+<li>display the letters in the opposite order (F, L, X, D, C)</li>
+</ul>
+<p><strong>Dataframes</strong></p>
+<ol type="1">
+<li><p>Return a dataframe with only the <code>genotype</code> and <code>replicate</code> column values for <code>sample2</code> and <code>sample8</code>.</p></li>
+<li><p>Return the fourth and ninth values of the <code>replicate</code> column.</p></li>
+<li><p>Extract the <code>replicate</code> column as a data frame.</p></li>
+</ol>
 </div>
 </div>
 <div class="callout-caution callout callout-style-simple no-icon callout-captioned">
@@ -770,8 +783,8 @@ Advanced
 </section>
 </section>
 </section>
-<section id="lists" class="level3" data-number="16.1.3">
-<h3 data-number="16.1.3" class="anchored" data-anchor-id="lists"><span class="header-section-number">16.1.3</span> Lists</h3>
+<section id="lists" class="level3" data-number="17.1.3">
+<h3 data-number="17.1.3" class="anchored" data-anchor-id="lists"><span class="header-section-number">17.1.3</span> Lists</h3>
 <p>Selecting components from a list requires a slightly different notation, even though in theory a list is a vector (that contains multiple data structures). To select a specific component of a list, you need to use double bracket notation <code>[[]]</code>. Let’s use the <code>list1</code> that we created previously, and index the second component.</p>
 <p>If you need to recreate <code>list1</code>, run the following code:</p>
 <div class="cell">
@@ -817,7 +830,7 @@ Advanced
 <p><strong>NOTE:</strong> Using the single bracket notation also works with lists. The difference is the class of the information that is retrieved. Using single bracket notation i.e.&nbsp;<code>list1[1]</code> will return the contents in a list form and <em>not the original data structure</em>. The benefit of this notation is that it allows indexing by vectors so you can access multiple components of the list at once.</p>
 </blockquote>
 <blockquote class="blockquote">
-<h3 id="an-r-package-for-data-wrangling" data-number="16.1.4" class="anchored"><span class="header-section-number">16.1.4</span> An R package for data wrangling</h3>
+<h3 id="an-r-package-for-data-wrangling" data-number="17.1.4" class="anchored"><span class="header-section-number">17.1.4</span> An R package for data wrangling</h3>
 <p>The methods presented above are using base R functions for data wrangling. Later we will explore the <strong>Tidyverse suite of packages</strong>, specifically designed to make data wrangling easier.</p>
 </blockquote>
 <hr>
@@ -963,13 +976,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../session3/session3.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Session 3</span>
+      <a href="../session3/count_data1.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Count Data</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="../session3/matching_reordering.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Matching and Reordering Data in R</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Matching and Reordering Data in R</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

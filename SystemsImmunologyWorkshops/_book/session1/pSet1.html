@@ -277,17 +277,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../session3/wrangling.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Data Wrangling</span></a>
+  <a href="../session3/count_data1.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Count Data</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../session3/matching_reordering.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Matching and Reordering Data in R</span></a>
+  <a href="../session3/wrangling.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Data Wrangling</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../session3/count_data1.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Count Data</span></a>
+  <a href="../session3/matching_reordering.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Matching and Reordering Data in R</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -414,7 +414,7 @@ Solution
 </section>
 <section id="problem-3" class="level2" data-number="8.3">
 <h2 data-number="8.3" class="anchored" data-anchor-id="problem-3"><span class="header-section-number">8.3</span> Problem 3</h2>
-<p>In the epitope example (<a href="#sec-epitope"><span class="quarto-unresolved-ref">sec-epitope</span></a>), use a simulation to find the probability of having a maximum of 9 or larger in 100 trials. How many simulations do you need if you would like to prove that “the probability is smaller than 0.000001”?</p>
+<p>In the epitope example (<a href="hypo_tests.html#sec-epitope"><span>Section&nbsp;5.1</span></a>), use a simulation to find the probability of having a maximum of 9 or larger in 100 trials. How many simulations do you need if you would like to prove that “the probability is smaller than 0.000001”?</p>
 <div class="callout-tip callout callout-style-default no-icon callout-captioned">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -437,7 +437,7 @@ Solution
 <div class="cell-output cell-output-stdout">
 <pre><code>maxes
     1     2     3     4     5     6     7     8 
-    8 23287 60587 14420  1550   137     9     2 </code></pre>
+    7 23347 60509 14385  1619   122    10     1 </code></pre>
 </div>
 </div>
 <p>However, most of the time we don’t even get a single 9! We need to increase the number of trials in order to see more extreme numbers:</p>
@@ -449,12 +449,12 @@ Solution
 <div class="cell-output cell-output-stdout">
 <pre><code>maxes
       1       2       3       4       5       6       7       8       9 
-    761 2345330 6046383 1436857  156284   13338     975      69       3 </code></pre>
+    792 2346064 6044147 1438199  156941   12872     925      57       3 </code></pre>
 </div>
 </div>
 <p>This calculation may take awhile to run. When running it I got 6 instances of 9 counts, so we can estimate the probability as: <span class="math inline">\(6/10000000 = 6\times 10^{-7}\)</span>. We can see that the lower-probability of an event we want to estimate, the more simulations we need to run and the more computational power we need.</p>
 <p>We would need at least a million runs in order to be able to estimate a probability of <span class="math inline">\(0.000001\)</span>, as <span class="math inline">\(1/0.000001 = 1000000\)</span>.</p>
-<p><strong>How you would caluclate things exactly</strong></p>
+<p><strong>How you would calculate things exactly</strong></p>
 <p>In the epitope example we were able to calculate the probability of a single assay having a count of at least 7 as:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">ppois</span>(<span class="dv">6</span>, <span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>

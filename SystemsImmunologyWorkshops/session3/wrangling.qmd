@@ -278,38 +278,38 @@ sub_meta <- metadata[which(metadata$replicate > 1), ]
 
 **Exercises**
 
-**Exercises**
-
 ::: {.callout-note appearance="simple" icon="false"}
 ## Basic
 
 **Vectors**
-1.  Create a vector called alphabets with the following letters, C, D, X, L, F.
-2.  Use the associated indices along with `[ ]` to do the following:
-    -   only display C, D and F
-    -   display all except X
-    -   display the letters in the opposite order (F, L, X, D, C)
-    
-**Dataframes**
-1.  Return a dataframe with only the `genotype` and `replicate` column values for `sample2` and `sample8`.
-2.  Return the fourth and ninth values of the `replicate` column.
-3.  Extract the `replicate` column as a data frame.
 
+1.  Create a vector called alphabets with the following letters, C, D, X, L, F.
+
+2.  Use the associated indices along with `[ ]` to do the following:
+
+-   only display C, D and F
+-   display all except X
+-   display the letters in the opposite order (F, L, X, D, C)
+
+**Dataframes**
+
+1.  Return a dataframe with only the `genotype` and `replicate` column values for `sample2` and `sample8`.
+
+2.  Return the fourth and ninth values of the `replicate` column.
+
+3.  Extract the `replicate` column as a data frame.
 :::
 
 ::: {.callout-caution appearance="simple" icon="false"}
 ## Advanced
 
-You find out that there may be a problem with your data. 
-The facility which processed your data contacted you to let you know that they discovered a potentially faulty reagent.
-They are concerned about all analyses which took place within a week (before or after) of January 9th. 
+You find out that there may be a problem with your data. The facility which processed your data contacted you to let you know that they discovered a potentially faulty reagent. They are concerned about all analyses which took place within a week (before or after) of January 9th.
 
-1. They provide the processing dates for all of your samples. They let you know that, starting on January 12th, they processed 1 sample per day in ascending order (you're not sure why they did things that way, you're definitely not working with these people again). Add a `date` column to the `metadata` dataframe with this information.
+1.  They provide the processing dates for all of your samples. They let you know that, starting on January 12th, they processed 1 sample per day in ascending order (you're not sure why they did things that way, you're definitely not working with these people again). Add a `date` column to the `metadata` dataframe with this information.
 
 *Hint: You can create a `date` object in R as the number of days from an origin date: `as.Date(2, origin = "1992-01-01")` becomes `"1970-01-03"`. Internally, dates in R are stored as the number of days since January 1, 1970. Which is the case for most programming languages.*
 
-2. Add another column to `metadata` called `contaminated` and have it indicate whether or not each sample was within the possible contamination range. 
-
+2.  Add another column to `metadata` called `contaminated` and have it indicate whether or not each sample was within the possible contamination range.
 :::
 
 > **NOTE:** There are easier methods for subsetting **dataframes** using logical expressions, including the `filter()` and the `subset()` functions. These functions will return the rows of the dataframe for which the logical expression is TRUE, allowing us to subset the data in a single step. We will explore the `filter()` function in more detail in a later lesson.

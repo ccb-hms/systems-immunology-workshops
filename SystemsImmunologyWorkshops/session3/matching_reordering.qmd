@@ -91,16 +91,6 @@ The `all` function is also useful. Given a logical vector, it will tell you whet
 all(A %in% B)
 ```
 
-------------------------------------------------------------------------
-
-**Exercise**
-
-1.  Using the `A` and `B` vectors created above, evaluate each element in `B` to see if there is a match in `A`
-
-2.  Subset the `B` vector to only return those values that are also in `A`.
-
-------------------------------------------------------------------------
-
 Suppose we had two vectors containing same values. How can we check **if those values are in the same order in each vector**? In this case, we can use `==` operator to compare each element of the same position from two vectors. The operator returns a logical vector indicating TRUE/FALSE at each position. Then we can use `all()` function to check if all values in the returned vector are TRUE. If all values are TRUE, we know that these two vectors are the same. Unlike `%in%` operator, `==` operator requires that **two vectors are of equal length**.
 
 ```{r}
@@ -145,7 +135,7 @@ all(x == y)
 ```
 
 
-\[**Exercise**\]
+**Exercise**
 
 ::: {.callout-note appearance="simple" icon="false"}
 ## Basic
@@ -169,7 +159,7 @@ important_genes <- c("ENSMUSG00000083700", "ENSMUSG00000080990", "ENSMUSG0000006
 ::: {.callout-caution appearance="simple" icon="false"}
 ## Advanced
 
-Using `important_genes` as defined above, check whether or not the genes which in the `rpkm_data` dataframe are in *the same order* as `important_genes`. 
+Using `important_genes` as defined above, check whether or not the genes which in the `rpkm_data` dataframe are in *the same order* as `important_genes`. Return a vector indicating, for each important gene in `important_genes`, whether or not its order rank is the same as it's order rank in `rpkm_data`, i.e. whether or not the second gene in `important_genes` is also the second important gene to appear in `rpkm_data`. 
 
 :::
 
@@ -337,7 +327,7 @@ gene_map <- getBM(filters= "ensembl_gene_id", attributes= c("ensembl_gene_id","m
 ::: {.callout-note appearance="simple" icon="false"}
 ## Basic
 
-1. Replace the current rownames in `rpkm_data` with their mapped gene symbol. 
+1. Try to replace the current rownames in `rpkm_data` with their mapped gene symbol. You may need to add a new column with the data instead. 
 
 2. Use the `match()` function to subset the `metadata` data frame so that the row names of the `metadata` data frame match the column names of the `subset_rpkm` data frame.
 :::

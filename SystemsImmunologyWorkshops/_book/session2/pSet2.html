@@ -277,17 +277,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../session3/wrangling.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Data Wrangling</span></a>
+  <a href="../session3/count_data1.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Count Data</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../session3/matching_reordering.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Matching and Reordering Data in R</span></a>
+  <a href="../session3/wrangling.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Data Wrangling</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../session3/count_data1.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Count Data</span></a>
+  <a href="../session3/matching_reordering.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Matching and Reordering Data in R</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -340,19 +340,43 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <section id="problem-1" class="level2" data-number="15.1">
 <h2 data-number="15.1" class="anchored" data-anchor-id="problem-1"><span class="header-section-number">15.1</span> Problem 1</h2>
 <p>Write a function to compute the probability of having a maximum as big as <code>m</code> when looking across <code>n</code> Poisson variables with rate <code>lambda</code>. Give these arguments default values in your function declaration.</p>
+<div class="callout-tip callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>maxPois <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">m =</span> <span class="dv">8</span>, <span class="at">n =</span> <span class="dv">100</span>, <span class="at">lambda =</span> <span class="fl">0.5</span>){</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="dv">1</span> <span class="sc">-</span> <span class="fu">ppois</span>(m<span class="dv">-1</span>, lambda)<span class="sc">^</span>n</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">maxPois</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 6.219672e-06</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
 </section>
 <section id="problem-2" class="level2" data-number="15.2">
 <h2 data-number="15.2" class="anchored" data-anchor-id="problem-2"><span class="header-section-number">15.2</span> Problem 2</h2>
 <p>Let’s answer a question about C. <em>elegans</em> genome nucleotide frequency: Is the mitochondrial sequence of C. <em>elegans</em> consistent with a model of equally likely nucleotides?</p>
 <p>Setup: This is our opportunity to use Bioconductor for the first time. Since Bioconductor’s package management is more tightly controlled than CRAN’s, we need to use a special install function (from the BiocManager package) to install Bioconductor packages.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">"BiocManager"</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">install.packages</span>(<span class="st">"BiocManager"</span>)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>BiocManager<span class="sc">::</span><span class="fu">install</span>(<span class="fu">c</span>(<span class="st">"Biostrings"</span>, <span class="st">"BSgenome.Celegans.UCSC.ce2"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">"BiocManager"</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">install.packages</span>(<span class="st">"BiocManager"</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>BiocManager<span class="sc">::</span><span class="fu">install</span>(<span class="fu">c</span>(<span class="st">"Biostrings"</span>, <span class="st">"BSgenome.Celegans.UCSC.ce2"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>After that, we can load the genome sequence package as we load any other R packages.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"BSgenome.Celegans.UCSC.ce2"</span>,<span class="at">quietly =</span> <span class="cn">TRUE</span> )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"BSgenome.Celegans.UCSC.ce2"</span>,<span class="at">quietly =</span> <span class="cn">TRUE</span> )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: package 'BSgenome' was built under R version 4.2.2</code></pre>
 </div>
@@ -411,7 +435,7 @@ Attaching package: 'Biostrings'</code></pre>
 
     strsplit</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>Celegans</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>Celegans</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Worm genome:
 # organism: Caenorhabditis elegans (Worm)
@@ -423,16 +447,16 @@ Attaching package: 'Biostrings'</code></pre>
 # (use 'seqnames()' to see all the sequence names, use the '$' or '[[' operator
 # to access a given sequence)</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">seqnames</span>(Celegans)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">seqnames</span>(Celegans)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "chrI"   "chrII"  "chrIII" "chrIV"  "chrV"   "chrX"   "chrM"  </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>Celegans<span class="sc">$</span>chrM</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>Celegans<span class="sc">$</span>chrM</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>13794-letter DNAString object
 seq: CAGTAAATAGTTTAATAAAAATATAGCATTTGGGTT...TATTTATAGATATATACTTTGTATATATCTATATTA</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(Celegans<span class="sc">$</span>chrM)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(Celegans<span class="sc">$</span>chrM)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "DNAString"
 attr(,"package")
@@ -441,9 +465,9 @@ attr(,"package")
 </div>
 <p>We can take advantage of the <code>Biostrings</code> library to get base counts:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"Biostrings"</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>lfM <span class="ot">=</span> <span class="fu">letterFrequency</span>(Celegans<span class="sc">$</span>chrM, <span class="at">letters=</span><span class="fu">c</span>(<span class="st">"A"</span>, <span class="st">"C"</span>, <span class="st">"G"</span>, <span class="st">"T"</span>))</span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>lfM</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"Biostrings"</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>lfM <span class="ot">=</span> <span class="fu">letterFrequency</span>(Celegans<span class="sc">$</span>chrM, <span class="at">letters=</span><span class="fu">c</span>(<span class="st">"A"</span>, <span class="st">"C"</span>, <span class="st">"G"</span>, <span class="st">"T"</span>))</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>lfM</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   A    C    G    T 
 4335 1225 2055 6179 </code></pre>
@@ -452,17 +476,118 @@ attr(,"package")
 <p>Test whether the C. elegans data is consistent with the uniform model (all nucleotide frequencies the same) using a simulation. For the purposes of this simulation, we can assume that all base pairs are independent from each other. Your solution should compute a simulated p-value based on <span class="math inline">\(10,000\)</span> simulations.</p>
 <p><em>Hint:</em> The multinomial distribution is similar to the binomial distribution but can model experiments with more than <span class="math inline">\(2\)</span> outcomes. For instance suppose we have 8 characters of four different, equally likely types:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>pvec <span class="ot">=</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">4</span>, <span class="dv">4</span>)</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">t</span>(<span class="fu">rmultinom</span>(<span class="dv">1</span>, <span class="at">prob =</span> pvec, <span class="at">size =</span> <span class="dv">8</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>pvec <span class="ot">=</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">4</span>, <span class="dv">4</span>)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">t</span>(<span class="fu">rmultinom</span>(<span class="dv">1</span>, <span class="at">prob =</span> pvec, <span class="at">size =</span> <span class="dv">8</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     [,1] [,2] [,3] [,4]
-[1,]    2    3    2    1</code></pre>
+[1,]    0    2    2    4</code></pre>
+</div>
+</div>
+<div class="callout-tip callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>We know that, for equal frequencies, we would expect each nucleotide to have an equal count.</p>
+<p>There are a few ways we could imagine explaining how different a set of counts is from a multinomial output. One way is to define a single test statistic which is the sum of the square difference in expected counts and real counts, scaled by the number of expected counts. This function calculates this sum based on the observed (<code>o</code>) and expected (<code>e</code>) counts.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>bases_stat <span class="ot">=</span> <span class="cf">function</span>(o, e) {</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sum</span>((o<span class="sc">-</span>e)<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> e)</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>obs <span class="ot">=</span> <span class="fu">bases_stat</span>(<span class="at">o =</span> lfM, <span class="at">e =</span> <span class="fu">length</span>(Celegans<span class="sc">$</span>chrM) <span class="sc">/</span> <span class="dv">4</span>)</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>obs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4386.634</code></pre>
+</div>
+</div>
+<p>This is essentially the average percent difference in our counts from the expected counts, squared so that we do not need to worry about positive versus negative differences.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>B <span class="ot">=</span> <span class="dv">10000</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">=</span> <span class="fu">length</span>(Celegans<span class="sc">$</span>chrM)</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>expected <span class="ot">=</span> <span class="fu">rep</span>(n <span class="sc">/</span> <span class="dv">4</span>, <span class="dv">4</span>)</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>oenull <span class="ot">=</span> <span class="fu">replicate</span>(B, <span class="fu">bases_stat</span>(<span class="at">e =</span> expected, <span class="at">o =</span> <span class="fu">rmultinom</span>(<span class="dv">1</span>, n, <span class="at">p =</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">4</span>, <span class="dv">4</span>))))</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>observed <span class="ot">&lt;-</span> <span class="fu">bases_stat</span>(lfM, expected)</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a><span class="fu">max</span>(oenull)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 20.01711</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>sim_p <span class="ot">&lt;-</span> <span class="fu">sum</span>(oenull <span class="sc">&gt;</span> observed)<span class="sc">/</span>B</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>sim_p</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0</code></pre>
+</div>
+</div>
+</div>
 </div>
 </div>
 </section>
 <section id="problem-3" class="level2" data-number="15.3">
 <h2 data-number="15.3" class="anchored" data-anchor-id="problem-3"><span class="header-section-number">15.3</span> Problem 3</h2>
 <p>Instead of testing across the entire mitochondria, let’s now see if we can find certain nucleotides being enriched locally. To do this, split up the mitochondrial sequence into 100 base pair chunks, and perform your test from problem <span class="math inline">\(3\)</span> on each chunk. Perform a multiple hypothesis correction at an FDR of <span class="math inline">\(0.01\)</span>.</p>
+<div class="callout-tip callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>First we need to split the chromosome into 100bp chunks. We can use the <code>substring</code> and <code>seq</code> functions to do this.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>chunks <span class="ot">&lt;-</span> <span class="fu">substring</span>(<span class="fu">as.character</span>(Celegans<span class="sc">$</span>chrM), <span class="fu">seq</span>(<span class="dv">1</span>, n, <span class="dv">100</span>), <span class="fu">seq</span>(<span class="dv">100</span>, n, <span class="dv">100</span>))</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="co">#We get an empty string as the last chunk, remove it</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>chunks <span class="ot">&lt;-</span> chunks[<span class="sc">-</span><span class="fu">length</span>(chunks)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now we define a function with the test we performed above.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>uniform_test <span class="ot">&lt;-</span> <span class="cf">function</span>(seq_int){</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  B <span class="ot">&lt;-</span> <span class="dv">10000</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  seq_int <span class="ot">&lt;-</span> <span class="fu">DNAString</span>(seq_int)</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> <span class="fu">length</span>(seq_int)</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>  <span class="co">#We need to remake the chunk into a biostrings DNAString object</span></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>  lfM <span class="ot">&lt;-</span> <span class="fu">letterFrequency</span>(seq_int, <span class="at">letters=</span><span class="fu">c</span>(<span class="st">"A"</span>, <span class="st">"C"</span>, <span class="st">"G"</span>, <span class="st">"T"</span>))</span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>  expected <span class="ot">&lt;-</span> <span class="fu">rep</span>(n <span class="sc">/</span> <span class="dv">4</span>, <span class="dv">4</span>)</span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>  oenull <span class="ot">&lt;-</span> <span class="fu">replicate</span>(B, <span class="fu">bases_stat</span>(<span class="at">e =</span> expected, <span class="at">o =</span> <span class="fu">rmultinom</span>(<span class="dv">1</span>, n, <span class="at">p =</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">4</span>, <span class="dv">4</span>))))</span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>  observed <span class="ot">&lt;-</span> <span class="fu">bases_stat</span>(lfM, expected)</span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>  sim_p <span class="ot">&lt;-</span> <span class="fu">sum</span>(oenull <span class="sc">&gt;</span> observed)<span class="sc">/</span>B</span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(sim_p)</span>
+<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Finally we apply the test to all the chunks and correct the simulation-derived p values.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">sapply</span>(chunks, uniform_test)</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">p.adjust</span>(result, <span class="at">method =</span> <span class="st">"fdr"</span>)</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">sort</span>(result, <span class="at">decreasing =</span> <span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>CTTTTAACAGCTTTTACTAAAAGAGCACAATTTCCATTTAGATCTTGGTTACCCAAAGCTATAAGAGCCCCCACACCGGTGAGGTCTTTGGTTCATAGTA 
+                                                                                         0.184100000 
+AATTTTAGATGCTTGTTTTGTAGATATAGGTTGTGGGACTAGGTGAACAGTCTACCCACCTTTAAGAACAATGGGGCACCCTGGAAGTAGAGTAGATTTA 
+                                                                                         0.072730882 
+TTTTATTGTTCAAAGAATCGCTTTTATTACTCTATATGAGCGTCATTTATTGGGAAGAAGACAAAATCGTCTAGGGCCCACCAAGGTTACATTTATGGGA 
+                                                                                         0.038055556 
+GCTTTATATTAAAGCTGGCTTCTGCCCTATGATATTTAAATGGCAGTCTTAGCGTGAGGACATTAAGGTAGCAAAATAATTTGTGCTTTTATTGAGTTCC 
+                                                                                         0.012370896 
+TAATTATAGTAATTGCTGAACTTAACCGGGCGCCATTTGATTTTTCTGAAGGTGAAAGGGAGTTAGTTAGAGGATTTAATGTGGAGTTTGCCAGAGTAGC 
+                                                                                         0.011330827 
+ATCTTAGTTGATATAGCATAAGAAGTGCATTTGTTTTAAGCGCAAAAGATATCCGTCAACTAACGAGTTCATAAAGCAAGTCTTCTAAATTTGTTCTAGG 
+                                                                                         0.008718182 </code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
 <hr>
 <p><em>The materials in this lesson have been adapted from:</em> <a href="https://www.huber.embl.de/msmb/"><em>Modern Statistics for Modern Biology</em></a> <em>by Susan Holmes and Wolfgang Huber. This work is distributed under the terms of the <a href="https://creativecommons.org/licenses/by-nc-sa/2.0/">Attribution-NonCommercial-ShareAlike 2.0 Generic</a> (CC BY-NC-SA 2.0), which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited, the material is used for noncommercial purposes, and the same license is used for any derivative material.</em></p>
 

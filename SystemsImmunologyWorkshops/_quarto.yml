@@ -30,9 +30,9 @@ book:
         - session2/pSet2.qmd
     - part: session3/session3.qmd
       chapters:
+        - session3/count_data1.qmd
         - session3/wrangling.qmd
         - session3/matching_reordering.qmd
-        - session3/count_data1.qmd
         - session3/tidyverse.qmd
         - session3/pSet3.qmd
     # - part: session4/session4.qmd

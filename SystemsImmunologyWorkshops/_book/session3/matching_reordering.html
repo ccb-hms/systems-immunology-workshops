@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Systems Immunology Workshops - 17&nbsp; Matching and Reordering Data in R</title>
+<title>Systems Immunology Workshops - 18&nbsp; Matching and Reordering Data in R</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -93,7 +93,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../session3/count_data1.html" rel="next">
+<link href="../session3/tidyverse.html" rel="next">
 <link href="../session3/wrangling.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
@@ -133,7 +133,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Matching and Reordering Data in R</span></h1>
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Matching and Reordering Data in R</span></h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -276,17 +276,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../session3/wrangling.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Data Wrangling</span></a>
+  <a href="../session3/count_data1.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Count Data</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../session3/matching_reordering.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Matching and Reordering Data in R</span></a>
+  <a href="../session3/wrangling.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Data Wrangling</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../session3/count_data1.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Count Data</span></a>
+  <a href="../session3/matching_reordering.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Matching and Reordering Data in R</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -310,11 +310,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#logical-operators-for-identifying-matching-elements" id="toc-logical-operators-for-identifying-matching-elements" class="nav-link active" data-scroll-target="#logical-operators-for-identifying-matching-elements"><span class="toc-section-number">17.1</span>  Logical operators for identifying matching elements</a></li>
-  <li><a href="#the-in-operator" id="toc-the-in-operator" class="nav-link" data-scroll-target="#the-in-operator"><span class="toc-section-number">17.2</span>  The <code>%in%</code> operator</a></li>
-  <li><a href="#reordering-data-using-match" id="toc-reordering-data-using-match" class="nav-link" data-scroll-target="#reordering-data-using-match"><span class="toc-section-number">17.3</span>  Reordering data using <code>match</code></a>
+  <li><a href="#logical-operators-for-identifying-matching-elements" id="toc-logical-operators-for-identifying-matching-elements" class="nav-link active" data-scroll-target="#logical-operators-for-identifying-matching-elements"><span class="toc-section-number">18.1</span>  Logical operators for identifying matching elements</a></li>
+  <li><a href="#the-in-operator" id="toc-the-in-operator" class="nav-link" data-scroll-target="#the-in-operator"><span class="toc-section-number">18.2</span>  The <code>%in%</code> operator</a></li>
+  <li><a href="#reordering-data-using-match" id="toc-reordering-data-using-match" class="nav-link" data-scroll-target="#reordering-data-using-match"><span class="toc-section-number">18.3</span>  Reordering data using <code>match</code></a>
   <ul class="collapse">
-  <li><a href="#reordering-genomic-data-using-match-function" id="toc-reordering-genomic-data-using-match-function" class="nav-link" data-scroll-target="#reordering-genomic-data-using-match-function"><span class="toc-section-number">17.3.1</span>  Reordering genomic data using <code>match()</code> function</a></li>
+  <li><a href="#reordering-genomic-data-using-match-function" id="toc-reordering-genomic-data-using-match-function" class="nav-link" data-scroll-target="#reordering-genomic-data-using-match-function"><span class="toc-section-number">18.3.1</span>  Reordering genomic data using <code>match()</code> function</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -324,7 +324,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Matching and Reordering Data in R</span></h1>
+<h1 class="title d-none d-lg-block"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Matching and Reordering Data in R</span></h1>
 </div>
 
 
@@ -339,8 +339,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header>
 
-<section id="logical-operators-for-identifying-matching-elements" class="level2" data-number="17.1">
-<h2 data-number="17.1" class="anchored" data-anchor-id="logical-operators-for-identifying-matching-elements"><span class="header-section-number">17.1</span> Logical operators for identifying matching elements</h2>
+<section id="logical-operators-for-identifying-matching-elements" class="level2" data-number="18.1">
+<h2 data-number="18.1" class="anchored" data-anchor-id="logical-operators-for-identifying-matching-elements"><span class="header-section-number">18.1</span> Logical operators for identifying matching elements</h2>
 <p>Oftentimes, we encounter different analysis tools that require multiple input datasets. It is not uncommon for these inputs to need to have the same row names, column names, or unique identifiers in the same order to perform the analysis. Therefore, knowing how to reorder datasets and determine whether the data matches is an important skill.</p>
 <p>In our use case, we will be working with genomic data. We have gene expression data generated by RNA-seq; in addition, we have a metadata file corresponding to the RNA-seq samples. The metadata contains information about the samples present in the gene expression file, such as which sample group each sample belongs to and any batch or experimental variables present in the data.</p>
 <p>Let’s read in some gene expression data (RPKM matrix):</p>
@@ -391,8 +391,8 @@ ENSMUSG00000000049  0.2567330</code></pre>
 </div>
 <p>What we want to know is, <strong>do we have data for every sample that we have metadata?</strong></p>
 </section>
-<section id="the-in-operator" class="level2" data-number="17.2">
-<h2 data-number="17.2" class="anchored" data-anchor-id="the-in-operator"><span class="header-section-number">17.2</span> The <code>%in%</code> operator</h2>
+<section id="the-in-operator" class="level2" data-number="18.2">
+<h2 data-number="18.2" class="anchored" data-anchor-id="the-in-operator"><span class="header-section-number">18.2</span> The <code>%in%</code> operator</h2>
 <p>Although lacking in <a href="http://dr-k-lo.blogspot.com/2013/11/">documentation</a>, this operator is well-used and convenient once you get the hang of it. The operator is used with the following syntax:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>vector1 <span class="sc">%in%</span> vector2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>It will take each element from vector1 as input, one at a time, and <strong>evaluate if the element is present in vector2.</strong> <em>The two vectors do not have to be the same size.</em> This operation will return a vector containing logical values to indicate whether or not there is a match. The new vector will be of the same length as vector1. Take a look at the example below:</p>
@@ -465,13 +465,6 @@ ENSMUSG00000000049  0.2567330</code></pre>
 <pre><code>[1] FALSE</code></pre>
 </div>
 </div>
-<hr>
-<p><strong>Exercise</strong></p>
-<ol type="1">
-<li><p>Using the <code>A</code> and <code>B</code> vectors created above, evaluate each element in <code>B</code> to see if there is a match in <code>A</code></p></li>
-<li><p>Subset the <code>B</code> vector to only return those values that are also in <code>A</code>.</p></li>
-</ol>
-<hr>
 <p>Suppose we had two vectors containing same values. How can we check <strong>if those values are in the same order in each vector</strong>? In this case, we can use <code>==</code> operator to compare each element of the same position from two vectors. The operator returns a logical vector indicating TRUE/FALSE at each position. Then we can use <code>all()</code> function to check if all values in the returned vector are TRUE. If all values are TRUE, we know that these two vectors are the same. Unlike <code>%in%</code> operator, <code>==</code> operator requires that <strong>two vectors are of equal length</strong>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">10</span>,<span class="dv">20</span>,<span class="dv">30</span>,<span class="dv">40</span>,<span class="dv">50</span>)</span>
@@ -523,7 +516,7 @@ ENSMUSG00000000049  0.2567330</code></pre>
 <pre><code>[1] FALSE</code></pre>
 </div>
 </div>
-<p>[<strong>Exercise</strong>]</p>
+<p><strong>Exercise</strong></p>
 <div class="callout-note callout callout-style-simple no-icon callout-captioned">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -556,7 +549,7 @@ Advanced
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Using <code>important_genes</code> as defined above, check whether or not the genes which in the <code>rpkm_data</code> dataframe are in <em>the same order</em> as <code>important_genes</code>.</p>
+<p>Using <code>important_genes</code> as defined above, check whether or not the genes which in the <code>rpkm_data</code> dataframe are in <em>the same order</em> as <code>important_genes</code>. Return a vector indicating, for each important gene in <code>important_genes</code>, whether or not its order rank is the same as it’s order rank in <code>rpkm_data</code>, i.e.&nbsp;whether or not the second gene in <code>important_genes</code> is also the second important gene to appear in <code>rpkm_data</code>.</p>
 </div>
 </div>
 <div class="callout-important callout callout-style-simple no-icon callout-captioned">
@@ -579,8 +572,8 @@ Challenge
 </div>
 </div>
 </section>
-<section id="reordering-data-using-match" class="level2" data-number="17.3">
-<h2 data-number="17.3" class="anchored" data-anchor-id="reordering-data-using-match"><span class="header-section-number">17.3</span> Reordering data using <code>match</code></h2>
+<section id="reordering-data-using-match" class="level2" data-number="18.3">
+<h2 data-number="18.3" class="anchored" data-anchor-id="reordering-data-using-match"><span class="header-section-number">18.3</span> Reordering data using <code>match</code></h2>
 <p>We can use the <code>match()</code> function to match the values in two vectors. We’ll be using it to evaluate which values are present in both vectors, and how to reorder the elements to make the values match.</p>
 <p>match() takes 2 arguments. The first argument is a vector of values in the order you want, while the second argument is the vector of values to be reordered such that it will match the first:</p>
 <ol type="1">
@@ -650,8 +643,8 @@ Challenge
 <pre><code>[1] "A" "B" NA  "D" NA </code></pre>
 </div>
 </div>
-<section id="reordering-genomic-data-using-match-function" class="level3" data-number="17.3.1">
-<h3 data-number="17.3.1" class="anchored" data-anchor-id="reordering-genomic-data-using-match-function"><span class="header-section-number">17.3.1</span> Reordering genomic data using <code>match()</code> function</h3>
+<section id="reordering-genomic-data-using-match-function" class="level3" data-number="18.3.1">
+<h3 data-number="18.3.1" class="anchored" data-anchor-id="reordering-genomic-data-using-match-function"><span class="header-section-number">18.3.1</span> Reordering genomic data using <code>match()</code> function</h3>
 <p>While the input to the <code>match()</code> function is always going to be to vectors, often we need to use these vectors to reorder the rows or columns of a data frame to match the rows or columns of another dataframe. Let’s explore how to do this with our use case featuring RNA-seq data. To perform differential gene expression analysis, we have a data frame with the expression data or counts for every sample and another data frame with the information about to which condition each sample belongs. For the tools doing the analysis, the samples in the counts data, which are the column names, need to be the same and in the same order as the samples in the metadata data frame, which are the rownames.</p>
 <p>We can take a look at these samples in each dataset by using the <code>rownames()</code> and <code>colnames()</code> functions.</p>
 <div class="cell">
@@ -758,7 +751,7 @@ Basic
 </div>
 <div class="callout-body-container callout-body">
 <ol type="1">
-<li><p>Replace the current rownames in <code>rpkm_data</code> with their mapped gene symbol.</p></li>
+<li><p>Try to replace the current rownames in <code>rpkm_data</code> with their mapped gene symbol. You may need to add a new column with the data instead.</p></li>
 <li><p>Use the <code>match()</code> function to subset the <code>metadata</code> data frame so that the row names of the <code>metadata</code> data frame match the column names of the <code>subset_rpkm</code> data frame.</p></li>
 </ol>
 </div>
@@ -933,12 +926,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="../session3/wrangling.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Data Wrangling</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Data Wrangling</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../session3/count_data1.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Count Data</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../session3/tidyverse.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Tidyverse</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
