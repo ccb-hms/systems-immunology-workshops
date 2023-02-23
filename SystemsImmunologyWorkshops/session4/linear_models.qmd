@@ -1,5 +1,9 @@
 # Linear Models
 
+This chapter provides some background on linear models in R. You can mostly consider this reference material. 
+
+The most important thing to note is the **design matrix**, as many biological analyses in R use a similar notation to setup their pipelines. 
+
 ## Returning to count data
 
 ```{r}

@@ -1,0 +1,4 @@
+# Problem Set 5
+
+# Problem 1
+The experimental data package [fission](https://bioconductor.org/packages/fission) stores time course RNA-seq data studying the stress response in fission yeast. Conduct a differential expression analysis with `DESeq2` between the mutant and the wild type strain, using time as a covariate. How many genes are differentially expressed, based on an adjusted significance level of 0.05? Inspect the results with a volcano plot and an MA plot.

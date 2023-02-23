@@ -1,0 +1,84 @@
+# Differential expression analysis with DESeq2
+
+A basic task in the analysis of RNA-seq count data is the detection of differentially expressed genes. The count data are presented as a table which reports, for each sample, the number of sequence fragments that have been assigned to each gene. An important analysis question is the quantification and statistical inference of systematic changes between conditions, as compared to within-condition variability.
+
+We start by loading the [DESeq2](https://bioconductor.org/packages/DESeq2) package, a very popular method for analysing differential expression of bulk RNA-seq data.
+
+```{r, message=FALSE}
+library("DESeq2")
+```
+
+[DESeq2](https://bioconductor.org/packages/DESeq2) requires count data like that in the `SummarizedExperiment` we have been working with.
+
+The [airway](https://bioconductor.org/packages/airway) experimental data package contains an example dataset from an RNA-Seq experiment of read counts per gene for airway smooth muscles. These data are stored in a `RangedSummarizedExperiment` object which contains 8 different experimental samples and assays 64,102 gene transcripts.
+
+```{r, message=FALSE}
+library(airway)
+data(airway)
+se <- airway
+se
+rowRanges(se)
+colData(se)
+```
+
+The package requires count data like that in the `SummarizedExperiment` we have been working with, in addition to a `formula` describing the experimental design. We use the cell line as a covariate, and dexamethazone treatment as the main factor that we are interested in.
+
+```{r}
+dds <- DESeqDataSet(se, design = ~ cell + dex)
+dds
+```
+
+The `dds` object can be manipulated very much like a `SummarizedExperiment` (in fact: it *is* a `SummarizedExperiment`).
+
+There are two reasons which make pre-filtering useful: by removing genes with only few reads across samples, we reduce the size of the `dds` data object, and thus increase the speed of the transformation and testing functions within DESeq2.
+
+Here we perform a minimal pre-filtering to keep only rows that have at least 10 reads total.
+
+```{r}
+keep <- rowSums(counts(dds)) >= 4
+table(keep)
+dds <- dds[keep,]
+```
+
+The DESeq workflow is summarized by a single function call, which performs statistical analysis on the data in the `dds` object.
+
+```{r}
+dds <- DESeq(dds)
+```
+
+A table summarizing measures of differential expression can be extracted from the object, and visualized or manipulated using commands we learned earlier.
+
+```{r}
+res <- results(dds)
+res
+```
+
+**Task**:
+
+Use the `contrast` argument of the `results` function to compare `trt` vs. `untrt` groups instead of `untrt` vs. `trt` (changes the direction of the fold change).
+
+## Volcano plot
+
+A useful illustration of differential expression results is to plot the fold change against the *p*-value in a volcano plot. This allows to inspect direction and magnitude (fold change) as well as the statistical significance (*p*-value) of the expression change.
+
+```{r, message = FALSE}
+library(ggplot2)
+ggplot(as.data.frame(res), 
+       aes(x = log2FoldChange, y = -log10(padj))) + geom_point()
+```
+
+**Task**:
+
+Add an horizontal line at an adjusted significance level of 0.05, and two vertical lines at a log2 fold change threshold of -1 and 1. How to interpret genes in the different areas of the plot?
+
+## MA plot
+
+Another useful illustration of differential expression results is to plot the fold changes as a function of the mean of the expression level (normalized counts) across samples in an MA plot.
+
+Points will be colored if the adjusted *p*-value is less than a defined significance threshold (default: 0.1). Points which fall out of the window are plotted as open triangles pointing either up or down.
+
+```{r}
+plotMA(res)
+```
+
+The [DESeq2](https://bioconductor.org/packages/DESeq2) vignette also describes several other useful result exploration and data quality assessment plots.
