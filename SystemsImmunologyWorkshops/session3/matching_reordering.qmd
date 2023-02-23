@@ -134,7 +134,6 @@ x == y
 all(x == y)
 ```
 
-
 **Exercise**
 
 ::: {.callout-note appearance="simple" icon="false"}
@@ -152,34 +151,70 @@ important_genes <- c("ENSMUSG00000083700", "ENSMUSG00000080990", "ENSMUSG0000006
 
 2.  Extract the rows from `rpkm_data` that correspond to these 6 genes using `[]` and the `%in%` operator. Double check the row names to ensure that you are extracting the correct rows.
 
-3. Extract the rows from `rpkm_data` that correspond to these 6 genes using `[]`, but without using the `%in%` operator. 
+3.  Extract the rows from `rpkm_data` that correspond to these 6 genes using `[]`, but without using the `%in%` operator.
+:::
 
+::: {.callout-tip icon="false" collapse="true"}
+## Solution
+
+```{r}
+#1
+important_genes %in% rownames(rpkm_data)
+
+#2
+idx <- rownames(rpkm_data) %in% important_genes
+ans <- rpkm_data[idx, ]
+idx2 <- which(rownames(rpkm_data) %in% important_genes)
+ans2 <- rpkm_data[idx2, ]
+
+#3.
+ans3 <- rpkm_data[important_genes, ]
+```
 :::
 
 ::: {.callout-caution appearance="simple" icon="false"}
 ## Advanced
 
-Using `important_genes` as defined above, check whether or not the genes which in the `rpkm_data` dataframe are in *the same order* as `important_genes`. Return a vector indicating, for each important gene in `important_genes`, whether or not its order rank is the same as it's order rank in `rpkm_data`, i.e. whether or not the second gene in `important_genes` is also the second important gene to appear in `rpkm_data`. 
+Using `important_genes` as defined above, check whether or not the genes which in the `rpkm_data` dataframe are in *the same order* as `important_genes`. Return a vector indicating, for each important gene in `important_genes`, whether or not its order rank is the same as it's order rank in `rpkm_data`, i.e. whether or not the second gene in `important_genes` is also the second important gene to appear in `rpkm_data`.
+:::
 
+::: {.callout-tip icon="false" collapse="true"}
+## Solution
+
+```{r}
+#This is actually very simple to do, given the basic solutions
+rownames(ans2) == rownames(ans3)
+```
 :::
 
 ::: {.callout-important appearance="simple" icon="false"}
 ## Challenge
 
-You are already upset with your collaborator for giving you data which uses Ensembl IDs as identifiers (we will convert these IDs soon).
-They then write down 2 genes of interest for you to look for in the dataset before leaving on vacation. 
+You are already upset with your collaborator for giving you data which uses Ensembl IDs as identifiers (we will convert these IDs soon). They then write down 2 genes of interest for you to look for in the dataset before leaving on vacation.
 
-When you look at the gene list a few days later, you realize you cannot make out some of their handwriting. 
-You decipher what you can, but realize there are some digits you simply cannot interpret. 
+When you look at the gene list a few days later, you realize you cannot make out some of their handwriting. You decipher what you can, but realize there are some digits you simply cannot interpret.
 
 ```{r}
 collaborator_genes <- c("ENSMUSG00000081**0", "ENSMUSG00000030*7*")
 ```
 
-Find all genes in `rpkm_data` which match these two identifiers, where `*` could be replaced with any single 0-9 digit. 
+Find all genes in `rpkm_data` which match these two identifiers, where `*` could be replaced with any single 0-9 digit.
 
 *Hint: You'll probably want to use something like [grep](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/grep), which can pattern match based on [regular expressions](https://cran.r-project.org/web/packages/stringr/vignettes/regular-expressions.html). You can make sure you have the right regular expression [regular here](https://regexlearn.com/playground?id=63ec345438ebd467bfb0ac1e)*
+:::
 
+::: {.callout-tip icon="false" collapse="true"}
+## Solution
+
+```{r}
+regexes <- c("ENSMUSG00000081\\d\\d0", "ENSMUSG00000030\\d7\\d")
+rpkm_data[grep(regexes[1], rownames(rpkm_data)),]
+rpkm_data[grep(regexes[2], rownames(rpkm_data)),]
+
+#Another way yo do things using do.call, rbind, and lapply 
+get_fuzzygene <- function(x){rpkm_data[grep(x, rownames(rpkm_data)),]}
+ans4 <- do.call(rbind, lapply(regexes,get_fuzzygene))
+```
 :::
 
 ## Reordering data using `match`
@@ -304,7 +339,7 @@ Now that our samples are ordered the same in our metadata and counts data, **if 
 
 ------------------------------------------------------------------------
 
-**Exercises**
+**Exercises: Adding data from biomaRt**
 
 Let's convert these ensembl ID's into gene symbols. There are a number of ways to do this in R, but we will be using the `biomaRt` package. [BiomaRt](https://useast.ensembl.org/info/data/biomart/biomart_r_package.html) lets us easily map a variety of biological identifiers and choose a data source or 'mart'. We can see a list of available dataset.
 
@@ -316,8 +351,7 @@ ensembl = useEnsembl(biomart="ensembl",version=109)
 listDatasets(ensembl)[100:110,]
 ```
 
-We want to convert ensembl gene ID's into MGI gene symbols. 
-We can use the `getBM` function to get a dataframe of our mapped identifiers. 
+We want to convert ensembl gene ID's into MGI gene symbols. We can use the `getBM` function to get a dataframe of our mapped identifiers.
 
 ```{r}
 ensembl = useEnsembl(biomart="ensembl", dataset="mmusculus_gene_ensembl")
@@ -327,25 +361,25 @@ gene_map <- getBM(filters= "ensembl_gene_id", attributes= c("ensembl_gene_id","m
 ::: {.callout-note appearance="simple" icon="false"}
 ## Basic
 
-1. Try to replace the current rownames in `rpkm_data` with their mapped gene symbol. You may need to add a new column with the data instead. 
+1.  Try to replace the current rownames in `rpkm_data` with their mapped gene symbol. You may need to add a new column with the data instead.
 
-2. Use the `match()` function to subset the `metadata` data frame so that the row names of the `metadata` data frame match the column names of the `subset_rpkm` data frame.
+2.  Use the `match()` function to subset the `metadata` data frame so that the row names of the `metadata` data frame match the column names of the `subset_rpkm` data frame.
 :::
 
 ::: {.callout-caution appearance="simple" icon="false"}
 ## Advanced
 
-We can use the `listAttributes()` and `listFilters()` functions to see what other information we can get using `getBM`. 
-Choose another piece of data to add to `rpkm_data`. 
-
+We can use the `listAttributes()` and `listFilters()` functions to see what other information we can get using `getBM`. Choose another piece of data to add to `rpkm_data`.
 :::
 
 ::: {.callout-important appearance="simple" icon="false"}
 ## Challenge
 
-Use `getBM` to find all genes on chromosomes 2, 6, or 9. Create another dataframe only containing these genes. 
-
+Use `getBM` to find all genes on chromosomes 2, 6, or 9. Create another dataframe only containing these genes.
 :::
+
+
+
 
 ------------------------------------------------------------------------
 

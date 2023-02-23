@@ -299,6 +299,26 @@ sub_meta <- metadata[which(metadata$replicate > 1), ]
 
 3.  Extract the `replicate` column as a data frame.
 :::
+::: {.callout-tip icon="false" collapse="true"}
+## Solution
+
+```{r}
+#Vectors 
+#1
+v <- c("C","D","X","L","F")
+
+#2
+v[c(1,2,5)]
+v[-3]
+v[5:1]
+
+#Dataframes
+metadata[c(2,8),c(1,3)]
+metadata$replicate[c(4,9)]
+metadata[, 3, drop=FALSE]
+```
+:::
+
 
 ::: {.callout-caution appearance="simple" icon="false"}
 ## Advanced
@@ -311,7 +331,15 @@ You find out that there may be a problem with your data. The facility which proc
 
 2.  Add another column to `metadata` called `contaminated` and have it indicate whether or not each sample was within the possible contamination range.
 :::
+::: {.callout-tip icon="false" collapse="true"}
+## Solution
 
+```{r}
+dvec <- as.Date(0:11, origin = "2023-01-12")
+metadata$date <- dvec
+metadata$contaminated <- metadata$date < as.Date(7, origin = "2023-01-9")
+```
+:::
 > **NOTE:** There are easier methods for subsetting **dataframes** using logical expressions, including the `filter()` and the `subset()` functions. These functions will return the rows of the dataframe for which the logical expression is TRUE, allowing us to subset the data in a single step. We will explore the `filter()` function in more detail in a later lesson.
 
 ### Lists

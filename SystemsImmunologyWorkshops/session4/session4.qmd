@@ -7,3 +7,12 @@
 -   Explore analysis-specific common plots such as volcano plots, heatmaps, clustergrams, networks, and set enrichment visualizations.
 -   Define R data structures.
 -   Use SummarizedExperiment objects.
+
+## Directions for Feb. 24
+
+For today please:
+
+1.  Go through the final exercise, **Adding data from biomaRt** , in the **Matching and Reordering Data in R** lesson from Session 3.
+2.  Go through the session 4 chapters in the order they appear. Complete the ggplot2 exercises.
+3.  If there is time, look through the **Tidyverse** lesson from session 3. Code to plot the enrichment results has been added.
+4.  Begin problem set 4.

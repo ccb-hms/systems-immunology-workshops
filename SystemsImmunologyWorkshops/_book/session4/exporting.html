@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Systems Immunology Workshops - 22&nbsp; Saving Data and Figures in R</title>
+<title>Systems Immunology Workshops - 23&nbsp; Saving Data and Figures in R</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -93,7 +93,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../session4/linear_models.html" rel="next">
+<link href="../session4/other_plots.html" rel="next">
 <link href="../session4/ggplot.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
@@ -133,7 +133,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Saving Data and Figures in R</span></h1>
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Saving Data and Figures in R</span></h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -311,22 +311,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../session4/ggplot.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Data Visualization in R</span></a>
+  <a href="../session4/linear_models.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Linear Models</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../session4/exporting.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Saving Data and Figures in R</span></a>
+  <a href="../session4/ggplot.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Data Visualization in R</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../session4/linear_models.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Linear Models</span></a>
+  <a href="../session4/exporting.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Saving Data and Figures in R</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../session4/other_plots.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Common visualizations in biological analyses</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../session4/pSet4.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Problem Set 4</span></a>
   </div>
 </li>
       </ul>
@@ -341,7 +346,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../resources/git.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Getting Started with Git &amp; Github</span></a>
+  <a href="../resources/git.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Getting Started with Git &amp; Github</span></a>
   </div>
 </li>
       </ul>
@@ -355,8 +360,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#writing-data-to-file" id="toc-writing-data-to-file" class="nav-link active" data-scroll-target="#writing-data-to-file"><span class="toc-section-number">22.1</span>  Writing data to file</a></li>
-  <li><a href="#exporting-figures-to-file" id="toc-exporting-figures-to-file" class="nav-link" data-scroll-target="#exporting-figures-to-file"><span class="toc-section-number">22.2</span>  Exporting figures to file</a></li>
+  <li><a href="#writing-data-to-file" id="toc-writing-data-to-file" class="nav-link active" data-scroll-target="#writing-data-to-file"><span class="toc-section-number">23.1</span>  Writing data to file</a></li>
+  <li><a href="#exporting-figures-to-file" id="toc-exporting-figures-to-file" class="nav-link" data-scroll-target="#exporting-figures-to-file"><span class="toc-section-number">23.2</span>  Exporting figures to file</a></li>
   </ul>
 </nav>
     </div>
@@ -365,7 +370,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Saving Data and Figures in R</span></h1>
+<h1 class="title d-none d-lg-block"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Saving Data and Figures in R</span></h1>
 </div>
 
 
@@ -380,8 +385,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header>
 
-<section id="writing-data-to-file" class="level2" data-number="22.1">
-<h2 data-number="22.1" class="anchored" data-anchor-id="writing-data-to-file"><span class="header-section-number">22.1</span> Writing data to file</h2>
+<section id="writing-data-to-file" class="level2" data-number="23.1">
+<h2 data-number="23.1" class="anchored" data-anchor-id="writing-data-to-file"><span class="header-section-number">23.1</span> Writing data to file</h2>
 <p>Everything we have done so far has only modified the data in R; the files have remained unchanged. Whenever we want to save our datasets to file, we need to use a <code>write</code> function in R.</p>
 <p>To write our matrix to file in comma separated format (.csv), we can use the <code>write.csv</code> function. There are two required arguments: the variable name of the data structure you are exporting, and the path and filename that you are exporting to. By default the delimiter or column separator is set, and columns will be separated by a comma:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Save a data frame to file</span></span>
@@ -401,8 +406,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Save a vector to file as a single column</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">write</span>(glengths, <span class="at">file=</span><span class="st">"data/genome_lengths.txt"</span>, <span class="at">ncolumns =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="exporting-figures-to-file" class="level2" data-number="22.2">
-<h2 data-number="22.2" class="anchored" data-anchor-id="exporting-figures-to-file"><span class="header-section-number">22.2</span> Exporting figures to file</h2>
+<section id="exporting-figures-to-file" class="level2" data-number="23.2">
+<h2 data-number="23.2" class="anchored" data-anchor-id="exporting-figures-to-file"><span class="header-section-number">23.2</span> Exporting figures to file</h2>
 <p>There are two ways in which figures and plots can be output to a file (rather than simply displaying on screen).</p>
 <ol type="1">
 <li><p>The first (and easiest) is to export directly from the RStudio ‘Plots’ panel, by clicking on <code>Export</code> when the image is plotted. This will give you the option of <code>png</code> or <code>pdf</code> and selecting the directory to which you wish to save it to. It will also give you options to dictate the size and resolution of the output image.</p></li>
@@ -564,12 +569,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="../session4/ggplot.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Data Visualization in R</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Data Visualization in R</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../session4/linear_models.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Linear Models</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../session4/other_plots.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Common visualizations in biological analyses</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
