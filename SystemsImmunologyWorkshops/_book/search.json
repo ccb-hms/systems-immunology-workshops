@@ -334,5 +334,26 @@
     "title": "19  Tidyverse",
     "section": "20.14 Additional resources",
     "text": "20.14 Additional resources\n\nR for Data Science\nteach the tidyverse\ntidy style guide\n\n\nThe materials in this lesson have been adapted from work created by the (HBC)](http://bioinformatics.sph.harvard.edu/) and Data Carpentry (http://datacarpentry.org/). These are open access materials distributed under the terms of the Creative Commons Attribution license (CC BY 4.0), which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Systems Immunology Workshops",
+    "section": "",
+    "text": "Systems Immunology Workshops\nWe will be working from this workbook for our first 4 workshop sessions.\nBefore the first session, be sure to complete all pre-work steps.\nMany of the exercise in this workbook have three levels: basic, advanced and challenge.\n\n\n\n\n\n\nBasic\n\n\n\nThis exercise is appropriate to those new to R/programming. Being able to complete these is enough to fulfill the objectives of the workshop.\n\n\n\n\n\n\n\n\nAdvanced\n\n\n\nThis exercise is appropriate for those new to R/programming who have already completed the basic exercise and want a challenge or those who already have computational experience. It may assume knowledge of concepts not yet covered in workshops.\n\n\n\n\n\n\n\n\nChallenge\n\n\n\nThis exercise provides an extra challenge and is geared towards those with significant computational experience. It may assume knowledge of concepts not yet covered in workshops. Some of the exercises help teach computational ideas behind bioinformatics methods."
+  },
+  {
+    "objectID": "preWork/pre_work.html#install-r-and-rstudio",
+    "href": "preWork/pre_work.html#install-r-and-rstudio",
+    "title": "Pre-Work",
+    "section": "Install R and RStudio",
+    "text": "Install R and RStudio\nBefore the first session, please install R and RStudio following the instructions Chapter 1.\nIf you already have R and RStudio installed, make sure that you have the latest versions installed (you can do this by simply following the installation instructions). While this will likely not cause an issue for the first few sessions, it will in later sessions when we use more advanced packages and software.\nIf you encounter issues installing R or RStudio, please reach out to christopher_magnano@hms.harvard.edu or one of the TAs. If we are unable to resolve your issue via email, we ask that you come 30 minutes early to the first session."
+  },
+  {
+    "objectID": "preWork/pre_work.html#familiarize-yourself-with-rstudio",
+    "href": "preWork/pre_work.html#familiarize-yourself-with-rstudio",
+    "title": "Pre-Work",
+    "section": "Familiarize yourself with RStudio",
+    "text": "Familiarize yourself with RStudio\nIf you have never used RStudio or are completely new to programming, please review Chapter 2. This material will introduce you to the RStudio interface and how to assign values to variables in R."
   }
 ]
