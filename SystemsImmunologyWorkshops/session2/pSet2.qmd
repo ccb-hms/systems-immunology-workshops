@@ -58,9 +58,9 @@ t(rmultinom(1, prob = pvec, size = 8))
 ::: {.callout-tip icon="false" collapse="true"}
 ## Solution
 
-We know that, for equal frequencies, we would expect each nucleotide to have an equal count. 
+We know that, for equal frequencies, we would expect each nucleotide to have an equal count.
 
-There are a few ways we could imagine explaining how different a set of counts is from a multinomial output. One way is to define a single test statistic which is the sum of the square difference in expected counts and real counts, scaled by the number of expected counts. This function calculates this sum  based on the observed (`o`) and expected (`e`) counts. 
+There are a few ways we could imagine explaining how different a set of counts is from a multinomial output. One way is to define a single test statistic which is the sum of the square difference in expected counts and real counts, scaled by the number of expected counts. This function calculates this sum based on the observed (`o`) and expected (`e`) counts.
 
 ```{r}
 bases_stat = function(o, e) {
@@ -70,7 +70,7 @@ obs = bases_stat(o = lfM, e = length(Celegans$chrM) / 4)
 obs
 ```
 
-This is essentially the average percent difference in our counts from the expected counts, squared so that we do not need to worry about positive versus negative differences. 
+This is essentially the average percent difference in our counts from the expected counts, squared so that we do not need to worry about positive versus negative differences.
 
 ```{r}
 B = 10000
@@ -91,7 +91,7 @@ Instead of testing across the entire mitochondria, let's now see if we can find 
 ::: {.callout-tip icon="false" collapse="true"}
 ## Solution
 
-First we need to split the chromosome into 100bp chunks. We can use the `substring` and `seq` functions to do this. 
+First we need to split the chromosome into 100bp chunks. We can use the `substring` and `seq` functions to do this.
 
 ```{r}
 chunks <- substring(as.character(Celegans$chrM), seq(1, n, 100), seq(100, n, 100))
@@ -100,7 +100,8 @@ chunks <- substring(as.character(Celegans$chrM), seq(1, n, 100), seq(100, n, 100
 chunks <- chunks[-length(chunks)]
 ```
 
-Now we define a function with the test we performed above. 
+Now we define a function with the test we performed above.
+
 ```{r}
 uniform_test <- function(seq_int){
   B <- 10000
@@ -116,7 +117,7 @@ uniform_test <- function(seq_int){
 }
 ```
 
-Finally we apply the test to all the chunks and correct the simulation-derived p values. 
+Finally we apply the test to all the chunks and correct the simulation-derived p values.
 
 ```{r}
 result <- sapply(chunks, uniform_test)

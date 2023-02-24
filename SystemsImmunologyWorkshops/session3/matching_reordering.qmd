@@ -363,7 +363,24 @@ gene_map <- getBM(filters= "ensembl_gene_id", attributes= c("ensembl_gene_id","m
 
 1.  Try to replace the current rownames in `rpkm_data` with their mapped gene symbol. You may need to add a new column with the data instead.
 
-2.  Use the `match()` function to subset the `metadata` data frame so that the row names of the `metadata` data frame match the column names of the `subset_rpkm` data frame.
+2.  Use the `match()` function to subset the `metadata` data frame so that the row names of the `metadata` data frame match the column names of the `rpkm_data`` data frame.
+:::
+
+
+::: {.callout-tip icon="false" collapse="true"}
+## Solution
+
+```{r}
+#1
+ind <- match(rownames(rpkm_data), gene_map$ensembl_gene_id)
+# rownames(rpkm_data) <- gene_map$mgi_symbol[ind] #oh no! duplicate rownames
+rpkm_data$gene <- gene_map$mgi_symbol[ind]
+
+#2
+idx <- match(colnames(rpkm_data), rownames(metadata))
+metadata[idx, ]
+
+```
 :::
 
 ::: {.callout-caution appearance="simple" icon="false"}
@@ -372,14 +389,33 @@ gene_map <- getBM(filters= "ensembl_gene_id", attributes= c("ensembl_gene_id","m
 We can use the `listAttributes()` and `listFilters()` functions to see what other information we can get using `getBM`. Choose another piece of data to add to `rpkm_data`.
 :::
 
+::: {.callout-tip icon="false" collapse="true"}
+## Solution
+
+Solutions will vary, but generally are similar to the basic and challenge solutions in how they get data and add it to the dataframe. 
+:::
+
 ::: {.callout-important appearance="simple" icon="false"}
 ## Challenge
 
 Use `getBM` to find all genes on chromosomes 2, 6, or 9. Create another dataframe only containing these genes.
 :::
 
+::: {.callout-tip icon="false" collapse="true"}
+## Solution
 
+```{r}
+#Get the chomosome annotations
+chrom_map <- getBM(filters= "ensembl_gene_id", attributes= c("ensembl_gene_id","chromosome_name"), values = rownames(rpkm_data), mart=ensembl)
 
+#not strictly needed, but let's make chromosome a factor
+chrom_map$chromosome_name <- factor(chrom_map$chromosome_name)
+
+#We could either first map to rpkm_data and then filter, or filter chrom_map and then map to rpkm_data. Let's do the latter. 
+chrom_map_269 <- chrom_map[chrom_map$chromosome_name %in% c("2","6","9"),]
+rpkm_chrom29 <- rpkm_data[rownames(rpkm_data) %in% chrom_map_269$ensembl_gene_id,]
+```
+:::
 
 ------------------------------------------------------------------------
 

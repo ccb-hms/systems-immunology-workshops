@@ -1310,8 +1310,49 @@ Basic
 <div class="callout-body-container callout-body">
 <ol type="1">
 <li><p>Try to replace the current rownames in <code>rpkm_data</code> with their mapped gene symbol. You may need to add a new column with the data instead.</p></li>
-<li><p>Use the <code>match()</code> function to subset the <code>metadata</code> data frame so that the row names of the <code>metadata</code> data frame match the column names of the <code>subset_rpkm</code> data frame.</p></li>
+<li><p>Use the <code>match()</code> function to subset the <code>metadata</code> data frame so that the row names of the <code>metadata</code> data frame match the column names of the `rpkm_data`` data frame.</p></li>
 </ol>
+</div>
+</div>
+<div class="callout-tip callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="co">#1</span></span>
+<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a>ind <span class="ot">&lt;-</span> <span class="fu">match</span>(<span class="fu">rownames</span>(rpkm_data), gene_map<span class="sc">$</span>ensembl_gene_id)</span>
+<span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a><span class="co"># rownames(rpkm_data) &lt;- gene_map$mgi_symbol[ind] #oh no! duplicate rownames</span></span>
+<span id="cb75-4"><a href="#cb75-4" aria-hidden="true" tabindex="-1"></a>rpkm_data<span class="sc">$</span>gene <span class="ot">&lt;-</span> gene_map<span class="sc">$</span>mgi_symbol[ind]</span>
+<span id="cb75-5"><a href="#cb75-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb75-6"><a href="#cb75-6" aria-hidden="true" tabindex="-1"></a><span class="co">#2</span></span>
+<span id="cb75-7"><a href="#cb75-7" aria-hidden="true" tabindex="-1"></a>idx <span class="ot">&lt;-</span> <span class="fu">match</span>(<span class="fu">colnames</span>(rpkm_data), <span class="fu">rownames</span>(metadata))</span>
+<span id="cb75-8"><a href="#cb75-8" aria-hidden="true" tabindex="-1"></a>metadata[idx, ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         genotype celltype replicate
+sample2        Wt    typeA         2
+sample5        KO    typeA         2
+sample7        Wt    typeB         1
+sample8        Wt    typeB         2
+sample9        Wt    typeB         3
+sample4        KO    typeA         1
+sample6        KO    typeA         3
+sample12       KO    typeB         3
+sample3        Wt    typeA         3
+sample11       KO    typeB         2
+sample10       KO    typeB         1
+sample1        Wt    typeA         1
+NA           &lt;NA&gt;     &lt;NA&gt;        NA</code></pre>
+</div>
+</div>
+</div>
 </div>
 </div>
 <div class="callout-caution callout callout-style-simple no-icon callout-captioned">
@@ -1327,6 +1368,22 @@ Advanced
 <p>We can use the <code>listAttributes()</code> and <code>listFilters()</code> functions to see what other information we can get using <code>getBM</code>. Choose another piece of data to add to <code>rpkm_data</code>.</p>
 </div>
 </div>
+<div class="callout-tip callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Solutions will vary, but generally are similar to the basic and challenge solutions in how they get data and add it to the dataframe.</p>
+</div>
+</div>
+</div>
 <div class="callout-important callout callout-style-simple no-icon callout-captioned">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1338,6 +1395,32 @@ Challenge
 </div>
 <div class="callout-body-container callout-body">
 <p>Use <code>getBM</code> to find all genes on chromosomes 2, 6, or 9. Create another dataframe only containing these genes.</p>
+</div>
+</div>
+<div class="callout-tip callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-12" class="callout-12-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Get the chomosome annotations</span></span>
+<span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a>chrom_map <span class="ot">&lt;-</span> <span class="fu">getBM</span>(<span class="at">filters=</span> <span class="st">"ensembl_gene_id"</span>, <span class="at">attributes=</span> <span class="fu">c</span>(<span class="st">"ensembl_gene_id"</span>,<span class="st">"chromosome_name"</span>), <span class="at">values =</span> <span class="fu">rownames</span>(rpkm_data), <span class="at">mart=</span>ensembl)</span>
+<span id="cb77-3"><a href="#cb77-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb77-4"><a href="#cb77-4" aria-hidden="true" tabindex="-1"></a><span class="co">#not strictly needed, but let's make chromosome a factor</span></span>
+<span id="cb77-5"><a href="#cb77-5" aria-hidden="true" tabindex="-1"></a>chrom_map<span class="sc">$</span>chromosome_name <span class="ot">&lt;-</span> <span class="fu">factor</span>(chrom_map<span class="sc">$</span>chromosome_name)</span>
+<span id="cb77-6"><a href="#cb77-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb77-7"><a href="#cb77-7" aria-hidden="true" tabindex="-1"></a><span class="co">#We could either first map to rpkm_data and then filter, or filter chrom_map and then map to rpkm_data. Let's do the latter. </span></span>
+<span id="cb77-8"><a href="#cb77-8" aria-hidden="true" tabindex="-1"></a>chrom_map_269 <span class="ot">&lt;-</span> chrom_map[chrom_map<span class="sc">$</span>chromosome_name <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"2"</span>,<span class="st">"6"</span>,<span class="st">"9"</span>),]</span>
+<span id="cb77-9"><a href="#cb77-9" aria-hidden="true" tabindex="-1"></a>rpkm_chrom29 <span class="ot">&lt;-</span> rpkm_data[<span class="fu">rownames</span>(rpkm_data) <span class="sc">%in%</span> chrom_map_269<span class="sc">$</span>ensembl_gene_id,]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
 </div>
 </div>
 <hr>

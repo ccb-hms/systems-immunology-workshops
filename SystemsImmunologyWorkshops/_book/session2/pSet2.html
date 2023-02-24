@@ -530,7 +530,7 @@ attr(,"package")
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">t</span>(<span class="fu">rmultinom</span>(<span class="dv">1</span>, <span class="at">prob =</span> pvec, <span class="at">size =</span> <span class="dv">8</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     [,1] [,2] [,3] [,4]
-[1,]    0    2    2    4</code></pre>
+[1,]    5    1    2    0</code></pre>
 </div>
 </div>
 <div class="callout-tip callout callout-style-default no-icon callout-captioned">
@@ -566,7 +566,7 @@ Solution
 <span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>observed <span class="ot">&lt;-</span> <span class="fu">bases_stat</span>(lfM, expected)</span>
 <span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a><span class="fu">max</span>(oenull)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 20.01711</code></pre>
+<pre><code>[1] 25.84863</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>sim_p <span class="ot">&lt;-</span> <span class="fu">sum</span>(oenull <span class="sc">&gt;</span> observed)<span class="sc">/</span>B</span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>sim_p</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -622,17 +622,17 @@ Solution
 <span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">sort</span>(result, <span class="at">decreasing =</span> <span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>CTTTTAACAGCTTTTACTAAAAGAGCACAATTTCCATTTAGATCTTGGTTACCCAAAGCTATAAGAGCCCCCACACCGGTGAGGTCTTTGGTTCATAGTA 
-                                                                                         0.184100000 
+                                                                                         0.184200000 
 AATTTTAGATGCTTGTTTTGTAGATATAGGTTGTGGGACTAGGTGAACAGTCTACCCACCTTTAAGAACAATGGGGCACCCTGGAAGTAGAGTAGATTTA 
-                                                                                         0.072730882 
+                                                                                         0.069608088 
 TTTTATTGTTCAAAGAATCGCTTTTATTACTCTATATGAGCGTCATTTATTGGGAAGAAGACAAAATCGTCTAGGGCCCACCAAGGTTACATTTATGGGA 
-                                                                                         0.038055556 
+                                                                                         0.036330370 
 GCTTTATATTAAAGCTGGCTTCTGCCCTATGATATTTAAATGGCAGTCTTAGCGTGAGGACATTAAGGTAGCAAAATAATTTGTGCTTTTATTGAGTTCC 
-                                                                                         0.012370896 
+                                                                                         0.016562687 
 TAATTATAGTAATTGCTGAACTTAACCGGGCGCCATTTGATTTTTCTGAAGGTGAAAGGGAGTTAGTTAGAGGATTTAATGTGGAGTTTGCCAGAGTAGC 
-                                                                                         0.011330827 
-ATCTTAGTTGATATAGCATAAGAAGTGCATTTGTTTTAAGCGCAAAAGATATCCGTCAACTAACGAGTTCATAAAGCAAGTCTTCTAAATTTGTTCTAGG 
-                                                                                         0.008718182 </code></pre>
+                                                                                         0.010506767 
+AAGAGCAGGAGTAAAGTTGTATTTAAACTGAAAAGATATTGGCAGACATTCTAAATTATCTTTGGAGGCTGAGTAGTAACTGAGAACCCTCATTAACTAC 
+                                                                                         0.009548485 </code></pre>
 </div>
 </div>
 </div>
