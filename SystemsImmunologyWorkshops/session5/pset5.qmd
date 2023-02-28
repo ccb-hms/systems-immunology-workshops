@@ -1,4 +1,17 @@
 # Problem Set 5
 
-# Problem 1
+Please submit this problem set either as a R notebook (quarto or RMarkdown) or as an R script and write-up as needed. 
+
+## Problem 1
+
 The experimental data package [fission](https://bioconductor.org/packages/fission) stores time course RNA-seq data studying the stress response in fission yeast. Conduct a differential expression analysis with `DESeq2` between the mutant and the wild type strain, using time as a covariate. How many genes are differentially expressed, based on an adjusted significance level of 0.05? Inspect the results with a volcano plot and an MA plot.
+
+## Problem 2
+
+Perform gene set enrichment analysis on the fission dataset using the same experiment setup as above:
+
+1. Choose an appropriate collection of gene sets. Remember that this dataset is in yeast (`org="sce"`). 
+
+2.  Perform gene set enrichment analysis (the `gsea` method) and at least one other form of enrichment analysis such as over representation analysis or a network-based enrichment method on the data. 
+
+3. Examine the top 20 gene set for each method you ran. How do they compare? Do the results make sense given the experimental context of the stress response in fission yeast?

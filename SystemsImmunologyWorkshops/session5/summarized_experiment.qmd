@@ -16,14 +16,14 @@ fname
 ```
 
 ```{r, echo=FALSE}
-fname <- "files/airway_colData.csv"
+fname <- "../data/airway_colData.csv"
 ```
 
 We want the first column the the data to be treated as row names (sample identifiers) in the `data.frame`, so `read.csv()` has an extra argument to indicate this.
 
 ```{r}
 colData <- read.csv(fname, row.names = 1)
-colData
+head(colData)
 ```
 
 The data are from the Short Read Archive, and the row names, `SampleName`, `Run`, `Experiment`, `Sampel`, and `BioSample` columns are classifications from the archive. Additional columns include:
@@ -43,7 +43,7 @@ fname
 ```
 
 ```{r, echo=FALSE}
-fname <- "files/airway_counts.csv"
+fname <- "../data/airway_counts.csv"
 ```
 
 ```{r}
@@ -105,11 +105,19 @@ colData(se)
 
 **Exercises**
 
-1.  Subset the `SummarizedExperiment` object `se` created above to genes (rows) with at least 8 reads mapped across all samples. Hint: use `rowSums`.
+::: {.callout-note appearance="simple" icon="false"}
+## Basic
+1.  Subset the `SummarizedExperiment` object `se` created above to genes (rows) with at least 8 reads mapped across all samples. 
+
+*Hint: use `rowSums`.*
 
 2.  Scale the read counts by library size, i.e. divide each column of `assay(se)` by the corresponding `lib.size` of each sample (column). Multiply the resulting scaled counts by `10^6` to obtain counts per million reads mapped.
+:::
 
-3.  Subset the resulting `se` containing counts per million reads mapped to the first one hundred genes (`1:100`).
+::: {.callout-caution appearance="simple" icon="false"}
+## Advanced
+Carry out a *t*-test for each of the selected 100 genes. Test for differences in mean read count per million reads mapped between the dexamethasone treated and untreated sample group. Annotate the resulting *p*-values as a new column in the `rowData` slot of your `SummarizedExperiment`.
 
-4.  Carry out a *t*-test for each of the selected 100 genes. Test for differences in mean read count per million reads mapped between the dexamethasone treated and untreated sample group. Annotate the resulting *p*-values as a new column in the `rowData` slot of your `SummarizedExperiment`.\
-    Hint: use `apply` and `t.test`.
+*Hint: use `apply` and `t.test`.*
+:::
+

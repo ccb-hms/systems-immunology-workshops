@@ -363,9 +363,8 @@ gene_map <- getBM(filters= "ensembl_gene_id", attributes= c("ensembl_gene_id","m
 
 1.  Try to replace the current rownames in `rpkm_data` with their mapped gene symbol. You may need to add a new column with the data instead.
 
-2.  Use the `match()` function to subset the `metadata` data frame so that the row names of the `metadata` data frame match the column names of the `rpkm_data`` data frame.
+2.  Use the `match()` function to subset the `metadata` data frame so that the row names of the `metadata` data frame match the column names of the \`rpkm_data\`\` data frame.
 :::
-
 
 ::: {.callout-tip icon="false" collapse="true"}
 ## Solution
@@ -392,7 +391,7 @@ We can use the `listAttributes()` and `listFilters()` functions to see what othe
 ::: {.callout-tip icon="false" collapse="true"}
 ## Solution
 
-Solutions will vary, but generally are similar to the basic and challenge solutions in how they get data and add it to the dataframe. 
+Solutions will vary, but generally are similar to the basic and challenge solutions in how they get data and add it to the dataframe.
 :::
 
 ::: {.callout-important appearance="simple" icon="false"}
