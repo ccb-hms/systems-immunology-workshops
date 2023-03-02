@@ -107,7 +107,8 @@ colData(se)
 
 ::: {.callout-note appearance="simple" icon="false"}
 ## Basic
-1.  Subset the `SummarizedExperiment` object `se` created above to genes (rows) with at least 8 reads mapped across all samples. 
+
+1.  Subset the `SummarizedExperiment` object `se` created above to genes (rows) with at least 8 reads mapped across all samples.
 
 *Hint: use `rowSums`.*
 
@@ -116,8 +117,12 @@ colData(se)
 
 ::: {.callout-caution appearance="simple" icon="false"}
 ## Advanced
+
 Carry out a *t*-test for each of the selected 100 genes. Test for differences in mean read count per million reads mapped between the dexamethasone treated and untreated sample group. Annotate the resulting *p*-values as a new column in the `rowData` slot of your `SummarizedExperiment`.
 
 *Hint: use `apply` and `t.test`.*
 :::
 
+---
+
+This lesson was adapted from materials created by Ludwig Geistlinger

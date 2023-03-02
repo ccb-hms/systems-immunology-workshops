@@ -494,23 +494,11 @@ ENSG00000000971      11027       5176       7995</code></pre>
 <p>Attach the <a href="https://bioconductor.org/packages/SummarizedExperiment">SummarizedExperiment</a> library to our <em>R</em> session.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"SummarizedExperiment"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'matrixStats' was built under R version 4.2.2</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'GenomicRanges' was built under R version 4.2.2</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'S4Vectors' was built under R version 4.2.2</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'GenomeInfoDb' was built under R version 4.2.2</code></pre>
-</div>
 </div>
 <p>Use the <code>SummarizedExperiment()</code> function to coordinate the assay and column data; this function uses row and column names to make sure the correct assay columns are described by the correct column data rows.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>se <span class="ot">&lt;-</span> <span class="fu">SummarizedExperiment</span>(<span class="at">assay =</span> <span class="fu">list</span>(<span class="at">count=</span>counts), <span class="at">colData =</span> colData)</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>se</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>se <span class="ot">&lt;-</span> <span class="fu">SummarizedExperiment</span>(<span class="at">assay =</span> <span class="fu">list</span>(<span class="at">count=</span>counts), <span class="at">colData =</span> colData)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>se</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>class: SummarizedExperiment 
 dim: 33469 8 
@@ -525,7 +513,7 @@ colData names(9): SampleName cell ... Sample BioSample</code></pre>
 </div>
 <p>It is straight-forward to use <code>subset()</code> on <code>SummarizedExperiment</code> to create subsets of the data in a coordinated way. Remember that a <code>SummarizedExperiment</code> is conceptually two-dimensional (matrix-like), and in the example below we are subsetting on the second dimension.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">subset</span>(se, , dex <span class="sc">==</span> <span class="st">"trt"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">subset</span>(se, , dex <span class="sc">==</span> <span class="st">"trt"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>class: SummarizedExperiment 
 dim: 33469 4 
@@ -540,7 +528,7 @@ colData names(9): SampleName cell ... Sample BioSample</code></pre>
 </div>
 <p>As with <code>GRanges</code>, there are accessors that extract data from the <code>SummarizedExperiment</code>. For instance, we can use <code>assay()</code> to extract the count matrix, and <code>colSums()</code> to calculate the library size (total number of reads overlapping genes in each sample).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colSums</span>(<span class="fu">assay</span>(se))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colSums</span>(<span class="fu">assay</span>(se))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>SRR1039508 SRR1039509 SRR1039512 SRR1039513 SRR1039516 SRR1039517 SRR1039520 
   20637971   18809481   25348649   15163415   24448408   30818215   19126151 
@@ -551,8 +539,8 @@ SRR1039521
 <p>Note that library sizes differ by a factor of 2 from largest to smallest; how would this influence the interpretation of counts in individual cells of the assay data?</p>
 <p>As with <code>GRanges</code>, it might be useful to remember important computations in a way that is robust, e.g.,</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>se<span class="sc">$</span>lib.size <span class="ot">&lt;-</span> <span class="fu">colSums</span>(<span class="fu">assay</span>(se))</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colData</span>(se)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>se<span class="sc">$</span>lib.size <span class="ot">&lt;-</span> <span class="fu">colSums</span>(<span class="fu">assay</span>(se))</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colData</span>(se)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>DataFrame with 8 rows and 10 columns
             SampleName        cell         dex       albut         Run
@@ -611,6 +599,8 @@ Advanced
 <p><em>Hint: use <code>apply</code> and <code>t.test</code>.</em></p>
 </div>
 </div>
+<hr>
+<p>This lesson was adapted from materials created by Ludwig Geistlinger</p>
 
 
 

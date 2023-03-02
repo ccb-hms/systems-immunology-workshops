@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Systems Immunology Workshops - 26&nbsp; Getting Started with Git &amp; Github</title>
+<title>Systems Immunology Workshops - 30&nbsp; Getting Started with Git &amp; Github</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -69,7 +69,7 @@ ul.task-list li input[type="checkbox"] {
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Getting Started with Git &amp; Github</span></h1>
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Getting Started with Git &amp; Github</span></h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -274,7 +274,7 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="../resources/resources.html" class="sidebar-item-text sidebar-link">Resources</a>
+            <a href="../session5/session5.html" class="sidebar-item-text sidebar-link">Session 5: Bulk RNA-seq</a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -282,7 +282,37 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../resources/git.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Getting Started with Git &amp; Github</span></a>
+  <a href="../session5/summarized_experiment.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Working with summarized experimental data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../session5/de_analysis.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Differential expression analysis with DESeq2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../session5/enrichment_analysis.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Functional enrichment analysis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../session5/pset5.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Problem Set 5</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../resources/resources.html" class="sidebar-item-text sidebar-link">Resources</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../resources/git.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Getting Started with Git &amp; Github</span></a>
   </div>
 </li>
       </ul>
@@ -296,13 +326,13 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#what-is-git-github" id="toc-what-is-git-github" class="nav-link active" data-scroll-target="#what-is-git-github"><span class="toc-section-number">26.1</span>  What is Git / GitHub</a></li>
-  <li><a href="#create-a-github-account" id="toc-create-a-github-account" class="nav-link" data-scroll-target="#create-a-github-account"><span class="toc-section-number">26.2</span>  Create a Github Account</a></li>
-  <li><a href="#option-1-github-desktop-reccomended" id="toc-option-1-github-desktop-reccomended" class="nav-link" data-scroll-target="#option-1-github-desktop-reccomended"><span class="toc-section-number">26.3</span>  Option 1: Github Desktop (reccomended)</a></li>
-  <li><a href="#option-2-command-line" id="toc-option-2-command-line" class="nav-link" data-scroll-target="#option-2-command-line"><span class="toc-section-number">26.4</span>  Option 2: Command line</a></li>
-  <li><a href="#option-3-integrate-git-github-with-rstudio" id="toc-option-3-integrate-git-github-with-rstudio" class="nav-link" data-scroll-target="#option-3-integrate-git-github-with-rstudio"><span class="toc-section-number">26.5</span>  Option 3: Integrate Git /GitHub with RStudio</a></li>
-  <li><a href="#stashing-changes-if-needed" id="toc-stashing-changes-if-needed" class="nav-link" data-scroll-target="#stashing-changes-if-needed"><span class="toc-section-number">26.6</span>  Stashing changes if needed</a></li>
-  <li><a href="#resources" id="toc-resources" class="nav-link" data-scroll-target="#resources"><span class="toc-section-number">26.7</span>  Resources:</a></li>
+  <li><a href="#what-is-git-github" id="toc-what-is-git-github" class="nav-link active" data-scroll-target="#what-is-git-github"><span class="toc-section-number">30.1</span>  What is Git / GitHub</a></li>
+  <li><a href="#create-a-github-account" id="toc-create-a-github-account" class="nav-link" data-scroll-target="#create-a-github-account"><span class="toc-section-number">30.2</span>  Create a Github Account</a></li>
+  <li><a href="#option-1-github-desktop-reccomended" id="toc-option-1-github-desktop-reccomended" class="nav-link" data-scroll-target="#option-1-github-desktop-reccomended"><span class="toc-section-number">30.3</span>  Option 1: Github Desktop (reccomended)</a></li>
+  <li><a href="#option-2-command-line" id="toc-option-2-command-line" class="nav-link" data-scroll-target="#option-2-command-line"><span class="toc-section-number">30.4</span>  Option 2: Command line</a></li>
+  <li><a href="#option-3-integrate-git-github-with-rstudio" id="toc-option-3-integrate-git-github-with-rstudio" class="nav-link" data-scroll-target="#option-3-integrate-git-github-with-rstudio"><span class="toc-section-number">30.5</span>  Option 3: Integrate Git /GitHub with RStudio</a></li>
+  <li><a href="#stashing-changes-if-needed" id="toc-stashing-changes-if-needed" class="nav-link" data-scroll-target="#stashing-changes-if-needed"><span class="toc-section-number">30.6</span>  Stashing changes if needed</a></li>
+  <li><a href="#resources" id="toc-resources" class="nav-link" data-scroll-target="#resources"><span class="toc-section-number">30.7</span>  Resources:</a></li>
   </ul>
 </nav>
     </div>
@@ -311,7 +341,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Getting Started with Git &amp; Github</span></h1>
+<h1 class="title d-none d-lg-block"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Getting Started with Git &amp; Github</span></h1>
 </div>
 
 
@@ -326,19 +356,19 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<section id="what-is-git-github" class="level2" data-number="26.1">
-<h2 data-number="26.1" class="anchored" data-anchor-id="what-is-git-github"><span class="header-section-number">26.1</span> What is Git / GitHub</h2>
+<section id="what-is-git-github" class="level2" data-number="30.1">
+<h2 data-number="30.1" class="anchored" data-anchor-id="what-is-git-github"><span class="header-section-number">30.1</span> What is Git / GitHub</h2>
 <p>Git is a file version control system that helps you keep track of any changes you make to specific documents (e.g., code). This a much more elegant solution than copying a file over and over and changing the name to things like: file_version1, file_version2, file_final, file_finalVersion, file_final_finalVersion …</p>
 <p><em>Watch <a href="https://www.youtube.com/watch?v=2ReR1YJrNOM">this video</a> to get a little more of an introduction to Git.</em></p>
 <p>GitHub is an online service that allows you to share Git repositories with other people. You can either Pull an existing repository to you machine and start working on it yourself, or you can Push any of your repositories (or changes made to someone else’s) to GitHub to share them with others (or even yourself if you have multiple computers).</p>
 <p><em>Watch <a href="https://www.youtube.com/watch?v=w3jLJU7DT5E">this video</a> to see how GitHub can help distribute code safely between many people without causing issues.</em></p>
 </section>
-<section id="create-a-github-account" class="level2" data-number="26.2">
-<h2 data-number="26.2" class="anchored" data-anchor-id="create-a-github-account"><span class="header-section-number">26.2</span> Create a Github Account</h2>
+<section id="create-a-github-account" class="level2" data-number="30.2">
+<h2 data-number="30.2" class="anchored" data-anchor-id="create-a-github-account"><span class="header-section-number">30.2</span> Create a Github Account</h2>
 <p>If you do not have one already go to <a href="github.com">github.com</a> and register for a new account. We recommend you use a personal email address to sign up as your GitHub is seen as a personal asset. However, with an academic email you can unlock more features so <strong>once registered you can add your Harvard or other .edu email address to get educational benefits as a <a href="https://education.github.com/discount_requests/student_application">student</a> or as a <a href="https://education.github.com/discount_requests/teacher_application">teacher/researcher</a></strong>.</p>
 </section>
-<section id="option-1-github-desktop-reccomended" class="level2" data-number="26.3">
-<h2 data-number="26.3" class="anchored" data-anchor-id="option-1-github-desktop-reccomended"><span class="header-section-number">26.3</span> Option 1: Github Desktop (reccomended)</h2>
+<section id="option-1-github-desktop-reccomended" class="level2" data-number="30.3">
+<h2 data-number="30.3" class="anchored" data-anchor-id="option-1-github-desktop-reccomended"><span class="header-section-number">30.3</span> Option 1: Github Desktop (reccomended)</h2>
 <p>If you are unfamiliar with using the command line, <a href="https://desktop.github.com/">Github Desktop</a> can be a good place to start.</p>
 <p>You can then go to the <a href="https://github.com/ccb-hms/systems-immunology-workshops">workbook repository</a> and connect it to your Github Desktop:</p>
 <div class="quarto-figure quarto-figure-center">
@@ -355,8 +385,8 @@ ul.task-list li input[type="checkbox"] {
 </figure>
 </div>
 </section>
-<section id="option-2-command-line" class="level2" data-number="26.4">
-<h2 data-number="26.4" class="anchored" data-anchor-id="option-2-command-line"><span class="header-section-number">26.4</span> Option 2: Command line</h2>
+<section id="option-2-command-line" class="level2" data-number="30.4">
+<h2 data-number="30.4" class="anchored" data-anchor-id="option-2-command-line"><span class="header-section-number">30.4</span> Option 2: Command line</h2>
 <p>Follow the <a href="https://github.com/git-guides/install-git">instructions here</a> to install Git or a Git client on your computer.</p>
 <p>It is recommended for you to setup your local username and email address before using Git, and in some cases is required. This does not need to match GitHub (we’ll do that next). You will need to use a terminal window for this (Command Prompt in Windows or Terminal on Mac). You can also use the Terminal window in RStudio if you prefer (different from the Console window)</p>
 <pre><code>`git config --global user.name "First Last"`
@@ -368,8 +398,8 @@ ul.task-list li input[type="checkbox"] {
 <p>Whenever the workbook is updated, you can <code>pull</code> it to download the changes. Within the <code>systems-immunology-workshops</code> directory, simply enter:</p>
 <p><code>git pull</code></p>
 </section>
-<section id="option-3-integrate-git-github-with-rstudio" class="level2" data-number="26.5">
-<h2 data-number="26.5" class="anchored" data-anchor-id="option-3-integrate-git-github-with-rstudio"><span class="header-section-number">26.5</span> Option 3: Integrate Git /GitHub with RStudio</h2>
+<section id="option-3-integrate-git-github-with-rstudio" class="level2" data-number="30.5">
+<h2 data-number="30.5" class="anchored" data-anchor-id="option-3-integrate-git-github-with-rstudio"><span class="header-section-number">30.5</span> Option 3: Integrate Git /GitHub with RStudio</h2>
 <p>RStudio has an integrated Git user interface that makes it very easy to use both Git and GitHub.</p>
 <p>To get a copy of the workbook repository in RStudio do the following:</p>
 <ol type="1">
@@ -383,12 +413,12 @@ ul.task-list li input[type="checkbox"] {
 </ol>
 <p><em>Whenever you are working in an RStudio project that has a dedicated Git repository, you can interact with Git through the Git tab (same pane as Environment tab)</em></p>
 </section>
-<section id="stashing-changes-if-needed" class="level2" data-number="26.6">
-<h2 data-number="26.6" class="anchored" data-anchor-id="stashing-changes-if-needed"><span class="header-section-number">26.6</span> Stashing changes if needed</h2>
+<section id="stashing-changes-if-needed" class="level2" data-number="30.6">
+<h2 data-number="30.6" class="anchored" data-anchor-id="stashing-changes-if-needed"><span class="header-section-number">30.6</span> Stashing changes if needed</h2>
 <p>If you edit your local copy of the workbook, when you try to <code>pull</code> or <code>fetch</code> files in the future you may run into an error. This is because Git isn’t sure whether you want to discard your local changes or not. You can <code>stash</code> your local changes, <code>pull</code>/<code>fetch</code>, and then <code>pop</code> your changes to download the new files and integrate your changes. However, if you have edited files which have also been updated, such as writing a solution in a file which then had an added solution, you may get a <code>merge conflict</code>.</p>
 </section>
-<section id="resources" class="level2" data-number="26.7">
-<h2 data-number="26.7" class="anchored" data-anchor-id="resources"><span class="header-section-number">26.7</span> Resources:</h2>
+<section id="resources" class="level2" data-number="30.7">
+<h2 data-number="30.7" class="anchored" data-anchor-id="resources"><span class="header-section-number">30.7</span> Resources:</h2>
 <ul>
 <li><a href="https://git-scm.com/book/en/v2">A good git reference book</a></li>
 <li>Git desktop environments: <a href="https://desktop.github.com/" class="uri">https://desktop.github.com/</a> and those from <a href="https://git-scm.com/downloads" class="uri">https://git-scm.com/downloads</a></li>

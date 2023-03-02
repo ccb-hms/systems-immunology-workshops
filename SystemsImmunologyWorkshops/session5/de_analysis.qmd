@@ -83,18 +83,18 @@ The [DESeq2](https://bioconductor.org/packages/DESeq2) vignette also describes s
 
 ::: {.callout-note appearance="simple" icon="false"}
 ## Basic
-1. Use the `coef` function to examine the actual coefficients of the model.
 
-2. Get the number of genes considered significantly expressed at the alpha level of 0.1 (for the adjusted p value). 
+1.  Use the `coef` function to examine the actual coefficients of the model.
 
-3. Now see how many genes would be considered differentially expressed at an alpha level of 0.05 and a log2 fold change cutoff of at least 1. **Note**: Take a look again at the arguments of the `results` function. Are there any you should change?
+2.  Get the number of genes considered significantly expressed at the alpha level of 0.1 (for the adjusted p value).
+
+3.  Now see how many genes would be considered differentially expressed at an alpha level of 0.05 and a log2 fold change cutoff of at least 1. **Note**: Take a look again at the arguments of the `results` function. Are there any you should change?
 :::
-
 
 ::: {.callout-caution appearance="simple" icon="false"}
 ## Advanced
 
-Let's imagine that, instead of all being untreated, half of the samples had been treated with albuterol: 
+Let's imagine that, instead of all being untreated, half of the samples had been treated with albuterol:
 
 ```{r}
 fake_se <- se
@@ -103,15 +103,17 @@ levels(colData(fake_se)$albut) <- c(levels(colData(fake_se)$albut), "trt")
 colData(fake_se)$albut[c(1,3,4,8)] <- "trt"
 ```
 
-Remake the `dds` object such that the `albut` column is an additional covartiate in the experimental design. 
+Remake the `dds` object such that the `albut` column is an additional covartiate in the experimental design.
 
-If there is time, compare the number of significant results (for comparing `cell` and `dex`) when `albut` is and is not accounted for. Does it make a difference? 
+If there is time, compare the number of significant results (for comparing `cell` and `dex`) when `albut` is and is not accounted for. Does it make a difference?
 :::
 
 ::: {.callout-important appearance="simple" icon="false"}
 ## Bonus
 
-Try installing the [Glimma](http://bioconductor.org/packages/release/bioc/html/Glimma.html) package from bioconductor. Use it to create an interactive multidimensional scaling (MDS) plot of your results. 
-
+Try installing the [Glimma](http://bioconductor.org/packages/release/bioc/html/Glimma.html) package from bioconductor. Use it to create an interactive multidimensional scaling (MDS) plot of your results.
 :::
 
+---
+
+This lesson was adapted from materials created by Ludwig Geistlinger

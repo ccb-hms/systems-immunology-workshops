@@ -42,16 +42,15 @@ book:
         - session4/exporting.qmd
         - session4/other_plots.qmd
         - session4/pSet4.qmd
+    - part: session5/session5.qmd
+      chapters:
+        - session5/summarized_experiment.qmd
+        - session5/de_analysis.qmd
+        - session5/enrichment_analysis.qmd
+        - session5/pset5.qmd
     - part: resources/resources.qmd
       chapters:
         - resources/git.qmd
-     # - part: session5/session5.qmd
-     #   chapters:
-     #     - session5/summarized_experiment.qmd
-     #     - session5/de_analysis.qmd
-     #     - session5/enrichment_analysis.qmd
-     #     - resources/literature.qmd
-     #     - resources/tutorials.qmd
 
 format:
   html:

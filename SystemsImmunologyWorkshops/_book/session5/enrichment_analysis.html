@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.269">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Systems Immunology Workshops - 28&nbsp; Functional enrichment analysis</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../session5/pset5.html" rel="next">
+<link href="../session5/de_analysis.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Functional enrichment analysis</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Systems Immunology Workshops</a> 
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">Systems Immunology Workshops</a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../preWork/pre_work.html" class="sidebar-item-text sidebar-link">Pre-Work</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../preWork/install.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Installing R and RStudio</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../preWork/rstudio.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction to RStudio</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../session1/session1.html" class="sidebar-item-text sidebar-link">Session 1: Data Types and Hypothesis Tests</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../session1/types.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">R Syntax and Data Structures</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../session1/prob.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Probability Primer</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../session1/hypo_tests.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Distributions to Hypothesis Tests</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../session1/factors.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Categorical Data in R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../session1/choosing_tests.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Performing and choosing hypothesis tests</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../session1/pSet1.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Problem Set 1</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../session2/session2.html" class="sidebar-item-text sidebar-link">Session 2: Functions and Multiple Hypothesis Correction</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../session2/packages.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Packages and Libraries</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../session2/loading_functions.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Reading data into R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../session2/pvals.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">P Values and Multiple Hypotheses</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../session2/mult.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Multiple Hypothesis Correction</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../session2/making_functions.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Functions</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../session2/session2problems.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Practice Exercises</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../session2/pSet2.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Problem Set 2</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../session3/session3.html" class="sidebar-item-text sidebar-link">Session 3: Data Wrangling</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../session3/count_data1.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Count Data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../session3/wrangling.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Data Wrangling</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../session3/matching_reordering.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Matching and Reordering Data in R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../session3/tidyverse.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Tidyverse</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../session3/pSet3.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Problem Set 3</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../session4/session4.html" class="sidebar-item-text sidebar-link">Session 4: Data visualization in R</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../session4/linear_models.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Linear Models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../session4/ggplot.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Data Visualization in R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../session4/exporting.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Saving Data and Figures in R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../session4/other_plots.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Common visualizations in biological analyses</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../session4/pSet4.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Problem Set 4</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../session5/session5.html" class="sidebar-item-text sidebar-link">Session 5: Bulk RNA-seq</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../session5/summarized_experiment.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Working with summarized experimental data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../session5/de_analysis.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Differential expression analysis with DESeq2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../session5/enrichment_analysis.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Functional enrichment analysis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../session5/pset5.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Problem Set 5</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../resources/resources.html" class="sidebar-item-text sidebar-link">Resources</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../resources/git.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Getting Started with Git &amp; Github</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#where-does-it-all-come-from" id="toc-where-does-it-all-come-from" class="nav-link active" data-scroll-target="#where-does-it-all-come-from"><span class="toc-section-number">28.1</span>  Where does it all come from?</a></li>
+  <li><a href="#gene-expression-based-enrichment-analysis" id="toc-gene-expression-based-enrichment-analysis" class="nav-link" data-scroll-target="#gene-expression-based-enrichment-analysis"><span class="toc-section-number">28.2</span>  Gene expression-based enrichment analysis</a></li>
+  <li><a href="#data-types" id="toc-data-types" class="nav-link" data-scroll-target="#data-types"><span class="toc-section-number">28.3</span>  Data types</a></li>
+  <li><a href="#differential-expression-analysis" id="toc-differential-expression-analysis" class="nav-link" data-scroll-target="#differential-expression-analysis"><span class="toc-section-number">28.4</span>  Differential expression analysis</a></li>
+  <li><a href="#gene-sets" id="toc-gene-sets" class="nav-link" data-scroll-target="#gene-sets"><span class="toc-section-number">28.5</span>  Gene sets</a></li>
+  <li><a href="#gokegg-overrepresentation-analysis" id="toc-gokegg-overrepresentation-analysis" class="nav-link" data-scroll-target="#gokegg-overrepresentation-analysis"><span class="toc-section-number">28.6</span>  GO/KEGG overrepresentation analysis</a></li>
+  <li><a href="#functional-class-scoring-permutation-testing" id="toc-functional-class-scoring-permutation-testing" class="nav-link" data-scroll-target="#functional-class-scoring-permutation-testing"><span class="toc-section-number">28.7</span>  Functional class scoring &amp; permutation testing</a></li>
+  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading"><span class="toc-section-number">28.8</span>  Further Reading</a>
+  <ul class="collapse">
+  <li><a href="#network-based-enrichment-analysis" id="toc-network-based-enrichment-analysis" class="nav-link" data-scroll-target="#network-based-enrichment-analysis"><span class="toc-section-number">28.8.1</span>  Network-based enrichment analysis</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Functional enrichment analysis</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="where-does-it-all-come-from" class="level2" data-number="28.1">
+<h2 data-number="28.1" class="anchored" data-anchor-id="where-does-it-all-come-from"><span class="header-section-number">28.1</span> Where does it all come from?</h2>
+<p>Test whether known biological functions or processes are over-represented (= enriched) in an experimentally-derived gene list, e.g.&nbsp;a list of differentially expressed (DE) genes. See <a href="https://doi.org/10.1093/bioinformatics/btm051">Goeman and Buehlmann, 2007</a> for a critical review.</p>
+<p>Example: Transcriptomic study, in which 12,671 genes have been tested for differential expression between two sample conditions and 529 genes were found DE.</p>
+<p>Among the DE genes, 28 are annotated to a specific functional gene set, which contains in total 170 genes. This setup corresponds to a 2x2 contingency table,</p>
+<div class="cell" data-hash="enrichment_analysis_cache/html/unnamed-chunk-2_d83644da142b41e5b868020ea38da208">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>deTable <span class="ot">&lt;-</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>     <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">28</span>, <span class="dv">142</span>, <span class="dv">501</span>, <span class="dv">12000</span>),</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">nrow =</span> <span class="dv">2</span>,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="st">"DE"</span>, <span class="st">"Not.DE"</span>),</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>                            <span class="fu">c</span>(<span class="st">"In.gene.set"</span>, <span class="st">"Not.in.gene.set"</span>)))</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>deTable</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       In.gene.set Not.in.gene.set
+DE              28             501
+Not.DE         142           12000</code></pre>
+</div>
+</div>
+<p>where the overlap of 28 genes can be assessed based on the hypergeometric distribution. This corresponds to a one-sided version of Fisher’s exact test, yielding here a significant enrichment.</p>
+<div class="cell" data-hash="enrichment_analysis_cache/html/unnamed-chunk-3_ace2f9b07f1aa9fc143dc457062a6adf">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fisher.test</span>(deTable, <span class="at">alternative =</span> <span class="st">"greater"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Fisher's Exact Test for Count Data
+
+data:  deTable
+p-value = 4.088e-10
+alternative hypothesis: true odds ratio is greater than 1
+95 percent confidence interval:
+ 3.226736      Inf
+sample estimates:
+odds ratio 
+  4.721744 </code></pre>
+</div>
+</div>
+<p>This basic principle is at the foundation of major public and commercial enrichment tools such as <a href="https://david.ncifcrf.gov/">DAVID</a> and <a href="https://www.pathwaystudio.com">Pathway Studio</a>.</p>
+</section>
+<section id="gene-expression-based-enrichment-analysis" class="level2" data-number="28.2">
+<h2 data-number="28.2" class="anchored" data-anchor-id="gene-expression-based-enrichment-analysis"><span class="header-section-number">28.2</span> Gene expression-based enrichment analysis</h2>
+<p>The <a href="http://bioconductor.org/packages/EnrichmentBrowser">EnrichmentBrowser</a> package implements an analysis pipeline for high-throughput gene expression data as measured with microarrays and RNA-seq. In a workflow-like manner, the package brings together a selection of established Bioconductor packages for gene expression data analysis. It integrates a wide range of gene set enrichment analysis methods and facilitates combination and exploration of results across methods.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../img/enrichmentWorkflow.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">EnrichmentBrowser workflow summary</figcaption><p></p>
+</figure>
+</div>
+<div class="cell" data-hash="enrichment_analysis_cache/html/unnamed-chunk-4_3616e4567d30f8033999e175e48b96ea">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(EnrichmentBrowser)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'matrixStats' was built under R version 4.2.2</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'GenomicRanges' was built under R version 4.2.2</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'S4Vectors' was built under R version 4.2.2</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'GenomeInfoDb' was built under R version 4.2.2</code></pre>
+</div>
+</div>
+<p>Further information can be found in the <a href="http://www.bioconductor.org/packages/release/bioc/vignettes/EnrichmentBrowser/inst/doc/EnrichmentBrowser.pdf">vignette</a> and <a href="https://doi.org/10.1186/s12859-016-0884-1">publication</a>.</p>
+</section>
+<section id="data-types" class="level2" data-number="28.3">
+<h2 data-number="28.3" class="anchored" data-anchor-id="data-types"><span class="header-section-number">28.3</span> Data types</h2>
+<p>For RNA-seq data, we consider transcriptome profiles of four primary human airway smooth muscle cell lines in two conditions: control and treatment with dexamethasone <a href="https://doi.org/10.1371/journal.pone.0099625">Himes et al., 2014</a>.</p>
+<p>Load the <a href="http://bioconductor.org/packages/airway">airway</a> dataset</p>
+<div class="cell" data-hash="enrichment_analysis_cache/html/unnamed-chunk-5_34a952c266d47ad92790f1e20252e3eb">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(airway)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(airway)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>For further analysis, we only keep genes that are annotated to an ENSEMBL gene ID.</p>
+<div class="cell" data-hash="enrichment_analysis_cache/html/unnamed-chunk-6_30bcab79903d1ff63099e0b39f9807cf">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>airSE <span class="ot">&lt;-</span> airway[<span class="fu">grep</span>(<span class="st">"^ENSG"</span>, <span class="fu">names</span>(airway)), ]</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(airSE)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 63677     8</code></pre>
+</div>
+</div>
+<div class="cell" data-hash="enrichment_analysis_cache/html/unnamed-chunk-7_5cea1f8fe18e45a0d343ecfb900f7035">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">assay</span>(airSE)[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                SRR1039508 SRR1039509 SRR1039512 SRR1039513
+ENSG00000000003        679        448        873        408
+ENSG00000000005          0          0          0          0
+ENSG00000000419        467        515        621        365
+ENSG00000000457        260        211        263        164</code></pre>
+</div>
+</div>
+</section>
+<section id="differential-expression-analysis" class="level2" data-number="28.4">
+<h2 data-number="28.4" class="anchored" data-anchor-id="differential-expression-analysis"><span class="header-section-number">28.4</span> Differential expression analysis</h2>
+<p>The EnrichmentBrowser incorporates established functionality from the <a href="http://bioconductor.org/packages/limma">limma</a> package for differential expression analysis. This involves the <code>voom</code> transformation when applied to RNA-seq data. Alternatively, differential expression analysis for RNA-seq data can also be carried out based on the negative binomial distribution with <a href="http://bioconductor.org/packages/edgeR">edgeR</a> and <a href="http://bioconductor.org/packages/DESeq2">DESeq2</a>.</p>
+<p>This can be performed using the function <code>EnrichmentBrowser::deAna</code> and assumes some standardized variable names:</p>
+<ul>
+<li><strong>GROUP</strong> defines the sample groups being contrasted,</li>
+<li><strong>BLOCK</strong> defines paired samples or sample blocks, as e.g.&nbsp;for batch effects.</li>
+</ul>
+<p>For more information on experimental design, see the <a href="https://www.bioconductor.org/packages/devel/bioc/vignettes/limma/inst/doc/usersguide.pdf">limma user’s guide</a>, chapter 9.</p>
+<p>For the airway dataset, it indicates whether the cell lines have been treated with dexamethasone (1) or not (0).</p>
+<p><strong>Task</strong>: Add a <code>colData</code> column named <code>GROUP</code> to the <code>airSE</code>. This column should be a binary vector which indicates wether the cell lines have been treated with dexamethasone (1) or not (0).</p>
+<div class="cell" data-hash="enrichment_analysis_cache/html/unnamed-chunk-8_aae28187ccf9ed368edcae7dfc5633ad">
+
+</div>
+<p>Paired samples, or in general sample batches/blocks, can be defined via a <code>BLOCK</code> column in the <code>colData</code> slot. For the airway dataset, the sample blocks correspond to the four different cell lines.</p>
+<div class="cell" data-hash="enrichment_analysis_cache/html/unnamed-chunk-9_1b2104d564e2cf10fdf90791b4905590">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>airSE<span class="sc">$</span>BLOCK <span class="ot">&lt;-</span> airway<span class="sc">$</span>cell</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(airSE<span class="sc">$</span>BLOCK)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+N052611 N061011 N080611  N61311 
+      2       2       2       2 </code></pre>
+</div>
+</div>
+<p>For RNA-seq data, the <code>deAna</code> function can be used to carry out differential expression analysis between the two groups either based on functionality from <em>limma</em> (that includes the <code>voom</code> transformation), or alternatively, the frequently used <em>edgeR</em> or <em>DESeq2</em> package. Here, we use the analysis based on <em>edgeR</em>.</p>
+<div class="cell" data-hash="enrichment_analysis_cache/html/unnamed-chunk-10_0e038bdcb9e74e95ff83cf5c47e448e1">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>airSE <span class="ot">&lt;-</span> <span class="fu">deAna</span>(airSE, <span class="at">de.method =</span> <span class="st">"edgeR"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Excluding 47751 genes not satisfying min.cpm threshold</code></pre>
+</div>
+</div>
+<div class="cell" data-hash="enrichment_analysis_cache/html/unnamed-chunk-11_ab2a2bbe7debc198efda57e0e1763043">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rowData</span>(airSE)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>DataFrame with 15926 rows and 4 columns
+                        FC edgeR.STAT        PVAL   ADJ.PVAL
+                 &lt;numeric&gt;  &lt;numeric&gt;   &lt;numeric&gt;  &lt;numeric&gt;
+ENSG00000000003 -0.3901002 31.0558140 0.000232422 0.00217355
+ENSG00000000419  0.1978022  6.6454709 0.027419893 0.07560513
+ENSG00000000457  0.0291609  0.0929623 0.766666551 0.84808859
+ENSG00000000460 -0.1243820  0.3832263 0.549659194 0.67996523
+ENSG00000000971  0.4172901 28.7686093 0.000312276 0.00272063
+...                    ...        ...         ...        ...
+ENSG00000273373 -0.0438722  0.0397087   0.8460260   0.901607
+ENSG00000273382 -0.8597567  7.7869742   0.0190219   0.057267
+ENSG00000273448  0.0281667  0.0103270   0.9752405   0.984888
+ENSG00000273472 -0.4642705  1.9010366   0.1978818   0.328963
+ENSG00000273486 -0.1109445  0.1536285   0.7032766   0.802377</code></pre>
+</div>
+</div>
+<p><em>Exercise:</em> Compare the number of differentially expressed genes as obtained on the <code>airSE</code> with <code>limma/voom</code>, <code>edgeR</code>, and <code>DESeq2</code>.</p>
+</section>
+<section id="gene-sets" class="level2" data-number="28.5">
+<h2 data-number="28.5" class="anchored" data-anchor-id="gene-sets"><span class="header-section-number">28.5</span> Gene sets</h2>
+<p>We are now interested in whether pre-defined sets of genes that are known to work together, e.g.&nbsp;as defined in the <a href="http://www.geneontology.org">Gene Ontology</a> or the <a href="http://www.genome.jp/kegg">KEGG</a> pathway annotation, are coordinately differentially expressed.</p>
+<p><strong>Gene sets, pathways &amp; regulatory networks</strong></p>
+<p>Gene sets are simple lists of usually functionally related genes without further specification of relationships between genes.</p>
+<p>Pathways can be interpreted as specific gene sets, typically representing a group of genes that work together in a biological process. Pathways are commonly divided in metabolic and signaling pathways. Metabolic pathways such as glycolysis represent biochemical substrate conversions by specific enzymes. Signaling pathways such as the MAPK signaling pathway describe signal transduction cascades from receptor proteins to transcription factors, resulting in activation or inhibition of specific target genes.</p>
+<p>Gene regulatory networks describe the interplay and effects of regulatory factors (such as transcription factors and microRNAs) on the expression of their target genes.</p>
+<p><strong>Resources</strong></p>
+<p><a href="http://www.geneontology.org">GO</a> and <a href="http://www.genome.jp/kegg">KEGG</a> annotations are most frequently used for the enrichment analysis of functional gene sets. Despite an increasing number of gene set and pathway databases, they are typically the first choice due to their long-standing curation and availability for a wide range of species.</p>
+<p><em>GO</em>: The Gene Ontology (GO) consists of three major sub-ontologies that classify gene products according to molecular function (MF), biological process (BP) and cellular component (CC). Each ontology consists of GO terms that define MFs, BPs or CCs to which specific genes are annotated. The terms are organized in a directed acyclic graph, where edges between the terms represent relationships of different types. They relate the terms according to a parent-child scheme, i.e.&nbsp;parent terms denote more general entities, whereas child terms represent more specific entities.</p>
+<p><em>KEGG</em>: The Kyoto Encyclopedia of Genes and Genomes (KEGG) is a collection of manually drawn pathway maps representing molecular interaction and reaction networks. These pathways cover a wide range of biochemical processes that can be divided in 7 broad categories: metabolism, genetic and environmental information processing, cellular processes, organismal systems, human diseases, and drug development. Metabolism and drug development pathways differ from pathways of the other 5 categories by illustrating reactions between chemical compounds. Pathways of the other 5 categories illustrate molecular interactions between genes and gene products.</p>
+<p>The function <code>getGenesets</code> can be used to download gene sets from databases such as GO and KEGG. Here, we use the function to download all KEGG pathways for a chosen organism (here: <em>Homo sapiens</em>) as gene sets.</p>
+<div class="cell" data-hash="enrichment_analysis_cache/html/unnamed-chunk-12_6c93cd4b774259fbeb84c354b051c807">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>kegg.gs <span class="ot">&lt;-</span> <span class="fu">getGenesets</span>(<span class="at">org =</span> <span class="st">"hsa"</span>, <span class="at">db =</span> <span class="st">"kegg"</span>)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>kegg.gs[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$hsa01100_Metabolic_pathways
+character(0)
+
+$hsa01200_Carbon_metabolism
+character(0)</code></pre>
+</div>
+</div>
+<p>Analogously, the function <code>getGenesets</code> can be used to retrieve GO terms of a selected ontology (here: biological process, BP) as defined in the <em>GO.db</em> annotation package.</p>
+<div class="cell" data-hash="enrichment_analysis_cache/html/unnamed-chunk-13_bfb8efb41e7b42a36d180414727e8445">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>go.gs <span class="ot">&lt;-</span> <span class="fu">getGenesets</span>(<span class="at">org =</span> <span class="st">"hsa"</span>, <span class="at">db =</span> <span class="st">"go"</span>, <span class="at">onto =</span> <span class="st">"BP"</span>, <span class="at">mode =</span> <span class="st">"GO.db"</span>)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>go.gs[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$`GO:0000002_mitochondrial_genome_maintenance`
+ [1] "291"   "1890"  "4205"  "4358"  "4976"  "9361"  "10000" "55186" "55186"
+[10] "80119" "84275" "84275" "92667"
+
+$`GO:0000003_reproduction`
+[1] "2796"   "2797"   "8510"   "286826"</code></pre>
+</div>
+</div>
+<p>If provided a file, the function <code>getGenesets</code> parses user-defined gene sets from GMT file format. Here, we use this functionality for reading a list of already downloaded KEGG gene sets for <em>Homo sapiens</em> containing NCBI Entrez Gene IDs.</p>
+<div class="cell" data-hash="enrichment_analysis_cache/html/unnamed-chunk-14_77b26444ef5f1a13dffbef5a6c4e137d">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>data.dir <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="st">"extdata"</span>, <span class="at">package =</span> <span class="st">"EnrichmentBrowser"</span>)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>gmt.file <span class="ot">&lt;-</span> <span class="fu">file.path</span>(data.dir, <span class="st">"hsa_kegg_gs.gmt"</span>)</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>hsa.gs <span class="ot">&lt;-</span> <span class="fu">getGenesets</span>(gmt.file)</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>hsa.gs[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$hsa05416_Viral_myocarditis
+ [1] "100509457" "101060835" "1525"      "1604"      "1605"      "1756"     
+ [7] "1981"      "1982"      "25"        "2534"      "27"        "3105"     
+[13] "3106"      "3107"      "3108"      "3109"      "3111"      "3112"     
+[19] "3113"      "3115"      "3117"      "3118"      "3119"      "3122"     
+[25] "3123"      "3125"      "3126"      "3127"      "3133"      "3134"     
+[31] "3135"      "3383"      "3683"      "3689"      "3908"      "4624"     
+[37] "4625"      "54205"     "5551"      "5879"      "5880"      "5881"     
+[43] "595"       "60"        "637"       "6442"      "6443"      "6444"     
+[49] "6445"      "71"        "836"       "841"       "842"       "857"      
+[55] "8672"      "940"       "941"       "942"       "958"       "959"      
+
+$`hsa04622_RIG-I-like_receptor_signaling_pathway`
+ [1] "10010"  "1147"   "1432"   "1540"   "1654"   "23586"  "26007"  "29110" 
+ [9] "338376" "340061" "3439"   "3440"   "3441"   "3442"   "3443"   "3444"  
+[17] "3445"   "3446"   "3447"   "3448"   "3449"   "3451"   "3452"   "3456"  
+[25] "3467"   "3551"   "3576"   "3592"   "3593"   "3627"   "3661"   "3665"  
+[33] "4214"   "4790"   "4792"   "4793"   "5300"   "54941"  "55593"  "5599"  
+[41] "5600"   "5601"   "5602"   "5603"   "56832"  "57506"  "5970"   "6300"  
+[49] "64135"  "64343"  "6885"   "7124"   "7186"   "7187"   "7189"   "7706"  
+[57] "79132"  "79671"  "80143"  "841"    "843"    "8517"   "8717"   "8737"  
+[65] "8772"   "9140"   "9474"   "9636"   "9641"   "9755"  </code></pre>
+</div>
+</div>
+<p>Note #1: Gene set collections for 11 different species from the<br>
+<a href="http://software.broadinstitute.org/gsea/msigdb/collections.jsp">Molecular Signatures Database (MSigDB)</a> can be obtained using <code>getGenesets</code> with <code>db = "msigdb"</code>. For example, the <em>H</em>allmark gene set collection can be obtained from MSigDB via:</p>
+<div class="cell" data-hash="enrichment_analysis_cache/html/msigdb_57a98ad5fc372435e581fceee96ed8a8">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>hall.gs <span class="ot">&lt;-</span> <span class="fu">getGenesets</span>(<span class="at">org =</span> <span class="st">"hsa"</span>, <span class="at">db =</span> <span class="st">"msigdb"</span>, <span class="at">cat =</span> <span class="st">"H"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'msigdbr' was built under R version 4.2.2</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>hall.gs[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$M5890_HALLMARK_TNFA_SIGNALING_VIA_NFKB
+  [1] "19"     "57007"  "374"    "467"    "490"    "2683"   "9334"   "597"   
+  [9] "602"    "604"    "8553"   "329"    "330"    "650"    "694"    "7832"  
+ [17] "10950"  "10950"  "6347"   "6364"   "6351"   "6351"   "6351"   "6352"  
+ [25] "6352"   "3491"   "595"    "57018"  "9034"   "960"    "969"    "941"   
+ [33] "9308"   "1026"   "1051"   "1052"   "8837"   "23529"  "1435"   "1437"  
+ [41] "2919"   "3627"   "6373"   "2920"   "2921"   "6372"   "23586"  "23258" 
+ [49] "11080"  "55332"  "1843"   "1844"   "1846"   "1847"   "1906"   "1942"  
+ [57] "1958"   "1959"   "1960"   "10938"  "10209"  "2114"   "2150"   "2152"  
+ [65] "24147"  "2353"   "2354"   "8061"   "2355"   "2526"   "50486"  "1647"  
+ [73] "4616"   "2643"   "2669"   "9945"   "1880"   "1839"   "3280"   "3383"  
+ [81] "23308"  "3398"   "9592"   "8870"   "8870"   "8870"   "8870"   "8870"  
+ [89] "8870"   "8870"   "51278"  "64135"  "3433"   "3460"   "3460"   "3593"  
+ [97] "3601"   "3606"   "3552"   "3553"   "51561"  "3569"   "3572"   "3575"  
+[105] "3624"   "3659"   "8660"   "182"    "3725"   "3726"   "23135"  "7071"  
+[113] "10365"  "9314"   "1316"   "687"    "8942"   "3914"   "3949"   "3976"  
+[121] "9516"   "23764"  "5606"   "1326"   "4082"   "4170"   "9242"   "4084"  
+[129] "4609"   "10135"  "10725"  "4780"   "4783"   "4790"   "4791"   "4792"  
+[137] "4794"   "4814"   "3164"   "4929"   "8013"   "4973"   "24145"  "5142"  
+[145] "10611"  "5187"   "5209"   "22822"  "7262"   "7262"   "5328"   "5329"  
+[153] "5341"   "10769"  "8613"   "56937"  "10957"  "23645"  "5734"   "5743"  
+[161] "5791"   "5806"   "1827"   "5966"   "5970"   "5971"   "388"    "8767"  
+[169] "127544" "6303"   "6385"   "5055"   "5271"   "5054"   "6446"   "150094"
+[177] "9120"   "6515"   "11182"  "11182"  "4088"   "8303"   "9021"   "6648"  
+[185] "8877"   "80176"  "8878"   "8878"   "6776"   "10010"  "6890"   "6890"  
+[193] "6890"   "6890"   "6890"   "6890"   "6890"   "6890"   "7050"   "25976" 
+[201] "7097"   "3371"   "7124"   "7124"   "7124"   "7124"   "7124"   "7124"  
+[209] "7124"   "7124"   "7127"   "7128"   "7130"   "25816"  "3604"   "8744"  
+[217] "10318"  "79155"  "7185"   "10221"  "9322"   "8848"   "7280"   "7422"  
+[225] "79693"  "65986"  "80149"  "7538"  
+
+$M5891_HALLMARK_HYPOXIA
+  [1] "57007"  "133"    "136"    "205"    "9590"   "226"    "229"    "230"   
+  [9] "272"    "51129"  "55139"  "302"    "467"    "538"    "126792" "124872"
+ [17] "63827"  "596"    "633"    "8553"   "665"    "680"    "694"    "771"   
+ [25] "839"    "857"    "284119" "112464" "3491"   "1490"   "8839"   "901"   
+ [33] "1026"   "1027"   "1028"   "1028"   "9435"   "9469"   "10370"  "1289"  
+ [41] "1356"   "1466"   "7852"   "1634"   "1649"   "54541"  "10570"  "1837"  
+ [49] "1843"   "1907"   "1942"   "1944"   "1956"   "2023"   "2026"   "2027"  
+ [57] "30001"  "54206"  "2113"   "2131"   "2152"   "26355"  "2203"   "2353"  
+ [65] "2355"   "2309"   "2548"   "2584"   "2597"   "26330"  "2632"   "2645"  
+ [73] "2651"   "2651"   "2745"   "2817"   "2719"   "2239"   "2821"   "2821"  
+ [81] "9380"   "2997"   "3036"   "3069"   "3073"   "3098"   "3099"   "3162"  
+ [89] "3219"   "9957"   "3309"   "3423"   "8870"   "8870"   "8870"   "8870"  
+ [97] "8870"   "8870"   "8870"   "3484"   "3486"   "3569"   "10994"  "3623"  
+[105] "8660"   "3669"   "23210"  "3725"   "11015"  "55818"  "3798"   "1316"  
+[113] "8609"   "54800"  "3906"   "9215"   "3939"   "3939"   "3948"   "4015"  
+[121] "56925"  "23764"  "4214"   "4282"   "4282"   "4493"   "4502"   "4601"  
+[129] "4627"   "55577"  "1463"   "10397"  "3340"   "8509"   "23327"  "4783"  
+[137] "25819"  "2908"   "5033"   "8974"   "5066"   "5105"   "5155"   "5163"  
+[145] "5165"   "5209"   "5211"   "5214"   "5224"   "5228"   "5230"   "5236"  
+[153] "55276"  "5260"   "5292"   "5313"   "5313"   "5317"   "51316"  "5329"  
+[161] "123"    "10957"  "10891"  "8497"   "23645"  "5507"   "25824"  "5578"  
+[169] "5837"   "3516"   "6095"   "58528"  "6275"   "8819"   "949"    "6383"  
+[177] "9672"   "6385"   "8991"   "5054"   "6478"   "6576"   "6513"   "6515"  
+[185] "6518"   "2542"   "2542"   "2542"   "6533"   "8406"   "8987"   "6781"  
+[193] "8614"   "6820"   "26136"  "7043"   "7045"   "7052"   "25976"  "8277"  
+[201] "55076"  "7128"   "7162"   "7162"   "7163"   "7167"   "8459"   "7360"  
+[209] "7422"   "7428"   "7436"   "26118"  "7511"   "7538"   "23036" </code></pre>
+</div>
+</div>
+<p>Note #2: The <code>idMap</code> function can be used to map gene sets from NCBI Entrez Gene IDs to other common gene ID types such as ENSEMBL gene IDs or HGNC symbols.\ For example, to map the gene sets from Entrez Gene IDs to gene symbols:</p>
+<div class="cell" data-hash="enrichment_analysis_cache/html/idmapGS_c04d0f734d68c8862c4dbbf409ce5171">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>hsa.gs.sym <span class="ot">&lt;-</span> <span class="fu">idMap</span>(hsa.gs, <span class="at">org =</span> <span class="st">"hsa"</span>, <span class="at">from =</span> <span class="st">"ENTREZID"</span>, <span class="at">to =</span> <span class="st">"SYMBOL"</span>)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>hsa.gs.sym[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$hsa05416_Viral_myocarditis
+ [1] "ABL1"     "ABL2"     "ACTB"     "ACTG1"    "BID"      "CASP3"   
+ [7] "CASP8"    "CASP9"    "CAV1"     "CCND1"    "CD28"     "CD40"    
+[13] "CD40LG"   "CD55"     "CD80"     "CD86"     "CXADR"    "CYCS"    
+[19] "DAG1"     "DMD"      "EIF4G1"   "EIF4G2"   "EIF4G3"   "FYN"     
+[25] "HLA-A"    "HLA-B"    "HLA-C"    "HLA-DMA"  "HLA-DMB"  "HLA-DOA" 
+[31] "HLA-DOB"  "HLA-DPA1" "HLA-DPB1" "HLA-DQA1" "HLA-DQA2" "HLA-DQB1"
+[37] "HLA-DRA"  "HLA-DRB1" "HLA-DRB3" "HLA-DRB4" "HLA-DRB5" "HLA-E"   
+[43] "HLA-F"    "HLA-G"    "ICAM1"    "ITGAL"    "ITGB2"    "LAMA2"   
+[49] "MYH6"     "MYH7"     "PRF1"     "RAC1"     "RAC2"     "RAC3"    
+[55] "SGCA"     "SGCB"     "SGCD"     "SGCG"    
+
+$`hsa04622_RIG-I-like_receptor_signaling_pathway`
+ [1] "ATG12"  "ATG5"   "AZI2"   "CASP10" "CASP8"  "CHUK"   "CXCL10" "CXCL8" 
+ [9] "CYLD"   "DDX3X"  "DHX58"  "FADD"   "IFIH1"  "IFNA1"  "IFNA10" "IFNA13"
+[17] "IFNA14" "IFNA16" "IFNA17" "IFNA2"  "IFNA21" "IFNA4"  "IFNA5"  "IFNA6" 
+[25] "IFNA7"  "IFNA8"  "IFNB1"  "IFNE"   "IFNK"   "IFNW1"  "IKBKB"  "IKBKE" 
+[33] "IKBKG"  "IL12A"  "IL12B"  "IRF3"   "IRF7"   "ISG15"  "MAP3K1" "MAP3K7"
+[41] "MAPK10" "MAPK11" "MAPK12" "MAPK13" "MAPK14" "MAPK8"  "MAPK9"  "MAVS"  
+[49] "NFKB1"  "NFKBIA" "NFKBIB" "NLRX1"  "OTUD5"  "PIN1"   "RELA"   "RIGI"  
+[57] "RIPK1"  "RNF125" "SIKE1"  "STING1" "TANK"   "TBK1"   "TBKBP1" "TKFC"  
+[65] "TNF"    "TRADD"  "TRAF2"  "TRAF3"  "TRAF6"  "TRIM25"</code></pre>
+</div>
+</div>
+</section>
+<section id="gokegg-overrepresentation-analysis" class="level2" data-number="28.6">
+<h2 data-number="28.6" class="anchored" data-anchor-id="gokegg-overrepresentation-analysis"><span class="header-section-number">28.6</span> GO/KEGG overrepresentation analysis</h2>
+<p>A variety of gene set analysis methods have been proposed <a href="https://doi.org/10.1371/journal.pcbi.1002375">Khatri et al., 2012</a>. The most basic, yet frequently used, method is the over-representation analysis (ORA) with gene sets defined according to GO or KEGG.</p>
+<ul>
+<li>Overrepresentation analysis (ORA), testing whether a gene set contains disproportional many genes of significant expression change. ORA tests the overlap between DE genes and genes in a gene set based on the hypergeometric distribution.</li>
+</ul>
+<p>As ORA works on the list of DE genes and not the actual expression values, it can be straightforward applied to RNA-seq data. However, as the gene sets here contain NCBI Entrez gene IDs and the airway dataset contains ENSEMBL gene ids, we first map the airway dataset to Entrez IDs.</p>
+<div class="cell" data-hash="enrichment_analysis_cache/html/unnamed-chunk-15_aa8afb85432047301f4588690638c60e">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>airSE <span class="ot">&lt;-</span> <span class="fu">idMap</span>(airSE, <span class="at">org =</span> <span class="st">"hsa"</span>, <span class="at">from =</span> <span class="st">"ENSEMBL"</span>, <span class="at">to =</span> <span class="st">"ENTREZID"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Encountered 99 from.IDs with &gt;1 corresponding to.ID</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>(the first to.ID was chosen for each of them)</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Excluded 1967 from.IDs without a corresponding to.ID</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Encountered 9 to.IDs with &gt;1 from.ID (the first from.ID was chosen for each of them)</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Mapped from.IDs have been added to the rowData column ENSEMBL</code></pre>
+</div>
+</div>
+<div class="cell" data-hash="enrichment_analysis_cache/html/unnamed-chunk-16_eb44257e9d3f3d2acb957a278e43f791">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>ora.air <span class="ot">&lt;-</span> <span class="fu">sbea</span>(<span class="at">method =</span> <span class="st">"ora"</span>, <span class="at">se =</span> airSE, <span class="at">gs =</span> go.gs, <span class="at">perm =</span> <span class="dv">0</span>)</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="fu">gsRanking</span>(ora.air)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>DataFrame with 415 rows and 4 columns
+                  GENE.SET  NR.GENES NR.SIG.GENES      PVAL
+               &lt;character&gt; &lt;numeric&gt;    &lt;numeric&gt; &lt;numeric&gt;
+1   GO:0030198_extracell..       108           70  4.99e-10
+2   GO:0007155_cell_adhe..       296          148  1.72e-07
+3   GO:0030336_negative_..       106           62  1.12e-06
+4   GO:0010628_positive_..       291          142  1.80e-06
+5   GO:0009410_response_..       165           88  1.93e-06
+...                    ...       ...          ...       ...
+411 GO:0008542_visual_le..        31           16    0.0484
+412 GO:0010634_positive_..        31           16    0.0484
+413 GO:0019216_regulatio..        31           16    0.0484
+414 GO:0030041_actin_fil..        31           16    0.0484
+415 GO:0051781_positive_..        31           16    0.0484</code></pre>
+</div>
+</div>
+<p>Such a ranked list is the standard output of most existing enrichment tools. Using the <code>eaBrowse</code> function creates a HTML summary from which each gene set can be inspected in more detail.</p>
+<div class="cell" data-hash="enrichment_analysis_cache/html/unnamed-chunk-17_623ed64c186609992f4fe53d62718f7b">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">eaBrowse</span>(ora.air, <span class="at">nr.show =</span> <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'XML' was built under R version 4.2.2</code></pre>
+</div>
+</div>
+<p>The resulting summary page includes for each significant gene set</p>
+<ul>
+<li>a gene report, which lists all genes of a set along with fold change and DE <span class="math inline">\(p\)</span>-value (click on links in column <code>NR.GENES</code>),</li>
+<li>interactive overview plots such as heatmap and volcano plot (column <code>SET.VIEW</code>, supports mouse-over and click-on),</li>
+<li>for KEGG pathways: highlighting of differentially expressed genes on the pathway maps (column <code>PATH.VIEW</code>, supports mouse-over and click-on).</li>
+</ul>
+<p>Note #1: <a href="https://doi.org/10.1186/gb-2010-11-2-r14">Young et al., 2010</a>, have reported biased results for ORA on RNA-seq data due to over-detection of differential expression for long and highly expressed transcripts. The <a href="http://bioconductor.org/packages/goseq">goseq</a> package and <code>limma::goana</code> implement possibilities to adjust ORA for gene length and abundance bias.</p>
+<p>Note #2: Independent of the expression data type under investigation, overlap between gene sets can result in redundant findings. This is well-documented for GO (parent-child structure, <a href="https://doi.org/10.1038/nrg2363">Rhee et al., 2008</a>) and KEGG (pathway overlap/crosstalk, <a href="https://doi.org/10.1101/gr.153551.112">Donato et al., 2013</a>). The <a href="http://bioconductor.org/packages/topGO">topGO</a> package (explicitly designed for GO) and <a href="http://bioconductor.org/packages/mgsa">mgsa</a> (applicable to arbitrary gene set definitions) implement modifications of ORA to account for such redundancies.</p>
+<p><strong>Exercise</strong></p>
+<p>Carry out a GO overrepresentation analysis for the <code>airSE</code> based on the molecular function (MF) ontology. How many significant gene sets do you observe in each case?</p>
+</section>
+<section id="functional-class-scoring-permutation-testing" class="level2" data-number="28.7">
+<h2 data-number="28.7" class="anchored" data-anchor-id="functional-class-scoring-permutation-testing"><span class="header-section-number">28.7</span> Functional class scoring &amp; permutation testing</h2>
+<p>A major limitation of ORA is that it restricts analysis to DE genes, excluding genes not satisfying the chosen significance threshold (typically the vast majority).</p>
+<p>This is resolved by gene set enrichment analysis (GSEA), which scores the tendency of gene set members to appear rather at the top or bottom of the ranked list of all measured genes <a href="https://doi.org/10.1073/pnas.0506580102">Subramanian et al., 2005</a>.</p>
+<p>As GSEA’s permutation procedure involves re-computation of per-gene DE statistics, adaptations are necessary for RNA-seq. When analyzing RNA-seq datasets with expression values given as logTPMs (or logRPKMs / logFPKMs), the available set-based enrichment methods can be applied as for microarray data. However, when given raw read counts as for the airway dataset, we recommend to first apply a variance-stabilizing transformation such as <code>voom</code> to arrive at library-size normalized logCPMs.</p>
+<div class="cell" data-hash="enrichment_analysis_cache/html/unnamed-chunk-18_7826bb4c30545ea366a6a47c8dd1ee0e">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>airSE <span class="ot">&lt;-</span> <span class="fu">normalize</span>(airSE, <span class="at">norm.method =</span> <span class="st">"vst"</span>)</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>gsea.air <span class="ot">&lt;-</span> <span class="fu">sbea</span>(<span class="at">method =</span> <span class="st">"gsea"</span>, <span class="at">se =</span> airSE, <span class="at">gs =</span> go.gs)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>A selection of additional methods is also available:</p>
+<div class="cell" data-hash="enrichment_analysis_cache/html/unnamed-chunk-19_7a658a39c898ac6221d157b87a7baf19">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sbeaMethods</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "ora"        "safe"       "gsea"       "gsa"        "padog"     
+ [6] "globaltest" "roast"      "camera"     "gsva"       "samgs"     
+[11] "ebm"        "mgsa"      </code></pre>
+</div>
+</div>
+</section>
+<section id="further-reading" class="level2" data-number="28.8">
+<h2 data-number="28.8" class="anchored" data-anchor-id="further-reading"><span class="header-section-number">28.8</span> Further Reading</h2>
+<p>Although gene set enrichment methods have been primarily developed and applied on transcriptomic data, they have recently been modified, extended and applied also in other fields of genomic and biomedical research. This includes novel approaches for functional enrichment analysis of proteomic and metabolomic data as well as genomic regions and disease phenotypes, <a href="https://doi.org/10.1002/0471250953.bi1328s53">Lavallee and Yates, 2016</a>, <a href="https://doi.org/10.1007/978-1-4939-3572-7_20">Chagoyen et al., 2016</a>, <a href="https://doi.org/10.1038/nbt.1630">McLean et al., 2010</a>, <a href="https://doi.org/10.1002/gepi.21617">Ried et al., 2012</a>.</p>
+<p>The statistical significance of the enrichment score (ES) of a gene set is assessed via sample permutation, i.e.&nbsp;(1) sample labels (= group assignment) are shuffled, (2) per-gene DE statistics are recomputed, and (3) the enrichment score is recomputed. Repeating this procedure many times allows to determine the empirical distribution of the enrichment score and to compare the observed enrichment score against it. Here, we carry out GSEA with 1000 permutations.</p>
+<p>Gene set enrichment analysis (GSEA), testing whether genes of a gene set accumulate at the top or bottom of the full gene vector ordered by direction and magnitude of expression change <a href="https://doi.org/10.1073/pnas.0506580102">Subramanian et al., 2005</a></p>
+<p>However, the term <em>gene set enrichment analysis</em> nowadays subsumes a general strategy implemented by a wide range of methods <a href="https://doi.org/10.1093/nar/gkn923">Huang et al., 2009</a>. Those methods have in common the same goal, although approach and statistical model can vary substantially <a href="https://doi.org/10.1093/bioinformatics/btm051">Goeman and Buehlmann, 2007</a>, <a href="https://doi.org/10.1371/journal.pcbi.1002375">Khatri et al., 2012</a>.</p>
+<p>To better distinguish from the specific method, some authors use the term <em>gene set analysis</em> to denote the general strategy. However, there is also a specific method from <a href="https://doi.org/10.1214/07-AOAS101">Efron and Tibshirani, 2007</a> of this name.</p>
+<section id="network-based-enrichment-analysis" class="level3" data-number="28.8.1">
+<h3 data-number="28.8.1" class="anchored" data-anchor-id="network-based-enrichment-analysis"><span class="header-section-number">28.8.1</span> Network-based enrichment analysis</h3>
+<p>Having found gene sets that show enrichment for differential expression, we are now interested whether these findings can be supported by known regulatory interactions.</p>
+<p>For example, we want to know whether transcription factors and their target genes are expressed in accordance to the connecting regulations (activation/inhibition). Such information is usually given in a gene regulatory network derived from specific experiments or compiled from the literature (<a href="https://doi.org/10.1093/nar/gkt631">Geistlinger et al., 2013</a> for an example).</p>
+<p>There are well-studied processes and organisms for which comprehensive and well-annotated regulatory networks are available, e.g.&nbsp;the <a href="http://regulondb.ccg.unam.mx">RegulonDB</a> for <em>E. coli</em> and <a href="http://www.yeastract.com">Yeastract</a> for <em>S. cerevisiae</em>.</p>
+<p>However, there are also cases where such a network is missing or at least incomplete. A basic workaround is to compile a network from regulations in pathway databases such as KEGG.</p>
+<div class="cell" data-hash="enrichment_analysis_cache/html/unnamed-chunk-20_1a1827bd3d675b1a28f603623a5ef536">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>hsa.grn <span class="ot">&lt;-</span> <span class="fu">compileGRN</span>(<span class="at">org =</span> <span class="st">"hsa"</span>, <span class="at">db =</span> <span class="st">"kegg"</span>)</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(hsa.grn)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     FROM    TO          TYPE
+[1,] "10000" "100132074" "-" 
+[2,] "10000" "1026"      "-" 
+[3,] "10000" "1026"      "+" 
+[4,] "10000" "1027"      "-" 
+[5,] "10000" "10488"     "+" 
+[6,] "10000" "107"       "+" </code></pre>
+</div>
+</div>
+<p>Signaling pathway impact analysis (SPIA) is a network-based enrichment analysis method, which is explicitly designed for KEGG signaling pathways <a href="https://doi.org/%2010.1093/bioinformatics/btn577">Tarca et al., 2009</a>. The method evaluates whether expression changes are propagated across the pathway topology in combination with ORA.</p>
+<div class="cell" data-hash="enrichment_analysis_cache/html/unnamed-chunk-21_682a35927dafebde858866bf4089a426">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>spia.air <span class="ot">&lt;-</span> <span class="fu">nbea</span>(<span class="at">method =</span> <span class="st">"spia"</span>, <span class="at">se =</span> airSE, <span class="at">gs =</span> kegg.gs, <span class="at">grn =</span> hsa.grn)</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="fu">gsRanking</span>(spia.air)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>More generally applicable is gene graph enrichment analysis (GGEA), which evaluates consistency of interactions in a given gene regulatory network with the observed expression data <a href="https://doi.org/10.1093/bioinformatics/btr228">Geistlinger et al., 2011</a>.</p>
+<div class="cell" data-hash="enrichment_analysis_cache/html/unnamed-chunk-22_b679972570ea7d3a321adcd9eb33d3e9">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>ggea.air <span class="ot">&lt;-</span> <span class="fu">nbea</span>(<span class="at">method =</span> <span class="st">"ggea"</span>, <span class="at">se =</span> airSE, <span class="at">gs =</span> kegg.gs, <span class="at">grn =</span> hsa.grn)</span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a><span class="fu">gsRanking</span>(ggea.air)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-hash="enrichment_analysis_cache/html/unnamed-chunk-23_813338728bcce0cbc31d8545ee991510">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nbeaMethods</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Note #1: As network-based enrichment methods typically do not involve sample permutation but rather network permutation, thus avoiding DE re-computation, they can likewise be applied to RNA-seq data.</p>
+<p>Note #2: Given the various enrichment methods with individual benefits and limitations, combining multiple methods can be beneficial, e.g.&nbsp;combined application of a set-based and a network-based method. This has been shown to filter out spurious hits of individual methods and to reduce the outcome to gene sets accumulating evidence from different methods <a href="https://doi.org/10.1186/s12859-016-0884-1">Geistlinger et al., 2016</a>, <a href="https://doi.org/10.1093/bioinformatics/btw623">Alhamdoosh et al., 2017</a>.</p>
+<p>The function <code>combResults</code> implements the straightforward combination of results, thereby facilitating seamless comparison of results across methods. For demonstration, we use the ORA and GSEA results for the ALL dataset from the previous section:</p>
+<div class="cell" data-hash="enrichment_analysis_cache/html/unnamed-chunk-24_846ed6aa85553c176650cbf6272307c2">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>res.list <span class="ot">&lt;-</span> <span class="fu">list</span>(ora.air, roast.air)</span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>comb.res <span class="ot">&lt;-</span> <span class="fu">combResults</span>(res.list)</span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a><span class="fu">gsRanking</span>(comb.res)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<hr>
+<p>This lesson was adapted from materials created by Ludwig Geistlinger</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../session5/de_analysis.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Differential expression analysis with DESeq2</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../session5/pset5.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Problem Set 5</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>
