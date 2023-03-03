@@ -124,11 +124,11 @@ Gene regulatory networks describe the interplay and effects of regulatory factor
 
 *KEGG*: The Kyoto Encyclopedia of Genes and Genomes (KEGG) is a collection of manually drawn pathway maps representing molecular interaction and reaction networks. These pathways cover a wide range of biochemical processes that can be divided in 7 broad categories: metabolism, genetic and environmental information processing, cellular processes, organismal systems, human diseases, and drug development. Metabolism and drug development pathways differ from pathways of the other 5 categories by illustrating reactions between chemical compounds. Pathways of the other 5 categories illustrate molecular interactions between genes and gene products.
 
-The function `getGenesets` can be used to download gene sets from databases such as GO and KEGG. Here, we use the function to download all KEGG pathways for a chosen organism (here: *Homo sapiens*) as gene sets.
+The function `getGenesets` can be used to download gene sets from databases such as GO and KEGG. Here, we use the function to download all MSigDB `C2: curated pathways` pathways for a chosen organism (here: *Homo sapiens*) as gene sets.
 
 ```{R}
-kegg.gs <- getGenesets(org = "hsa", db = "kegg")
-kegg.gs[1:2]
+c2.gs <- getGenesets(org = "hsa", db = "msigdb", cat="C2")
+c2.gs[1:2]
 ```
 
 Analogously, the function `getGenesets` can be used to retrieve GO terms of a selected ontology (here: biological process, BP) as defined in the *GO.db* annotation package.
@@ -210,7 +210,9 @@ As GSEA's permutation procedure involves re-computation of per-gene DE statistic
 ```{r}
 #| eval: false
 airSE <- normalize(airSE, norm.method = "vst")
-gsea.air <- sbea(method = "gsea", se = airSE, gs = go.gs.mf)  
+gsea.air <- sbea(method = "gsea", se = airSE, gs = hsa.gs) 
+gsRanking(gsea.air)
+eaBrowse(gsea.air, nr.show = 5)
 ```
 
 A selection of additional methods is also available:
@@ -218,6 +220,12 @@ A selection of additional methods is also available:
 ```{r}
 sbeaMethods()
 ```
+
+**Exercise**
+
+While performing enrichment in R makes our analyses more reproducible and open, sometimes we might need to specifically run a standalone tool like David or Enrichr. 
+
+Take a look at [David](https://david.ncifcrf.gov/) to see what it requires as input. How would you export/save the airway data in this format? 
 
 ## Further Reading
 
