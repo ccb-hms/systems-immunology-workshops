@@ -566,16 +566,50 @@ ENSG00000273486 -0.1109445  0.1536285   0.7032766   0.802377</code></pre>
 <p><a href="http://www.geneontology.org">GO</a> and <a href="http://www.genome.jp/kegg">KEGG</a> annotations are most frequently used for the enrichment analysis of functional gene sets. Despite an increasing number of gene set and pathway databases, they are typically the first choice due to their long-standing curation and availability for a wide range of species.</p>
 <p><em>GO</em>: The Gene Ontology (GO) consists of three major sub-ontologies that classify gene products according to molecular function (MF), biological process (BP) and cellular component (CC). Each ontology consists of GO terms that define MFs, BPs or CCs to which specific genes are annotated. The terms are organized in a directed acyclic graph, where edges between the terms represent relationships of different types. They relate the terms according to a parent-child scheme, i.e.&nbsp;parent terms denote more general entities, whereas child terms represent more specific entities.</p>
 <p><em>KEGG</em>: The Kyoto Encyclopedia of Genes and Genomes (KEGG) is a collection of manually drawn pathway maps representing molecular interaction and reaction networks. These pathways cover a wide range of biochemical processes that can be divided in 7 broad categories: metabolism, genetic and environmental information processing, cellular processes, organismal systems, human diseases, and drug development. Metabolism and drug development pathways differ from pathways of the other 5 categories by illustrating reactions between chemical compounds. Pathways of the other 5 categories illustrate molecular interactions between genes and gene products.</p>
-<p>The function <code>getGenesets</code> can be used to download gene sets from databases such as GO and KEGG. Here, we use the function to download all KEGG pathways for a chosen organism (here: <em>Homo sapiens</em>) as gene sets.</p>
-<div class="cell" data-hash="enrichment_analysis_cache/html/unnamed-chunk-12_6c93cd4b774259fbeb84c354b051c807">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>kegg.gs <span class="ot">&lt;-</span> <span class="fu">getGenesets</span>(<span class="at">org =</span> <span class="st">"hsa"</span>, <span class="at">db =</span> <span class="st">"kegg"</span>)</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>kegg.gs[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The function <code>getGenesets</code> can be used to download gene sets from databases such as GO and KEGG. Here, we use the function to download all MSigDB <code>C2: curated pathways</code> pathways for a chosen organism (here: <em>Homo sapiens</em>) as gene sets.</p>
+<div class="cell" data-hash="enrichment_analysis_cache/html/unnamed-chunk-12_78087027c57f4f4ffb5a97950f2104b0">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>c2.gs <span class="ot">&lt;-</span> <span class="fu">getGenesets</span>(<span class="at">org =</span> <span class="st">"hsa"</span>, <span class="at">db =</span> <span class="st">"msigdb"</span>, <span class="at">cat=</span><span class="st">"C2"</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>c2.gs[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>$hsa01100_Metabolic_pathways
-character(0)
+<pre><code>$M0_BROWNE_HCMV_INFECTION_30MIN_DN
+  [1] "24"        "88"        "7840"      "9474"      "6790"      "558"      
+  [7] "8537"      "675"       "11118"     "839"       "863"       "51362"    
+ [13] "998"       "1012"      "983"       "1056"      "1062"      "10752"    
+ [19] "10584"     "1442"      "8029"      "6372"      "8529"      "10521"    
+ [25] "6764"      "1719"      "9229"      "1657"      "1832"      "667"      
+ [31] "1844"      "1846"      "8411"      "1915"      "2038"      "26049"    
+ [37] "2585"      "2697"      "2701"      "89944"     "11146"     "51031"    
+ [43] "2796"      "63940"     "63940"     "63940"     "63940"     "63940"    
+ [49] "63940"     "63940"     "63940"     "2892"      "2915"      "54103"    
+ [55] "25774"     "25774"     "3003"      "3145"      "3232"      "3458"     
+ [61] "3581"      "10526"     "3689"      "3706"      "50618"     "90861"    
+ [67] "8997"      "3754"      "3833"      "3833"      "3833"      "3833"     
+ [73] "22914"     "400506"    "7805"      "57234"     "4008"      "7804"     
+ [79] "10234"     "4101"      "7851"      "8550"      "54468"     "100500862"
+ [85] "4314"      "7841"      "4585"      "4585"      "4585"      "4585"     
+ [91] "4585"      "4585"      "4585"      "4585"      "4593"      "23397"    
+ [97] "4800"      "22861"     "4857"      "10062"     "4923"      "10215"    
+[103] "10215"     "4983"      "4986"      "5000"      "5009"      "27334"    
+[109] "5047"      "221830"    "5433"      "8499"      "5565"      "5577"     
+[115] "5577"      "136540"    "136540"    "5741"      "7803"      "11099"    
+[121] "5816"      "5816"      "9910"      "5897"      "9649"      "26953"    
+[127] "1104"      "11079"     "5989"      "5989"      "5998"      "6006"     
+[133] "9750"      "6738"      "3921"      "57035"     "9711"      "22902"    
+[139] "6291"      "25759"     "140885"    "6557"      "8604"      "55117"    
+[145] "8651"      "6754"      "6758"      "51430"     "26099"     "6884"     
+[151] "7053"      "7066"      "7082"      "7082"      "25880"     "7133"     
+[157] "8600"      "80342"     "10208"     "9217"      "7409"      "100310838"
+[163] "4013"      "6846"      "7678"      "7701"      "7755"      "388567"   
+[169] "9753"     
 
-$hsa01200_Carbon_metabolism
-character(0)</code></pre>
+$M1_PID_FANCONI_PATHWAY
+ [1] "472"    "545"    "84126"  "641"    "672"    "675"    "83990"  "378708"
+ [9] "1111"   "80233"  "91442"  "22909"  "22909"  "2175"   "2187"   "2176"  
+[17] "2177"   "2178"   "2188"   "2189"   "55215"  "55120"  "57697"  "23291" 
+[25] "3014"   "3280"   "3364"   "4361"   "4683"   "79728"  "5810"   "5884"  
+[33] "5884"   "10111"  "5883"   "5982"   "5983"   "5984"   "5985"   "80010" 
+[41] "6117"   "6118"   "23145"  "7156"   "7156"   "11073"  "29089"  "7398"  
+[49] "57599"  "7517"  </code></pre>
 </div>
 </div>
 <p>Analogously, the function <code>getGenesets</code> can be used to retrieve GO terms of a selected ontology (here: biological process, BP) as defined in the <em>GO.db</em> annotation package.</p>
@@ -584,8 +618,8 @@ character(0)</code></pre>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>go.gs[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$`GO:0000002_mitochondrial_genome_maintenance`
- [1] "291"   "1890"  "4205"  "4358"  "4976"  "9361"  "10000" "55186" "80119"
-[10] "84275" "92667"
+ [1] "291"   "1890"  "4205"  "4358"  "4976"  "9361"  "10000" "55186" "55186"
+[10] "80119" "84275" "84275" "92667"
 
 $`GO:0000003_reproduction`
 [1] "2796"   "2797"   "8510"   "286826"</code></pre>
@@ -708,12 +742,12 @@ $M5891_HALLMARK_HYPOXIA
 
 $`hsa04622_RIG-I-like_receptor_signaling_pathway`
  [1] "ATG12"  "ATG5"   "AZI2"   "CASP10" "CASP8"  "CHUK"   "CXCL10" "CXCL8" 
- [9] "CYLD"   "DDX3X"  "DDX58"  "DHX58"  "FADD"   "IFIH1"  "IFNA1"  "IFNA10"
-[17] "IFNA13" "IFNA14" "IFNA16" "IFNA17" "IFNA2"  "IFNA21" "IFNA4"  "IFNA5" 
-[25] "IFNA6"  "IFNA7"  "IFNA8"  "IFNB1"  "IFNE"   "IFNK"   "IFNW1"  "IKBKB" 
-[33] "IKBKE"  "IKBKG"  "IL12A"  "IL12B"  "IRF3"   "IRF7"   "ISG15"  "MAP3K1"
-[41] "MAP3K7" "MAPK10" "MAPK11" "MAPK12" "MAPK13" "MAPK14" "MAPK8"  "MAPK9" 
-[49] "MAVS"   "NFKB1"  "NFKBIA" "NFKBIB" "NLRX1"  "OTUD5"  "PIN1"   "RELA"  
+ [9] "CYLD"   "DDX3X"  "DHX58"  "FADD"   "IFIH1"  "IFNA1"  "IFNA10" "IFNA13"
+[17] "IFNA14" "IFNA16" "IFNA17" "IFNA2"  "IFNA21" "IFNA4"  "IFNA5"  "IFNA6" 
+[25] "IFNA7"  "IFNA8"  "IFNB1"  "IFNE"   "IFNK"   "IFNW1"  "IKBKB"  "IKBKE" 
+[33] "IKBKG"  "IL12A"  "IL12B"  "IRF3"   "IRF7"   "ISG15"  "MAP3K1" "MAP3K7"
+[41] "MAPK10" "MAPK11" "MAPK12" "MAPK13" "MAPK14" "MAPK8"  "MAPK9"  "MAVS"  
+[49] "NFKB1"  "NFKBIA" "NFKBIB" "NLRX1"  "OTUD5"  "PIN1"   "RELA"   "RIGI"  
 [57] "RIPK1"  "RNF125" "SIKE1"  "STING1" "TANK"   "TBK1"   "TBKBP1" "TKFC"  
 [65] "TNF"    "TRADD"  "TRAF2"  "TRAF3"  "TRAF6"  "TRIM25"</code></pre>
 </div>
@@ -729,16 +763,16 @@ $`hsa04622_RIG-I-like_receptor_signaling_pathway`
 <div class="cell" data-hash="enrichment_analysis_cache/html/unnamed-chunk-15_aa8afb85432047301f4588690638c60e">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>airSE <span class="ot">&lt;-</span> <span class="fu">idMap</span>(airSE, <span class="at">org =</span> <span class="st">"hsa"</span>, <span class="at">from =</span> <span class="st">"ENSEMBL"</span>, <span class="at">to =</span> <span class="st">"ENTREZID"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Encountered 92 from.IDs with &gt;1 corresponding to.ID</code></pre>
+<pre><code>Encountered 99 from.IDs with &gt;1 corresponding to.ID</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
 <pre><code>(the first to.ID was chosen for each of them)</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Excluded 1979 from.IDs without a corresponding to.ID</code></pre>
+<pre><code>Excluded 1967 from.IDs without a corresponding to.ID</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Encountered 10 to.IDs with &gt;1 from.ID (the first from.ID was chosen for each of them)</code></pre>
+<pre><code>Encountered 9 to.IDs with &gt;1 from.ID (the first from.ID was chosen for each of them)</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Mapped from.IDs have been added to the rowData column ENSEMBL</code></pre>
@@ -748,29 +782,25 @@ $`hsa04622_RIG-I-like_receptor_signaling_pathway`
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>ora.air <span class="ot">&lt;-</span> <span class="fu">sbea</span>(<span class="at">method =</span> <span class="st">"ora"</span>, <span class="at">se =</span> airSE, <span class="at">gs =</span> go.gs, <span class="at">perm =</span> <span class="dv">0</span>)</span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">gsRanking</span>(ora.air)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>DataFrame with 386 rows and 4 columns
+<pre><code>DataFrame with 415 rows and 4 columns
                   GENE.SET  NR.GENES NR.SIG.GENES      PVAL
                &lt;character&gt; &lt;numeric&gt;    &lt;numeric&gt; &lt;numeric&gt;
-1   GO:0030198_extracell..       104           67  1.90e-09
-2   GO:0030336_negative_..        91           58  4.09e-08
-3   GO:0007155_cell_adhe..       296          146  6.76e-07
-4   GO:0010628_positive_..       288          140  3.16e-06
-5   GO:0009410_response_..       162           84  1.52e-05
+1   GO:0030198_extracell..       108           70  4.99e-10
+2   GO:0007155_cell_adhe..       296          148  1.72e-07
+3   GO:0030336_negative_..       106           62  1.12e-06
+4   GO:0010628_positive_..       291          142  1.80e-06
+5   GO:0009410_response_..       165           88  1.93e-06
 ...                    ...       ...          ...       ...
-382 GO:0051924_regulatio..        15            9    0.0471
-383 GO:0090103_cochlea_m..        15            9    0.0471
-384 GO:0043547_positive_..       125           54    0.0474
-385 GO:0009611_response_..        38           19    0.0482
-386 GO:0051781_positive_..        31           16    0.0494</code></pre>
+411 GO:0008542_visual_le..        31           16    0.0484
+412 GO:0010634_positive_..        31           16    0.0484
+413 GO:0019216_regulatio..        31           16    0.0484
+414 GO:0030041_actin_fil..        31           16    0.0484
+415 GO:0051781_positive_..        31           16    0.0484</code></pre>
 </div>
 </div>
 <p>Such a ranked list is the standard output of most existing enrichment tools. Using the <code>eaBrowse</code> function creates a HTML summary from which each gene set can be inspected in more detail.</p>
 <div class="cell" data-hash="enrichment_analysis_cache/html/unnamed-chunk-17_623ed64c186609992f4fe53d62718f7b">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">eaBrowse</span>(ora.air, <span class="at">nr.show =</span> <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in .recacheSubclasses(def@className, def, env): undefined subclass
-"DataFrameFactor" of class "vector_OR_Vector"; definition not updated</code></pre>
-</div>
 </div>
 <p>The resulting summary page includes for each significant gene set</p>
 <ul>
@@ -788,19 +818,24 @@ $`hsa04622_RIG-I-like_receptor_signaling_pathway`
 <p>A major limitation of ORA is that it restricts analysis to DE genes, excluding genes not satisfying the chosen significance threshold (typically the vast majority).</p>
 <p>This is resolved by gene set enrichment analysis (GSEA), which scores the tendency of gene set members to appear rather at the top or bottom of the ranked list of all measured genes <a href="https://doi.org/10.1073/pnas.0506580102">Subramanian et al., 2005</a>.</p>
 <p>As GSEA’s permutation procedure involves re-computation of per-gene DE statistics, adaptations are necessary for RNA-seq. When analyzing RNA-seq datasets with expression values given as logTPMs (or logRPKMs / logFPKMs), the available set-based enrichment methods can be applied as for microarray data. However, when given raw read counts as for the airway dataset, we recommend to first apply a variance-stabilizing transformation such as <code>voom</code> to arrive at library-size normalized logCPMs.</p>
-<div class="cell" data-hash="enrichment_analysis_cache/html/unnamed-chunk-18_979542ede2b0abc1bc82b1a160380168">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>airSE <span class="ot">&lt;-</span> <span class="fu">normalize</span>(airSE, <span class="at">norm.method =</span> <span class="st">"vst"</span>)</span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>gsea.air <span class="ot">&lt;-</span> <span class="fu">sbea</span>(<span class="at">method =</span> <span class="st">"gsea"</span>, <span class="at">se =</span> airSE, <span class="at">gs =</span> go.gs.mf)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="enrichment_analysis_cache/html/unnamed-chunk-18_e644296b5deba22f8cb340c33b9186a6">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>airSE <span class="ot">&lt;-</span> <span class="fu">normalize</span>(airSE, <span class="at">norm.method =</span> <span class="st">"vst"</span>)</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>gsea.air <span class="ot">&lt;-</span> <span class="fu">sbea</span>(<span class="at">method =</span> <span class="st">"gsea"</span>, <span class="at">se =</span> airSE, <span class="at">gs =</span> hsa.gs) </span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="fu">gsRanking</span>(gsea.air)</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a><span class="fu">eaBrowse</span>(gsea.air, <span class="at">nr.show =</span> <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>A selection of additional methods is also available:</p>
 <div class="cell" data-hash="enrichment_analysis_cache/html/unnamed-chunk-19_7a658a39c898ac6221d157b87a7baf19">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sbeaMethods</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sbeaMethods</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] "ora"        "safe"       "gsea"       "gsa"        "padog"     
  [6] "globaltest" "roast"      "camera"     "gsva"       "samgs"     
 [11] "ebm"        "mgsa"      </code></pre>
 </div>
 </div>
+<p><strong>Exercise</strong></p>
+<p>While performing enrichment in R makes our analyses more reproducible and open, sometimes we might need to specifically run a standalone tool like David or Enrichr.</p>
+<p>Take a look at <a href="https://david.ncifcrf.gov/">David</a> to see what it requires as input. How would you export/save the airway data in this format?</p>
 </section>
 <section id="further-reading" class="level2" data-number="28.8">
 <h2 data-number="28.8" class="anchored" data-anchor-id="further-reading"><span class="header-section-number">28.8</span> Further Reading</h2>
@@ -816,8 +851,8 @@ $`hsa04622_RIG-I-like_receptor_signaling_pathway`
 <p>There are well-studied processes and organisms for which comprehensive and well-annotated regulatory networks are available, e.g.&nbsp;the <a href="http://regulondb.ccg.unam.mx">RegulonDB</a> for <em>E. coli</em> and <a href="http://www.yeastract.com">Yeastract</a> for <em>S. cerevisiae</em>.</p>
 <p>However, there are also cases where such a network is missing or at least incomplete. A basic workaround is to compile a network from regulations in pathway databases such as KEGG.</p>
 <div class="cell" data-hash="enrichment_analysis_cache/html/unnamed-chunk-20_1a1827bd3d675b1a28f603623a5ef536">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>hsa.grn <span class="ot">&lt;-</span> <span class="fu">compileGRN</span>(<span class="at">org =</span> <span class="st">"hsa"</span>, <span class="at">db =</span> <span class="st">"kegg"</span>)</span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(hsa.grn)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>hsa.grn <span class="ot">&lt;-</span> <span class="fu">compileGRN</span>(<span class="at">org =</span> <span class="st">"hsa"</span>, <span class="at">db =</span> <span class="st">"kegg"</span>)</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(hsa.grn)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     FROM    TO          TYPE
 [1,] "10000" "100132074" "-" 
@@ -830,24 +865,24 @@ $`hsa04622_RIG-I-like_receptor_signaling_pathway`
 </div>
 <p>Signaling pathway impact analysis (SPIA) is a network-based enrichment analysis method, which is explicitly designed for KEGG signaling pathways <a href="https://doi.org/%2010.1093/bioinformatics/btn577">Tarca et al., 2009</a>. The method evaluates whether expression changes are propagated across the pathway topology in combination with ORA.</p>
 <div class="cell" data-hash="enrichment_analysis_cache/html/unnamed-chunk-21_682a35927dafebde858866bf4089a426">
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>spia.air <span class="ot">&lt;-</span> <span class="fu">nbea</span>(<span class="at">method =</span> <span class="st">"spia"</span>, <span class="at">se =</span> airSE, <span class="at">gs =</span> kegg.gs, <span class="at">grn =</span> hsa.grn)</span>
-<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="fu">gsRanking</span>(spia.air)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>spia.air <span class="ot">&lt;-</span> <span class="fu">nbea</span>(<span class="at">method =</span> <span class="st">"spia"</span>, <span class="at">se =</span> airSE, <span class="at">gs =</span> kegg.gs, <span class="at">grn =</span> hsa.grn)</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="fu">gsRanking</span>(spia.air)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>More generally applicable is gene graph enrichment analysis (GGEA), which evaluates consistency of interactions in a given gene regulatory network with the observed expression data <a href="https://doi.org/10.1093/bioinformatics/btr228">Geistlinger et al., 2011</a>.</p>
 <div class="cell" data-hash="enrichment_analysis_cache/html/unnamed-chunk-22_b679972570ea7d3a321adcd9eb33d3e9">
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>ggea.air <span class="ot">&lt;-</span> <span class="fu">nbea</span>(<span class="at">method =</span> <span class="st">"ggea"</span>, <span class="at">se =</span> airSE, <span class="at">gs =</span> kegg.gs, <span class="at">grn =</span> hsa.grn)</span>
-<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="fu">gsRanking</span>(ggea.air)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>ggea.air <span class="ot">&lt;-</span> <span class="fu">nbea</span>(<span class="at">method =</span> <span class="st">"ggea"</span>, <span class="at">se =</span> airSE, <span class="at">gs =</span> kegg.gs, <span class="at">grn =</span> hsa.grn)</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="fu">gsRanking</span>(ggea.air)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-hash="enrichment_analysis_cache/html/unnamed-chunk-23_813338728bcce0cbc31d8545ee991510">
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nbeaMethods</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nbeaMethods</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Note #1: As network-based enrichment methods typically do not involve sample permutation but rather network permutation, thus avoiding DE re-computation, they can likewise be applied to RNA-seq data.</p>
 <p>Note #2: Given the various enrichment methods with individual benefits and limitations, combining multiple methods can be beneficial, e.g.&nbsp;combined application of a set-based and a network-based method. This has been shown to filter out spurious hits of individual methods and to reduce the outcome to gene sets accumulating evidence from different methods <a href="https://doi.org/10.1186/s12859-016-0884-1">Geistlinger et al., 2016</a>, <a href="https://doi.org/10.1093/bioinformatics/btw623">Alhamdoosh et al., 2017</a>.</p>
 <p>The function <code>combResults</code> implements the straightforward combination of results, thereby facilitating seamless comparison of results across methods. For demonstration, we use the ORA and GSEA results for the ALL dataset from the previous section:</p>
 <div class="cell" data-hash="enrichment_analysis_cache/html/unnamed-chunk-24_846ed6aa85553c176650cbf6272307c2">
-<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>res.list <span class="ot">&lt;-</span> <span class="fu">list</span>(ora.air, roast.air)</span>
-<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>comb.res <span class="ot">&lt;-</span> <span class="fu">combResults</span>(res.list)</span>
-<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a><span class="fu">gsRanking</span>(comb.res)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>res.list <span class="ot">&lt;-</span> <span class="fu">list</span>(ora.air, roast.air)</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>comb.res <span class="ot">&lt;-</span> <span class="fu">combResults</span>(res.list)</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a><span class="fu">gsRanking</span>(comb.res)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <hr>
 <p>This lesson was adapted from materials created by Ludwig Geistlinger</p>
