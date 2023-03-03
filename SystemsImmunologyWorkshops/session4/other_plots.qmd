@@ -66,6 +66,7 @@ plotTSNE(sce.zeisel, colour_by="label")
 ## Volcano plot
 
 A volcano plot is a common visualization to see the distribution of fold-changes and p values accross our dataset. It plots the $log_2$ fold-change against the p values from our statistical analysis.
+
 ```{r}
 res %>% 
   mutate(sig = padj < 0.05 & abs(log2FoldChange) > 2) %>%
@@ -114,9 +115,7 @@ pheatmap( rowCenter(Biobase::exprs(x)[ topGenes, ] ),
 
 ## Network visualization
 
-We also sometimes want to visualize networks in R. 
-Network visualization can be difficult, and it is reccomended to use programs like [cytoscape](https://cytoscape.org/) for creating publication-ready network figures. 
-However, `igraph` is a popular package for handling and visualizing network data in R.
+We also sometimes want to visualize networks in R. Network visualization can be difficult, and it is reccomended to use programs like [cytoscape](https://cytoscape.org/) for creating publication-ready network figures. However, `igraph` is a popular package for handling and visualizing network data in R.
 
 ```{r}
 #| output: false

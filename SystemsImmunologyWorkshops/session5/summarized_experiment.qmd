@@ -88,7 +88,7 @@ It is straight-forward to use `subset()` on `SummarizedExperiment` to create sub
 subset(se, , dex == "trt")
 ```
 
-As with `GRanges`, there are accessors that extract data from the `SummarizedExperiment`. For instance, we can use `assay()` to extract the count matrix, and `colSums()` to calculate the library size (total number of reads overlapping genes in each sample).
+There are also accessors that extract data from the `SummarizedExperiment`. For instance, we can use `assay()` to extract the count matrix, and `colSums()` to calculate the library size (total number of reads overlapping genes in each sample).
 
 ```{r}
 colSums(assay(se))
@@ -96,7 +96,7 @@ colSums(assay(se))
 
 Note that library sizes differ by a factor of 2 from largest to smallest; how would this influence the interpretation of counts in individual cells of the assay data?
 
-As with `GRanges`, it might be useful to remember important computations in a way that is robust, e.g.,
+It might be useful to remember important computations in a way that is robust, e.g.,
 
 ```{r}
 se$lib.size <- colSums(assay(se))
@@ -123,6 +123,6 @@ Carry out a *t*-test for each of the selected 100 genes. Test for differences in
 *Hint: use `apply` and `t.test`.*
 :::
 
----
+------------------------------------------------------------------------
 
 This lesson was adapted from materials created by Ludwig Geistlinger

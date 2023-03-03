@@ -526,7 +526,7 @@ colnames(4): SRR1039509 SRR1039513 SRR1039517 SRR1039521
 colData names(9): SampleName cell ... Sample BioSample</code></pre>
 </div>
 </div>
-<p>As with <code>GRanges</code>, there are accessors that extract data from the <code>SummarizedExperiment</code>. For instance, we can use <code>assay()</code> to extract the count matrix, and <code>colSums()</code> to calculate the library size (total number of reads overlapping genes in each sample).</p>
+<p>There are also accessors that extract data from the <code>SummarizedExperiment</code>. For instance, we can use <code>assay()</code> to extract the count matrix, and <code>colSums()</code> to calculate the library size (total number of reads overlapping genes in each sample).</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colSums</span>(<span class="fu">assay</span>(se))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -537,7 +537,7 @@ SRR1039521
 </div>
 </div>
 <p>Note that library sizes differ by a factor of 2 from largest to smallest; how would this influence the interpretation of counts in individual cells of the assay data?</p>
-<p>As with <code>GRanges</code>, it might be useful to remember important computations in a way that is robust, e.g.,</p>
+<p>It might be useful to remember important computations in a way that is robust, e.g.,</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>se<span class="sc">$</span>lib.size <span class="ot">&lt;-</span> <span class="fu">colSums</span>(<span class="fu">assay</span>(se))</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colData</span>(se)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>

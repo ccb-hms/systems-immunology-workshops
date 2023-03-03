@@ -64,7 +64,11 @@ A useful illustration of differential expression results is to plot the fold cha
 ```{r, message = FALSE}
 library(ggplot2)
 ggplot(as.data.frame(res), 
-       aes(x = log2FoldChange, y = -log10(padj))) + geom_point()
+       aes(x = log2FoldChange, y = -log10(padj))) + 
+  geom_point() +
+  geom_hline(yintercept = -log10(0.05), col = "red") +
+  geom_vline(xintercept = -1, col = "red") +
+  geom_vline(xintercept = 1, col = "red")
 ```
 
 ## MA plot
@@ -114,6 +118,6 @@ If there is time, compare the number of significant results (for comparing `cell
 Try installing the [Glimma](http://bioconductor.org/packages/release/bioc/html/Glimma.html) package from bioconductor. Use it to create an interactive multidimensional scaling (MDS) plot of your results.
 :::
 
----
+------------------------------------------------------------------------
 
 This lesson was adapted from materials created by Ludwig Geistlinger

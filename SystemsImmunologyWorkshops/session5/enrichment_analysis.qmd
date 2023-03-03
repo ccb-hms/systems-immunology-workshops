@@ -78,9 +78,10 @@ For more information on experimental design, see the [limma user's guide](https:
 
 For the airway dataset, it indicates whether the cell lines have been treated with dexamethasone (1) or not (0).
 
-**Task**: Add a `colData` column named `GROUP` to the `airSE`. This column should be a binary vector which indicates wether the cell lines have been treated with dexamethasone (1) or not (0).
+**Task**: Add a `colData` column named `GROUP` to the `airSE`. This column should be a binary vector which indicates whether the cell lines have been treated with dexamethasone (1) or not (0).
 
-```{R, echo = FALSE}
+```{r}
+#| echo: false
 airSE$GROUP <- ifelse(airSE$dex == "trt", 1, 0)
 ```
 
@@ -209,7 +210,7 @@ As GSEA's permutation procedure involves re-computation of per-gene DE statistic
 ```{r}
 #| eval: false
 airSE <- normalize(airSE, norm.method = "vst")
-gsea.air <- sbea(method = "gsea", se = airSE, gs = go.gs)  
+gsea.air <- sbea(method = "gsea", se = airSE, gs = go.gs.mf)  
 ```
 
 A selection of additional methods is also available:
@@ -279,6 +280,6 @@ comb.res <- combResults(res.list)
 gsRanking(comb.res)
 ```
 
----
+------------------------------------------------------------------------
 
 This lesson was adapted from materials created by Ludwig Geistlinger

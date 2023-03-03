@@ -456,26 +456,24 @@ Solution
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>plex3_data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"../data/phospho_exp3_safe.csv"</span>)</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co">#We'll use the stringr library to split up the column names</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr, <span class="at">quietly =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'stringr' was built under R version 4.2.2</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>make_metadata <span class="ot">&lt;-</span> <span class="cf">function</span>(in_names){</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  split_names <span class="ot">&lt;-</span> <span class="fu">str_split_fixed</span>(in_names, <span class="st">"_"</span>, <span class="dv">3</span>)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  metadata <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(split_names)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="co">#paste0 lets us concatenate strings</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rownames</span>(metadata) <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">'sample'</span>, <span class="fu">rownames</span>(metadata))</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">colnames</span>(metadata) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"condition"</span>,<span class="st">"time"</span>,<span class="st">"replicate"</span>)</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  metadata<span class="sc">$</span>condition <span class="ot">&lt;-</span> <span class="fu">factor</span>(metadata<span class="sc">$</span>condition)</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  metadata<span class="sc">$</span>time <span class="ot">&lt;-</span> <span class="fu">factor</span>(metadata<span class="sc">$</span>time, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"0Min"</span>,<span class="st">"5Min"</span>,<span class="st">"60Min"</span>))</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(metadata)</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>metadata_plex2 <span class="ot">&lt;-</span> <span class="fu">make_metadata</span>(<span class="fu">colnames</span>(plex2_data[,<span class="dv">6</span><span class="sc">:</span><span class="dv">15</span>]))</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>metadata_plex3 <span class="ot">&lt;-</span> <span class="fu">make_metadata</span>(<span class="fu">colnames</span>(plex3_data[,<span class="dv">6</span><span class="sc">:</span><span class="dv">15</span>]))</span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(plex2_data)[<span class="dv">6</span><span class="sc">:</span><span class="dv">15</span>] <span class="ot">&lt;-</span> <span class="fu">rownames</span>(metadata_plex2)</span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(plex3_data)[<span class="dv">6</span><span class="sc">:</span><span class="dv">15</span>] <span class="ot">&lt;-</span> <span class="fu">rownames</span>(metadata_plex3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr, <span class="at">quietly =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>make_metadata <span class="ot">&lt;-</span> <span class="cf">function</span>(in_names){</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  split_names <span class="ot">&lt;-</span> <span class="fu">str_split_fixed</span>(in_names, <span class="st">"_"</span>, <span class="dv">3</span>)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  metadata <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(split_names)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="co">#paste0 lets us concatenate strings</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rownames</span>(metadata) <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">'sample'</span>, <span class="fu">rownames</span>(metadata))</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">colnames</span>(metadata) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"condition"</span>,<span class="st">"time"</span>,<span class="st">"replicate"</span>)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  metadata<span class="sc">$</span>condition <span class="ot">&lt;-</span> <span class="fu">factor</span>(metadata<span class="sc">$</span>condition)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  metadata<span class="sc">$</span>time <span class="ot">&lt;-</span> <span class="fu">factor</span>(metadata<span class="sc">$</span>time, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"0Min"</span>,<span class="st">"5Min"</span>,<span class="st">"60Min"</span>))</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(metadata)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>metadata_plex2 <span class="ot">&lt;-</span> <span class="fu">make_metadata</span>(<span class="fu">colnames</span>(plex2_data[,<span class="dv">6</span><span class="sc">:</span><span class="dv">15</span>]))</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>metadata_plex3 <span class="ot">&lt;-</span> <span class="fu">make_metadata</span>(<span class="fu">colnames</span>(plex3_data[,<span class="dv">6</span><span class="sc">:</span><span class="dv">15</span>]))</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(plex2_data)[<span class="dv">6</span><span class="sc">:</span><span class="dv">15</span>] <span class="ot">&lt;-</span> <span class="fu">rownames</span>(metadata_plex2)</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(plex3_data)[<span class="dv">6</span><span class="sc">:</span><span class="dv">15</span>] <span class="ot">&lt;-</span> <span class="fu">rownames</span>(metadata_plex3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
@@ -506,23 +504,17 @@ Solution
 <div class="callout-body-container callout-body">
 <p>We need to transpose the numeric parts of the data in order to run PCA on it.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggfortify)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'ggfortify' was built under R version 4.2.2</code></pre>
-</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggfortify)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Loading required package: ggplot2</code></pre>
 </div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'ggplot2' was built under R version 4.2.2</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>pca_res2 <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(<span class="fu">t</span>(plex2_data[,<span class="dv">6</span><span class="sc">:</span><span class="dv">15</span>]), <span class="at">scale =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(pca_res2, <span class="at">data=</span>metadata_plex2, <span class="at">colour =</span> <span class="st">'condition'</span>, <span class="at">shape=</span><span class="st">'time'</span>, <span class="at">size=</span><span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>pca_res2 <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(<span class="fu">t</span>(plex2_data[,<span class="dv">6</span><span class="sc">:</span><span class="dv">15</span>]), <span class="at">scale =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(pca_res2, <span class="at">data=</span>metadata_plex2, <span class="at">colour =</span> <span class="st">'condition'</span>, <span class="at">shape=</span><span class="st">'time'</span>, <span class="at">size=</span><span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="pSet3_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
 </div>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>pca_res3 <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(<span class="fu">t</span>(plex3_data[,<span class="dv">6</span><span class="sc">:</span><span class="dv">15</span>]), <span class="at">scale =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(pca_res3, <span class="at">data=</span>metadata_plex3, <span class="at">colour =</span> <span class="st">'condition'</span>, <span class="at">shape=</span><span class="st">'time'</span>, <span class="at">size=</span><span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>pca_res3 <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(<span class="fu">t</span>(plex3_data[,<span class="dv">6</span><span class="sc">:</span><span class="dv">15</span>]), <span class="at">scale =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(pca_res3, <span class="at">data=</span>metadata_plex3, <span class="at">colour =</span> <span class="st">'condition'</span>, <span class="at">shape=</span><span class="st">'time'</span>, <span class="at">size=</span><span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="pSet3_files/figure-html/unnamed-chunk-2-2.png" class="img-fluid" width="672"></p>
 </div>
@@ -553,11 +545,11 @@ Solution
 <div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">heatmap</span>(<span class="at">x=</span><span class="fu">cor</span>(plex2_data[,<span class="dv">6</span><span class="sc">:</span><span class="dv">15</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">heatmap</span>(<span class="at">x=</span><span class="fu">cor</span>(plex2_data[,<span class="dv">6</span><span class="sc">:</span><span class="dv">15</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="pSet3_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
 </div>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">heatmap</span>(<span class="at">x=</span><span class="fu">cor</span>(plex3_data[,<span class="dv">6</span><span class="sc">:</span><span class="dv">15</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">heatmap</span>(<span class="at">x=</span><span class="fu">cor</span>(plex3_data[,<span class="dv">6</span><span class="sc">:</span><span class="dv">15</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="pSet3_files/figure-html/unnamed-chunk-3-2.png" class="img-fluid" width="672"></p>
 </div>
@@ -565,25 +557,25 @@ Solution
 <p>At first glance our heatmaps look alright, but that is because they have been clustered automatically by the heatmap function. We can tell heatmap not to cluster to see things better or use the <code>RowSideColors</code> argument.</p>
 <p>Not clustering:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">heatmap</span>(<span class="at">x=</span><span class="fu">cor</span>(plex2_data[,<span class="dv">6</span><span class="sc">:</span><span class="dv">15</span>]), <span class="at">Rowv=</span><span class="cn">NA</span>, <span class="at">Colv=</span><span class="cn">NA</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">heatmap</span>(<span class="at">x=</span><span class="fu">cor</span>(plex2_data[,<span class="dv">6</span><span class="sc">:</span><span class="dv">15</span>]), <span class="at">Rowv=</span><span class="cn">NA</span>, <span class="at">Colv=</span><span class="cn">NA</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="pSet3_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
 </div>
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">heatmap</span>(<span class="at">x=</span><span class="fu">cor</span>(plex3_data[,<span class="dv">6</span><span class="sc">:</span><span class="dv">15</span>]), <span class="at">Rowv=</span><span class="cn">NA</span>, <span class="at">Colv=</span><span class="cn">NA</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">heatmap</span>(<span class="at">x=</span><span class="fu">cor</span>(plex3_data[,<span class="dv">6</span><span class="sc">:</span><span class="dv">15</span>]), <span class="at">Rowv=</span><span class="cn">NA</span>, <span class="at">Colv=</span><span class="cn">NA</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="pSet3_files/figure-html/unnamed-chunk-4-2.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Using <code>RowSideColors</code>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(RColorBrewer)</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>colSide2 <span class="ot">&lt;-</span> <span class="fu">brewer.pal</span>(<span class="dv">3</span>, <span class="st">"Set1"</span>)[metadata_plex2<span class="sc">$</span>time]</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">heatmap</span>(<span class="at">x=</span><span class="fu">cor</span>(plex2_data[,<span class="dv">6</span><span class="sc">:</span><span class="dv">15</span>]), <span class="at">RowSideColors =</span> colSide2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(RColorBrewer)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>colSide2 <span class="ot">&lt;-</span> <span class="fu">brewer.pal</span>(<span class="dv">3</span>, <span class="st">"Set1"</span>)[metadata_plex2<span class="sc">$</span>time]</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">heatmap</span>(<span class="at">x=</span><span class="fu">cor</span>(plex2_data[,<span class="dv">6</span><span class="sc">:</span><span class="dv">15</span>]), <span class="at">RowSideColors =</span> colSide2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="pSet3_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
 </div>
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>colSide3 <span class="ot">&lt;-</span> <span class="fu">brewer.pal</span>(<span class="dv">3</span>, <span class="st">"Set1"</span>)[metadata_plex3<span class="sc">$</span>time]</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">heatmap</span>(<span class="at">x=</span><span class="fu">cor</span>(plex3_data[,<span class="dv">6</span><span class="sc">:</span><span class="dv">15</span>]), <span class="at">RowSideColors =</span> colSide3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>colSide3 <span class="ot">&lt;-</span> <span class="fu">brewer.pal</span>(<span class="dv">3</span>, <span class="st">"Set1"</span>)[metadata_plex3<span class="sc">$</span>time]</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">heatmap</span>(<span class="at">x=</span><span class="fu">cor</span>(plex3_data[,<span class="dv">6</span><span class="sc">:</span><span class="dv">15</span>]), <span class="at">RowSideColors =</span> colSide3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="pSet3_files/figure-html/unnamed-chunk-5-2.png" class="img-fluid" width="672"></p>
 </div>
