@@ -20,6 +20,17 @@ boxplot(density ~ Run, data = DNase)
 
 Create a `ggplot2` boxplot displaying the density distribution for each run of the `DNAse` object. Order the boxes in numerical order along the $x$-axis instead of lexicographical order (hint: `as.numeric`). Display each box with a different color (hint: `rainbow`).
 
+::: {.callout-tip icon="false" collapse="true"}
+## Solution
+```{r}
+nr.runs <- length(levels(factor(DNase$Run)))
+DNase$Run <- as.numeric(as.character(DNase$Run))
+boxplot(density ~ Run, data = DNase, col = rainbow(nr.runs))
+```
+:::
+
+
+
 ## Problem 2
 
 We continue working with a gene expression microarray dataset that reports the gene expression of around 100 individual cells from mouse embryos at different time points in early development (the `Hiiragi2013` data: [Ohnishi et al., 2014](https://www.ncbi.nlm.nih.gov/pubmed/24292013)).
@@ -29,7 +40,21 @@ pdat <- read.delim("../data/Hiiragi2013_pData.txt", as.is = TRUE)
 head(pdat, n = 2)
 ```
 
-Create a `ggplot2` barplot displaying the **total** number of cells accross each sample group of the `pdat` dataset. You can use the `aggregate` function with `sum` to calculate these totals. Flip the $x$- and $y$-aesthetics to produce a horizontal barplot. Rotate the group labels by 90 degrees *Hint, `element_text` has an `angle` argument, and a single axis' text can be accessed by `axis.text.x` or `axis.text.y`.*
+Create a `ggplot2` barplot displaying the **total** number of cells across each sample group of the `pdat` dataset. You can use the `aggregate` function with `sum` to calculate these totals. Flip the $x$- and $y$-aesthetics to produce a horizontal barplot. Rotate the group labels by 90 degrees *Hint, `element_text` has an `angle` argument, and a single axis' text can be accessed by `axis.text.x` or `axis.text.y`.*
+
+::: {.callout-tip icon="false" collapse="true"}
+## Solution
+```{r}
+library(ggplot2)
+sample_totals <- aggregate(Total.number.of.cells ~ sampleGroup, pdat, sum)
+ggplot(sample_totals, aes(x = sampleGroup, y = Total.number.of.cells, fill = sampleGroup)) +
+  geom_bar(stat = "identity") +
+  #Oof that's an ugly rotation. But it's good to know that you can do this. 
+  theme(axis.text.y = element_text(angle = 90, hjust=1)) + 
+  coord_flip()  
+```
+:::
+
 
 ## Problem 3
 
@@ -42,3 +67,33 @@ Choose a plot you created during Session 4, or another plot from your own resear
 -   Poster and presentation figures typically have titles, while a paper figure typically does not.
 
 Include code for saving your publication-ready figure as a `pdf`.
+
+::: {.callout-tip icon="false" collapse="true"}
+## Solution
+
+Solutions of course here vary. Here's an example of problem 2's bar chart made for a presentation:
+```{r}
+#Maybe we want a color scheme from a Wes Anderson movie:
+library(wesanderson)
+
+#And a different font
+library(extrafont)
+
+#Note that this font import can take multiple minutes to run
+#font_import()
+#loadfonts(device = "win")
+pal <- wes_palette("Zissou1", 6, type = "continuous")
+
+sample_totals <- aggregate(Total.number.of.cells ~ sampleGroup, pdat, sum)
+ggplot(sample_totals, aes(x = sampleGroup, y = Total.number.of.cells, fill = 1:6)) +
+  ggtitle("FGF4-KO had the lowest cell count") + 
+  geom_bar(stat = "identity") +
+  xlab("Sample Group") +
+  ylab("Total Cell Count") +
+  scale_fill_gradientn(colors = pal) +
+  #Since we're just using the colors so it looks nice, we don't need the legend
+  theme(legend.position="none") +
+  theme(text = element_text(size=18, family="Roboto Slab")) +
+  coord_flip()  
+```
+:::

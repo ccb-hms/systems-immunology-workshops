@@ -4,8 +4,7 @@
 
 ------------------------------------------------------------------------
 
-For this lesson, you will need the `new_metadata` data frame. 
-Load it into your environment as follows:
+For this lesson, you will need the `new_metadata` data frame. Load it into your environment as follows:
 
 ```{r}
 ## load the new_metadata data frame into your environment from a .RData object
@@ -159,11 +158,9 @@ ggplot(new_metadata) +
 
 > *NOTE:* RStudio provide this very [useful cheatsheet](../cheatsheets/data-visualization-2.1.pdf) for plotting using `ggplot2`. Different example plots are provided and the associated code (i.e which `geom` or `theme` to use in the appropriate situation.) We also encourage you to persuse through this useful [online reference](https://ggplot2.tidyverse.org/reference/) for working with ggplot2.
 
-
-
 **Exercise 1: Themeing**
 
-Let's return to our scatterplot: 
+Let's return to our scatterplot:
 
 ```{r}
 ggplot(new_metadata) +
@@ -184,82 +181,184 @@ ggplot(new_metadata) +
 -   How many theme() layers can be added to a ggplot code chunk, in your estimation?
 :::
 
+::: {.callout-tip icon="false" collapse="true"}
+## Solution
+
+```{r}
+ggplot(new_metadata) +
+  geom_boxplot(aes(x = genotype, y = samplemeans, fill = celltype)) +
+  ggtitle("Genotype differences in average gene expression") +
+  xlab("Genotype") +
+  ylab("Mean expression") +
+  theme_bw() +
+  theme(axis.title = element_text(size = rel(1.25))) +
+  theme(plot.title = element_text(hjust = 0.5, size = rel(1.5)))
+```
+3. It centers and increases the size of the plot title. You can add unlimited theme() layers. 
+
+:::
+ 
 ::: {.callout-caution appearance="simple" icon="false"}
 ## Advanced
-When publishing, it is helpful to ensure all plots have similar formatting. 
-To do this we can create a custom function with our preferences for the theme.
-Create a function called `personal_theme` which takes no arguments and
 
-- calls one of the ggplot2 themes such as `theme_bw()`
-- sets the title text size to `size=rel(1.5)`
-- sets the axis text size (you can use `axis.title`)
+When publishing, it is helpful to ensure all plots have similar formatting. To do this we can create a custom function with our preferences for the theme. Create a function called `personal_theme` which takes no arguments and
 
-Once you have your function, call it to change your histogram's theme. 
+-   calls one of the ggplot2 themes such as `theme_bw()`
+-   sets the title text size to `size=rel(1.5)`
+-   sets the axis text size (you can use `axis.title`)
+
+Once you have your function, call it to change your histogram's theme.
+:::
+
+::: {.callout-tip icon="false" collapse="true"}
+## Solution
+
+```{r}
+personal_theme <- function(){
+  theme_minimal() +
+  theme(axis.title=element_text(size=rel(1.5))) +
+  theme(plot.title=element_text(size=rel(1.5), hjust=0.5)) 
+}
+
+ggplot(new_metadata) +
+  geom_histogram(aes(x = samplemeans), stat = "bin", binwidth=0.8) +
+  personal_theme()
+```
+ 
+
 :::
 
 ::: {.callout-important appearance="simple" icon="false"}
 ## Challenge: Interactive Plots
-[Plotly](https://plotly.com/r/) is another plotting library which has packages for multiple programming languages, including R and Python. 
 
-One of Plotly's strengths is it's ability to create interactive plots. 
+[Plotly](https://plotly.com/r/) is another plotting library which has packages for multiple programming languages, including R and Python.
 
-First try making a simply interactive scatterplot with `new_metadata` and the same axes as the ggplot scatterplot. 
-If you are able to do so, try adding [dropdown menus](https://plotly.com/r/dropdowns/) which allow you to choose which column of `new_metadata` to color the points by. 
+One of Plotly's strengths is it's ability to create interactive plots.
+
+First try making a simply interactive scatterplot with `new_metadata` and the same axes as the ggplot scatterplot. If you are able to do so, try adding [dropdown menus](https://plotly.com/r/dropdowns/) which allow you to choose which column of `new_metadata` to color the points by.
+:::
+
+::: {.callout-tip icon="false" collapse="true"}
+## Solution
+
+```{r}
+#install.packages(plotly)
+library(plotly)
+
+fig <- plot_ly(data = new_metadata,
+               x = ~age_in_days, y = ~samplemeans,
+               color = ~genotype, symbol = ~celltype,
+               # Hover Text
+               text = ~paste("Replicate ", replicate))
+fig
+```
+
+ *Note: I had been playing around with setting the x axis of a plot using Plotly, and thought this would be a fun in-class thing to try. However, it turns out that currently, `color`/`symbol`/`linetype`/`size`/etc mapping (from data values to color codes) is impossible to change with bottons in Plotly. You can read the [Github issue here](https://github.com/plotly/plotly.R/issues/803)*.
+
 :::
 
 **Exercise 2: Boxplots**
 
-A boxplot provides a graphical view of the distribution of data based on a five number summary: 
-* The top and bottom of the box represent the (1) first and (2) third quartiles (25th and 75th percentiles, respectively). 
-* The line inside the box represents the (3) median (50th percentile). 
-* The whiskers extending above and below the box represent the (4) maximum, and (5) minimum of a data set. 
-* The whiskers of the plot reach the minimum and maximum values that are not outliers. 
+A boxplot provides a graphical view of the distribution of data based on a five number summary: \* The top and bottom of the box represent the (1) first and (2) third quartiles (25th and 75th percentiles, respectively). \* The line inside the box represents the (3) median (50th percentile). \* The whiskers extending above and below the box represent the (4) maximum, and (5) minimum of a data set. \* The whiskers of the plot reach the minimum and maximum values that are not outliers.
 
-> In this case, **outliers** are determined using the interquartile range (IQR), which is defined as: Q3 - Q1. Any values that exceeds 1.5 x IQR below Q1 or above Q3 are considered outliers and are represented as points above or below the whiskers. 
+> In this case, **outliers** are determined using the interquartile range (IQR), which is defined as: Q3 - Q1. Any values that exceeds 1.5 x IQR below Q1 or above Q3 are considered outliers and are represented as points above or below the whiskers.
 
-1. Boxplot
+1.  Boxplot
 
 Generate a boxplot using the data in the new_metadata dataframe. Create a ggplot2 code chunk with the following instructions:
 
-1. Use the `geom_boxplot()` layer to plot the differences in sample means between the Wt and KO genotypes.
-2. Use the `fill` *aesthetic* to look at differences in sample means between the celltypes within each genotype.
-3. Add a title to your plot.
-4. Add labels, 'Genotype' for the x-axis and 'Mean expression' for the y-axis.
-5. Make the following `theme()` changes:
-	* Use the `theme_bw()` function to make the background white.
-	* Change the size of your axes labels to 1.25x larger than the default.
-	* Change the size of your plot title to 1.5x larger than default.
-	* Center the plot title.
+1.  Use the `geom_boxplot()` layer to plot the differences in sample means between the Wt and KO genotypes.
+2.  Use the `fill` *aesthetic* to look at differences in sample means between the celltypes within each genotype.
+3.  Add a title to your plot.
+4.  Add labels, 'Genotype' for the x-axis and 'Mean expression' for the y-axis.
+5.  Make the following `theme()` changes:
+    -   Use the `theme_bw()` function to make the background white.
+    -   Change the size of your axes labels to 1.25x larger than the default.
+    -   Change the size of your plot title to 1.5x larger than default.
+    -   Center the plot title.
 
 **After running the above code the boxplot should look something like that provided below.**
 
 <p align="center">
-<img src="../img/ggboxplot_flip.png" width="600">
+
+<img src="../img/ggboxplot_flip.png" width="600"/>
+
 </p>
 
-2. Changing the order of genotype on the Boxplot
+::: {.callout-tip icon="false" collapse="true"}
+## Solution
+
+```{r}
+ggplot(new_metadata) +
+  geom_boxplot(aes(x = genotype, y = samplemeans, fill = celltype)) +
+  ggtitle("Genotype differences in average gene expression") +
+  xlab("Genotype") +
+  ylab("Mean expression") +
+  theme_bw() +
+  theme(axis.title = element_text(size = rel(1.25))) +
+  theme(plot.title=element_text(hjust = 0.5, size = rel(1.5)))
+```
+
+:::
+
+2.  Changing the order of genotype on the Boxplot
 
 Let's say you wanted to have the "Wt" boxplots displayed first on the left side, and "KO" on the right. How might you go about doing this?
 
-To do this, your first question should be - *How does ggplot2 determine what to place where on the X-axis?*
-* The order of the genotype on the X axis is in alphabetical order. 
-* To change it, you need to make sure that the genotype column is a factor
-* And, the factor levels for that column are in the order you want on the X-axis
+To do this, your first question should be - *How does ggplot2 determine what to place where on the X-axis?* \* The order of the genotype on the X axis is in alphabetical order. \* To change it, you need to make sure that the genotype column is a factor \* And, the factor levels for that column are in the order you want on the X-axis
 
-1. Factor the `new_metadata$genotype` column without creating any extra variables/objects and change the levels to `c("Wt", "KO")`
-2. Re-run the boxplot code chunk you created for the "Boxplot!" exercise above.
+1.  Factor the `new_metadata$genotype` column without creating any extra variables/objects and change the levels to `c("Wt", "KO")`
 
-3. Changing default colors
+2.  Re-run the boxplot code chunk you created for the "Boxplot!" exercise above.
+
+3.  Changing default colors
+
+::: {.callout-tip icon="false" collapse="true"}
+## Solution
+
+```{r}
+new_metadata$genotype <- factor(new_metadata$genotype, levels=c("Wt","KO"))
+ggplot(new_metadata) +
+  geom_boxplot(aes(x = genotype, y = samplemeans, fill = celltype)) +
+  ggtitle("Genotype differences in average gene expression") +
+  xlab("Genotype") +
+  ylab("Mean expression") +
+  theme_bw() +
+  theme(axis.title = element_text(size = rel(1.25))) +
+  theme(plot.title=element_text(hjust = 0.5, size = rel(1.5)))
+```
+
+:::
 
 You can color the boxplot differently by using some specific layers:
 
-1. Add a new layer `scale_color_manual(values=c("purple","orange"))`. 
-	* Do you observe a change?
-2. Replace `scale_color_manual(values=c("purple","orange"))` with `scale_fill_manual(values=c("purple","orange"))`.
-	* Do you observe a change?
-	* In the scatterplot we drew in class, add a new layer `scale_color_manual(values=c("purple","orange"))`, do you observe a difference?
-	* What do you think is the difference between `scale_color_manual()` and `scale_fill_manual()`?
-3. Back in your boxplot code, change the colors in the `scale_fill_manual()` layer to be your 2 favorite colors.
-	* Are there any colors that you tried that did not work? 
+1.  Add a new layer `scale_color_manual(values=c("purple","orange"))`.
+    -   Do you observe a change?
+2.  Replace `scale_color_manual(values=c("purple","orange"))` with `scale_fill_manual(values=c("purple","orange"))`.
+    -   Do you observe a change?
+    -   In the scatterplot we drew in class, add a new layer `scale_color_manual(values=c("purple","orange"))`, do you observe a difference?
+    -   What do you think is the difference between `scale_color_manual()` and `scale_fill_manual()`?
+3.  Back in your boxplot code, change the colors in the `scale_fill_manual()` layer to be your 2 favorite colors.
+    -   Are there any colors that you tried that did not work?
+
+::: {.callout-tip icon="false" collapse="true"}
+## Solution
+
+```{r}
+ggplot(new_metadata) +
+  geom_boxplot(aes(x = genotype, y = samplemeans, fill = celltype)) +
+  ggtitle("Genotype differences in average gene expression") +
+  xlab("Genotype") +
+  ylab("Mean expression") +
+  theme_bw() +
+  theme(axis.title = element_text(size = rel(1.25))) +
+  theme(plot.title=element_text(hjust = 0.5, size = rel(1.5))) +
+  #We can also use hex color values to choose colors
+  scale_fill_manual(values=c("#F67280", "#355C7D"))
+```
+
+:::
+    
+
 
 *The materials in this lesson have been adapted from work created by the (HBC)\](http://bioinformatics.sph.harvard.edu/) and Data Carpentry (http://datacarpentry.org/). These are open access materials distributed under the terms of the [Creative Commons Attribution license](https://creativecommons.org/licenses/by/4.0/) (CC BY 4.0), which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.*
