@@ -2,50 +2,43 @@
 
 ## Problem 1
 
-R actually also has built-in plotting functionality, though it is rarely used in modern analyses. 
-Let's make some visualizations of another ELISA assay dataset which is included with R, `DNase`.
+R actually also has built-in plotting functionality, though it is rarely used in modern analyses. Let's make some visualizations of another ELISA assay dataset which is included with R, `DNase`.
+
 ```{r}
 data(DNase)
 head(DNase)
 ```
-This assay was used to quantify the activity of the enzyme deoxyribonuclease (DNase). 
+
+This assay was used to quantify the activity of the enzyme deoxyribonuclease (DNase).
 
 We can make a boxplot of the density of each run:
+
 ```{r}
 hist(DNase$density, breaks=25, main = "")
 boxplot(density ~ Run, data = DNase)
 ```
 
-Create a `ggplot2` boxplot displaying the density distribution for each run
-of the `DNAse` object. Order the boxes in numerical order along the $x$-axis 
-instead of lexicographical order (hint: `as.numeric`). Display each box with 
-a different color (hint: `rainbow`). 
+Create a `ggplot2` boxplot displaying the density distribution for each run of the `DNAse` object. Order the boxes in numerical order along the $x$-axis instead of lexicographical order (hint: `as.numeric`). Display each box with a different color (hint: `rainbow`).
 
 ## Problem 2
 
-We continue working with a gene expression microarray dataset that reports the 
-gene expression of around 100 individual cells from mouse embryos at different 
-time points in early development
-(the `Hiiragi2013` data: [Ohnishi et al., 2014](https://www.ncbi.nlm.nih.gov/pubmed/24292013)). 
+We continue working with a gene expression microarray dataset that reports the gene expression of around 100 individual cells from mouse embryos at different time points in early development (the `Hiiragi2013` data: [Ohnishi et al., 2014](https://www.ncbi.nlm.nih.gov/pubmed/24292013)).
+
 ```{r}
 pdat <- read.delim("../data/Hiiragi2013_pData.txt", as.is = TRUE)
 head(pdat, n = 2)
 ```
 
-Create a `ggplot2` barplot displaying the **total** number of cells accross each sample group of the `pdat` dataset. 
-You can use the `aggregate` function with `sum` to calculate these totals. 
-Flip the $x$- and $y$-aesthetics to produce a horizontal barplot. 
-Rotate the group labels by 90 degrees *Hint, `element_text` has an `angle` argument, and a single axis' text can be accessed by `axis.text.x` or `axis.text.y`.*
+Create a `ggplot2` barplot displaying the **total** number of cells accross each sample group of the `pdat` dataset. You can use the `aggregate` function with `sum` to calculate these totals. Flip the $x$- and $y$-aesthetics to produce a horizontal barplot. Rotate the group labels by 90 degrees *Hint, `element_text` has an `angle` argument, and a single axis' text can be accessed by `axis.text.x` or `axis.text.y`.*
 
 ## Problem 3
-Choose a plot you created during Session 4, or another plot from your own research. 
-Show the original plot, then work to get the plot into a 'publication-ready' state, either for a paper, poster, or presentation. You can choose which one of these 3 scenarios you want to create your figure for. 
-Some things to consider:
 
-- Are your colors [colorblind safe](https://cran.r-project.org/web/packages/colorBlindness/vignettes/colorBlindness.html)?
-- Font sizes in posters need to be very large, followed by presentation and then paper font sizes. We also need to consider things like line thickness and the size of any points in a scatterplot. The Python plotting library [Seaborn](https://seaborn.pydata.org/tutorial/aesthetics.html) has nice examples of how the sizes should differ. 
-- Text should not overlap. 
-- Legends should be clear and use neat, human readable labels as opposed to the names of columns in R (i.e. something like "Number of Cells" or "# Cells" as opposed to "Total.number.of.cells").
-- Poster and presentation figures typically have titles, while a paper figure typically does not. 
+Choose a plot you created during Session 4, or another plot from your own research. Show the original plot, then work to get the plot into a 'publication-ready' state, either for a paper, poster, or presentation. You can choose which one of these 3 scenarios you want to create your figure for. Some things to consider:
 
-Include code for saving your publication-ready figure as a `pdf`. 
+-   Are your colors [colorblind safe](https://cran.r-project.org/web/packages/colorBlindness/vignettes/colorBlindness.html)?
+-   Font sizes in posters need to be very large, followed by presentation and then paper font sizes. We also need to consider things like line thickness and the size of any points in a scatterplot. The Python plotting library [Seaborn](https://seaborn.pydata.org/tutorial/aesthetics.html) has nice examples of how the sizes should differ.
+-   Text should not overlap.
+-   Legends should be clear and use neat, human readable labels as opposed to the names of columns in R (i.e. something like "Number of Cells" or "\# Cells" as opposed to "Total.number.of.cells").
+-   Poster and presentation figures typically have titles, while a paper figure typically does not.
+
+Include code for saving your publication-ready figure as a `pdf`.

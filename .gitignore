@@ -1,2 +1,5 @@
 SystemsImmunologyWorkshops/.*
 .Rproj.user
+*.rdx
+*.rdb
+*.RData
