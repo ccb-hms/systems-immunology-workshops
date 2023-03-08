@@ -57,6 +57,14 @@ res
 
 Use the `contrast` argument of the `results` function to compare `trt` vs. `untrt` groups instead of `untrt` vs. `trt` (changes the direction of the fold change).
 
+::: {.callout-tip icon="false" collapse="true"}
+## Solution
+
+```{r}
+res_trt_untrt <- results(dds, contrast = c("dex","trt","untrt"))
+```
+:::
+
 ## Volcano plot
 
 A useful illustration of differential expression results is to plot the fold change against the *p*-value in a volcano plot. This allows to inspect direction and magnitude (fold change) as well as the statistical significance (*p*-value) of the expression change.
@@ -95,6 +103,23 @@ The [DESeq2](https://bioconductor.org/packages/DESeq2) vignette also describes s
 3.  Now see how many genes would be considered differentially expressed at an alpha level of 0.05 and a log2 fold change cutoff of at least 1. **Note**: Take a look again at the arguments of the `results` function. Are there any you should change?
 :::
 
+::: {.callout-tip icon="false" collapse="true"}
+## Solution
+
+```{r}
+#1.  Use the `coef` function to examine the actual coefficients of the model.
+coef(dds)
+
+#2.  
+sum(res$padj<0.1, na.rm = TRUE)
+
+#3. 
+res_05_1 <- results(dds, alpha=0.05,lfcThreshold = 1)
+sum((res_05_1$padj<0.1)&(res_05_1$log2FoldChange>=1), na.rm = TRUE)
+```
+:::
+
+
 ::: {.callout-caution appearance="simple" icon="false"}
 ## Advanced
 
@@ -112,11 +137,37 @@ Remake the `dds` object such that the `albut` column is an additional covartiate
 If there is time, compare the number of significant results (for comparing `cell` and `dex`) when `albut` is and is not accounted for. Does it make a difference?
 :::
 
+::: {.callout-tip icon="false" collapse="true"}
+## Solution
+
+```{r}
+dds_fake <- DESeqDataSet(fake_se, design = ~ albut + cell + dex)
+keep <- rowSums(counts(dds_fake)) >= 4
+dds_fake <- dds_fake[keep,]
+dds_fake <- DESeq(dds_fake)
+res_fake <- results(dds_fake)
+
+sum(res$padj<0.1, na.rm = TRUE)
+sum(res_fake$padj<0.1, na.rm = TRUE)
+```
+:::
+
+
 ::: {.callout-important appearance="simple" icon="false"}
 ## Bonus
 
 Try installing the [Glimma](http://bioconductor.org/packages/release/bioc/html/Glimma.html) package from bioconductor. Use it to create an interactive multidimensional scaling (MDS) plot of your results.
 :::
+
+::: {.callout-tip icon="false" collapse="true"}
+## Solution
+
+```{r}
+library(Glimma)
+glimmaMDS(dds)
+```
+:::
+
 
 ------------------------------------------------------------------------
 

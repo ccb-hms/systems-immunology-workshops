@@ -585,6 +585,86 @@ Basic
 </ol>
 </div>
 </div>
+<div class="callout-tip callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co">#1</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="co">#Method 1</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>rs <span class="ot">&lt;-</span> <span class="fu">rowSums</span>(<span class="fu">assay</span>(se))</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>se.sub <span class="ot">&lt;-</span> <span class="fu">subset</span>(se, rs<span class="sc">&gt;</span><span class="dv">7</span>,)</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="co">#Method 2</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>ind <span class="ot">&lt;-</span> <span class="fu">rowSums</span>(<span class="fu">assay</span>(se)) <span class="sc">&gt;=</span> <span class="dv">8</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>se.sub <span class="ot">&lt;-</span> se[ind,]</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="co">#2</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a><span class="co"># scale by library size</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a><span class="co"># option 1: loop  </span></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>)</span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">assay</span>(se.sub)[,i] <span class="ot">&lt;-</span> <span class="fu">assay</span>(se.sub)[,i] <span class="sc">/</span> se<span class="sc">$</span>lib.size[i]</span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a><span class="fu">assay</span>(se.sub)[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                  SRR1039508   SRR1039509   SRR1039512   SRR1039513
+ENSG00000000003 3.290052e-05 2.381778e-05 3.443971e-05 2.690687e-05
+ENSG00000000419 2.262819e-05 2.737981e-05 2.449835e-05 2.407109e-05
+ENSG00000000457 1.259814e-05 1.121775e-05 1.037531e-05 1.081551e-05
+ENSG00000000460 2.907263e-06 2.924057e-06 1.577993e-06 2.308187e-06
+ENSG00000000971 1.575252e-04 1.955929e-04 2.436816e-04 2.804118e-04
+                  SRR1039516
+ENSG00000000003 4.654700e-05
+ENSG00000000419 2.400974e-05
+ENSG00000000457 1.002110e-05
+ENSG00000000460 3.190392e-06
+ENSG00000000971 2.749054e-04</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># option 2: vectorized</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>se.sub <span class="ot">&lt;-</span> se[ind,]</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>tassay <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">assay</span>(se.sub)) <span class="sc">/</span> se<span class="sc">$</span>lib.size</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="fu">assay</span>(se.sub) <span class="ot">&lt;-</span> <span class="fu">t</span>(tassay)</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="fu">assay</span>(se.sub)[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                  SRR1039508   SRR1039509   SRR1039512   SRR1039513
+ENSG00000000003 3.290052e-05 2.381778e-05 3.443971e-05 2.690687e-05
+ENSG00000000419 2.262819e-05 2.737981e-05 2.449835e-05 2.407109e-05
+ENSG00000000457 1.259814e-05 1.121775e-05 1.037531e-05 1.081551e-05
+ENSG00000000460 2.907263e-06 2.924057e-06 1.577993e-06 2.308187e-06
+ENSG00000000971 1.575252e-04 1.955929e-04 2.436816e-04 2.804118e-04
+                  SRR1039516
+ENSG00000000003 4.654700e-05
+ENSG00000000419 2.400974e-05
+ENSG00000000457 1.002110e-05
+ENSG00000000460 3.190392e-06
+ENSG00000000971 2.749054e-04</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># counts per million reads mapped</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">assay</span>(se.sub) <span class="ot">&lt;-</span> <span class="fu">assay</span>(se.sub) <span class="sc">*</span> <span class="dv">10</span><span class="sc">^</span><span class="dv">6</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="fu">assay</span>(se.sub)[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                SRR1039508 SRR1039509 SRR1039512 SRR1039513 SRR1039516
+ENSG00000000003  32.900521  23.817776  34.439705  26.906868  46.546998
+ENSG00000000419  22.628193  27.379809  24.498347  24.071095  24.009743
+ENSG00000000457  12.598138  11.217747  10.375306  10.815506  10.021102
+ENSG00000000460   2.907263   2.924057   1.577993   2.308187   3.190392
+ENSG00000000971 157.525175 195.592850 243.681626 280.411767 274.905425</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>ind <span class="ot">&lt;-</span> <span class="fu">rowSums</span>(<span class="fu">assay</span>(se)) <span class="sc">&gt;=</span> <span class="dv">8</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>se.sub <span class="ot">&lt;-</span> se[ind,]</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(se.sub)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 23171</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
 <div class="callout-caution callout callout-style-simple no-icon callout-captioned">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -595,8 +675,60 @@ Advanced
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Carry out a <em>t</em>-test for each of the selected 100 genes. Test for differences in mean read count per million reads mapped between the dexamethasone treated and untreated sample group. Annotate the resulting <em>p</em>-values as a new column in the <code>rowData</code> slot of your <code>SummarizedExperiment</code>.</p>
+<p>Carry out a <em>t</em>-test for each of the first 100 genes. Test for differences in mean read count per million reads mapped between the dexamethasone treated and untreated sample group. Annotate the resulting <em>p</em>-values as a new column in the <code>rowData</code> slot of your <code>SummarizedExperiment</code>.</p>
 <p><em>Hint: use <code>apply</code> and <code>t.test</code>.</em></p>
+</div>
+</div>
+<div class="callout-tip callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>se.sub <span class="ot">&lt;-</span> se[<span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>,]</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="co"># logical index of treatment</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>trt <span class="ot">&lt;-</span> se.sub<span class="sc">$</span>dex <span class="sc">==</span> <span class="st">"trt"</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a><span class="co"># computing the p-value for a single gene (row)</span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>getPValue <span class="ot">&lt;-</span> <span class="cf">function</span>(row)</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>{  </span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>  tt <span class="ot">&lt;-</span> <span class="fu">t.test</span>(row[trt], row[<span class="sc">!</span>trt])  </span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>  p <span class="ot">&lt;-</span> tt<span class="sc">$</span>p.value</span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(p)</span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate t-test p-values for all genes</span></span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>ps <span class="ot">&lt;-</span> <span class="fu">apply</span>(<span class="fu">assay</span>(se.sub), <span class="dv">1</span>, getPValue)</span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a><span class="co"># annotate to SE</span></span>
+<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a><span class="fu">rowData</span>(se.sub)<span class="sc">$</span>pvalue <span class="ot">&lt;-</span> ps</span>
+<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a><span class="fu">rowData</span>(se.sub)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>DataFrame with 100 rows and 1 column
+                   pvalue
+                &lt;numeric&gt;
+ENSG00000000003  0.220827
+ENSG00000000419  0.827554
+ENSG00000000457  0.674747
+ENSG00000000460  0.384125
+ENSG00000000938  0.215170
+...                   ...
+ENSG00000005486  0.588909
+ENSG00000005513  0.144668
+ENSG00000005700  0.559485
+ENSG00000005801  0.181433
+ENSG00000005810  0.656287</code></pre>
+</div>
+</div>
+</div>
 </div>
 </div>
 <hr>

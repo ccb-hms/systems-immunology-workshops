@@ -8,16 +8,16 @@ The experimental data package [fission](https://bioconductor.org/packages/fissio
 
 ## Problem 2
 
-Perform gene set enrichment analysis on the fission dataset using the same experiment setup as above:
+Perform gene set enrichment analysis on the **airway** dataset using the same experiment setup as above:
 
-1.  Choose an appropriate collection of gene sets. Remember that this dataset is from yeast (`org="sce"`).
+1.  Choose an appropriate collection of gene sets.
 
-2.  Perform at least two other forms of enrichment analysis such as over representation analysis, gene set enrichment analysis, or a network-based enrichment methods on the data. You can look up what methods are available in `EnrichmentBrowser` with `sbeaMethods()`, but you are also welcome to use a tool such as David, GSEA, or Enrichr if you prefer these tools. 
+2.  Perform at least two other forms of enrichment analysis such as over representation analysis, gene set enrichment analysis, or a network-based enrichment methods on the data. You can look up what methods are available in `EnrichmentBrowser` with `sbeaMethods()`, but you are also welcome to use a tool such as David, GSEA, or Enrichr if you prefer these tools.
 
 3.  Examine the top gene sets for each method you ran. How do they compare? Do the results make sense given the experimental context of the stress response in fission yeast?
 
-4. **Bonus** Two common issues with using GO terms are that many GO terms are redundant - they represent almost identical biological processes. Another issue is that some GO terms are overly general - you can get like `Cell Cycle` and `Protein Transport` in almost any large enough GSEA run.
+4.  **Bonus** Two common issues with using GO terms are that many GO terms are redundant - they represent almost identical biological processes. Another issue is that some GO terms are overly general - you can get like `Cell Cycle` and `Protein Transport` in almost any large enough GSEA run.
 
-Newer enrichment methods can account for these issues, but there are also tools such as [Revigo](http://revigo.irb.hr/) which post-process enrichment results to give more useful lists of enriched terms. 
+Newer enrichment methods can account for these issues, but there are also tools such as [Revigo](http://revigo.irb.hr/) which post-process enrichment results to give more useful lists of enriched terms.
 
 Take the results of one of the enrichment analyses you ran above and try inputting it into Revigo. Take a look at the results. Do you think these results are more or less useful than the original enrichment results?

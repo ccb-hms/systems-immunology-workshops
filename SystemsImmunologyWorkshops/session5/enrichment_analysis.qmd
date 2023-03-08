@@ -80,10 +80,15 @@ For the airway dataset, it indicates whether the cell lines have been treated wi
 
 **Task**: Add a `colData` column named `GROUP` to the `airSE`. This column should be a binary vector which indicates whether the cell lines have been treated with dexamethasone (1) or not (0).
 
+::: {.callout-tip icon="false" collapse="true"}
+## Solution
+
 ```{r}
 #| echo: false
 airSE$GROUP <- ifelse(airSE$dex == "trt", 1, 0)
 ```
+:::
+
 
 Paired samples, or in general sample batches/blocks, can be defined via a `BLOCK` column in the `colData` slot. For the airway dataset, the sample blocks correspond to the four different cell lines.
 
@@ -199,6 +204,31 @@ Note #2: Independent of the expression data type under investigation, overlap be
 
 Carry out a GO overrepresentation analysis for the `airSE` based on the molecular function (MF) ontology. How many significant gene sets do you observe in each case?
 
+::: {.callout-tip icon="false" collapse="true"}
+## Solution
+
+```{r}
+
+#Let's compare the different DE methods
+getDE <- function(se, method)
+{
+  message(method)
+  se <- deAna(se, de.method = method)
+  nr.de <- sum(rowData(se)$ADJ.PVAL < 0.05)
+  return(nr.de)
+}
+
+de.methods <- c("limma", "edgeR", "DESeq2")
+sapply(de.methods, getDE, se = airSE)
+
+#Apply to airSE
+go.gs.mf <- getGenesets(org = "hsa", db = "go", onto= "MF")
+ora.go.air <- sbea("ora", se = airSE, gs = go.gs.mf, perm = 0)
+gsRanking(ora.go.air)
+```
+:::
+
+
 ## Functional class scoring & permutation testing
 
 A major limitation of ORA is that it restricts analysis to DE genes, excluding genes not satisfying the chosen significance threshold (typically the vast majority).
@@ -223,9 +253,30 @@ sbeaMethods()
 
 **Exercise**
 
-While performing enrichment in R makes our analyses more reproducible and open, sometimes we might need to specifically run a standalone tool like David or Enrichr. 
+While performing enrichment in R makes our analyses more reproducible and open, sometimes we might need to specifically run a standalone tool like David or Enrichr.
 
-Take a look at [David](https://david.ncifcrf.gov/) to see what it requires as input. How would you export/save the airway data in this format? 
+Take a look at [David](https://david.ncifcrf.gov/) to see what it requires as input. How would you export/save the airway data in this format?
+
+::: {.callout-tip icon="false" collapse="true"}
+## Solution
+For DAVID we want to give as input a list of significantly differentially expressed genes. Other tools might instead want all genes and fold changes or other data. 
+```{r}
+#Let's refresh our data
+data(airway)
+se <- airway
+dds <- DESeqDataSet(se, design = ~ cell + dex)
+keep <- rowSums(counts(dds)) >= 4
+dds <- dds[keep, ]
+dds <- DESeq(dds)
+res <- results(dds)
+#We need to remove columns with NAs
+#complete.cases is a buildin function which lets us remove all rows with any Nas
+res <- res[complete.cases(res),]
+sig_genes <- res[res$padj<0.1,]
+write.csv(rownames(sig_genes),"../data/airway_sig0.1.csv", row.names = FALSE)
+```
+:::
+
 
 ## Further Reading
 

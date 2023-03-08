@@ -115,12 +115,73 @@ colData(se)
 2.  Scale the read counts by library size, i.e. divide each column of `assay(se)` by the corresponding `lib.size` of each sample (column). Multiply the resulting scaled counts by `10^6` to obtain counts per million reads mapped.
 :::
 
+::: {.callout-tip icon="false" collapse="true"}
+## Solution
+
+```{r}
+#1
+#Method 1
+rs <- rowSums(assay(se))
+se.sub <- subset(se, rs>7,)
+#Method 2
+ind <- rowSums(assay(se)) >= 8
+se.sub <- se[ind,]
+#2
+# scale by library size
+# option 1: loop  
+for(i in 1:8)
+  assay(se.sub)[,i] <- assay(se.sub)[,i] / se$lib.size[i]
+assay(se.sub)[1:5,1:5]
+# option 2: vectorized
+se.sub <- se[ind,]
+tassay <- t(assay(se.sub)) / se$lib.size
+assay(se.sub) <- t(tassay)
+assay(se.sub)[1:5,1:5]
+
+# counts per million reads mapped
+assay(se.sub) <- assay(se.sub) * 10^6
+assay(se.sub)[1:5,1:5]
+
+
+ind <- rowSums(assay(se)) >= 8
+se.sub <- se[ind,]
+nrow(se.sub)
+
+```
+:::
+
 ::: {.callout-caution appearance="simple" icon="false"}
 ## Advanced
 
-Carry out a *t*-test for each of the selected 100 genes. Test for differences in mean read count per million reads mapped between the dexamethasone treated and untreated sample group. Annotate the resulting *p*-values as a new column in the `rowData` slot of your `SummarizedExperiment`.
+Carry out a *t*-test for each of the first 100 genes. Test for differences in mean read count per million reads mapped between the dexamethasone treated and untreated sample group. Annotate the resulting *p*-values as a new column in the `rowData` slot of your `SummarizedExperiment`.
 
 *Hint: use `apply` and `t.test`.*
+:::
+
+::: {.callout-tip icon="false" collapse="true"}
+## Solution
+
+```{r}
+se.sub <- se[1:100,]
+
+# logical index of treatment
+trt <- se.sub$dex == "trt"
+
+# computing the p-value for a single gene (row)
+getPValue <- function(row)
+{  
+  tt <- t.test(row[trt], row[!trt])  
+  p <- tt$p.value
+  return(p)
+}
+
+# calculate t-test p-values for all genes
+ps <- apply(assay(se.sub), 1, getPValue)
+
+# annotate to SE
+rowData(se.sub)$pvalue <- ps
+rowData(se.sub)
+```
 :::
 
 ------------------------------------------------------------------------
