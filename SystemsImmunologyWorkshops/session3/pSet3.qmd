@@ -77,7 +77,7 @@ We should look at how our replicates are clustered. Does everything look good in
 ::: {.callout-tip icon="false" collapse="true"}
 ## Solution
 
-We need to transpose the numeric parts of the data in order to run PCA on it. 
+We need to transpose the numeric parts of the data in order to run PCA on it.
 
 ```{r}
 library(ggfortify)
@@ -88,9 +88,9 @@ pca_res3 <- prcomp(t(plex3_data[,6:15]), scale = FALSE)
 autoplot(pca_res3, data=metadata_plex3, colour = 'condition', shape='time', size=3)
 ```
 
-At first glance, both plots look messy. However, when interpreting a PCA plot is important to note how much variance is explained by each principle component. On both of these, the 1st PC explains over 80% of the variance, while the second less than 10%. Thus, we care much more (as in 8 times more) about the X axis than the Y axis. 
+At first glance, both plots look messy. However, when interpreting a PCA plot is important to note how much variance is explained by each principle component. On both of these, the 1st PC explains over 80% of the variance, while the second less than 10%. Thus, we care much more (as in 8 times more) about the X axis than the Y axis.
 
-In both plots, we see much stronger time point clustering than condition clustering, given how muchn more important the horizontal axis is. However, in plex3 there is one 60 minute point with the 0 minute points, and vice versa. 
+In both plots, we see much stronger time point clustering than condition clustering, given how muchn more important the horizontal axis is. However, in plex3 there is one 60 minute point with the 0 minute points, and vice versa.
 :::
 
 ## Heatmaps
@@ -116,12 +116,14 @@ heatmap(x=cor(plex3_data[,6:15]))
 At first glance our heatmaps look alright, but that is because they have been clustered automatically by the heatmap function. We can tell heatmap not to cluster to see things better or use the `RowSideColors` argument.
 
 Not clustering:
+
 ```{r}
 heatmap(x=cor(plex2_data[,6:15]), Rowv=NA, Colv=NA)
 heatmap(x=cor(plex3_data[,6:15]), Rowv=NA, Colv=NA)
 ```
 
 Using `RowSideColors`:
+
 ```{r}
 library(RColorBrewer)
 colSide2 <- brewer.pal(3, "Set1")[metadata_plex2$time]
@@ -129,9 +131,10 @@ heatmap(x=cor(plex2_data[,6:15]), RowSideColors = colSide2)
 colSide3 <- brewer.pal(3, "Set1")[metadata_plex3$time]
 heatmap(x=cor(plex3_data[,6:15]), RowSideColors = colSide3)
 ```
-In both versions we clearly see a single sample in plex 3 looking to be out of place. 
 
+In both versions we clearly see a single sample in plex 3 looking to be out of place.
 :::
+
 ## Resolving the issue
 
 Decide what to do about the potential label swap and explain your reasoning. You could declare there to be too much uncertainty and report to your collaborator that they will have to redo the experiment, decide there is no label swap, or correct a label swap and continue the analysis.
@@ -143,11 +146,9 @@ If there is additional analysis you want to perform or calculations you want to 
 ::: {.callout-tip icon="false" collapse="true"}
 ## Solution
 
-There are a number of 'correct' answers here.
-It makes sense to redo the experiment, gain more biological context/knowledge, try to construct a statistical test, or other directions. 
+There are a number of 'correct' answers here. It makes sense to redo the experiment, gain more biological context/knowledge, try to construct a statistical test, or other directions.
 
-In reality, we ultimately determined that there was a label swap between samples 3 and 5 in 10plex 3. This was based on the irregular time series clustering, and that it appeared that time series clustering was significantly stronger than condition clustering. For the real experiment we also had a third 10plex with a slightly different design and corresponding proteomic measurements for all 3 10plexes which we could confirm the clustering patterns with. 
+In reality, we ultimately determined that there was a label swap between samples 3 and 5 in 10plex 3. This was based on the irregular time series clustering, and that it appeared that time series clustering was significantly stronger than condition clustering. For the real experiment we also had a third 10plex with a slightly different design and corresponding proteomic measurements for all 3 10plexes which we could confirm the clustering patterns with.
 
-**However, we also were okay correcting this swap and moving forward because this was for an exploratory analysis.** We ultimately were using this data to generate hypothesis and perform targeted experiments based on what seemed unusual. Thus, it wasn't the end of the world if a label swap slipped through, since we were not drawing any concrete conclusions from the data. If this had been a final experiment testing a specific hypothesis, we would have redone it. 
-
+**However, we also were okay correcting this swap and moving forward because this was for an exploratory analysis.** We ultimately were using this data to generate hypothesis and perform targeted experiments based on what seemed unusual. Thus, it wasn't the end of the world if a label swap slipped through, since we were not drawing any concrete conclusions from the data. If this had been a final experiment testing a specific hypothesis, we would have redone it.
 :::

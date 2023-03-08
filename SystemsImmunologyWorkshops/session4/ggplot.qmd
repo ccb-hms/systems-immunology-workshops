@@ -14,6 +14,7 @@ load("../data/new_metadata.RData")
 Next, let's check if it was successfully loaded into the environment:
 
 ```{r}
+#| eval: false
 # this data frame should have 12 rows and 5 columns
 View(new_metadata)
 ```
@@ -242,6 +243,7 @@ First try making a simply interactive scatterplot with `new_metadata` and the sa
 ## Solution
 
 ```{r}
+#| eval: false
 #install.packages(plotly)
 library(plotly)
 

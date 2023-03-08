@@ -107,6 +107,7 @@ The [DESeq2](https://bioconductor.org/packages/DESeq2) vignette also describes s
 ## Solution
 
 ```{r}
+#| eval: false
 #1.  Use the `coef` function to examine the actual coefficients of the model.
 coef(dds)
 
@@ -126,6 +127,7 @@ sum((res_05_1$padj<0.1)&(res_05_1$log2FoldChange>=1), na.rm = TRUE)
 Let's imagine that, instead of all being untreated, half of the samples had been treated with albuterol:
 
 ```{r}
+#| eval: false
 fake_se <- se
 #Currently the factor only has the untrt level, so we need to add another
 levels(colData(fake_se)$albut) <- c(levels(colData(fake_se)$albut), "trt")
@@ -141,6 +143,7 @@ If there is time, compare the number of significant results (for comparing `cell
 ## Solution
 
 ```{r}
+#| eval: false
 dds_fake <- DESeqDataSet(fake_se, design = ~ albut + cell + dex)
 keep <- rowSums(counts(dds_fake)) >= 4
 dds_fake <- dds_fake[keep,]
@@ -163,6 +166,7 @@ Try installing the [Glimma](http://bioconductor.org/packages/release/bioc/html/G
 ## Solution
 
 ```{r}
+#| eval: false
 library(Glimma)
 glimmaMDS(dds)
 ```
