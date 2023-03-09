@@ -1,0 +1,347 @@
+# Single-cell analysis with Bioconductor 
+## Setup
+
+The "Orchestrating single-cell analysis with Bioconductor" ([OSCA](https://bioconductor.org/books/release/OSCA/)) online book describes common workflows for the analysis of single-cell RNA-seq data (scRNA-seq).
+
+This includes employing a variety of Bioconductor packages for processing, analyzing, visualizing, and exploring scRNA-seq data.
+
+The online book is a companion of the [OSCA publication](https://www.nature.com/articles/s41592-019-0654-x).
+
+As a pre-requisite to this course, we need to install all packages required in the OSCA basic module. This can be conveniently achieved by using the `install` command from the [BiocManager](https://cran.r-project.org/web/packages/BiocManager/index.html) package.
+
+```{r osca-install, eval = FALSE}
+BiocManager::install("OSCA.basic")
+```
+
+## Analysis overview (quick start)
+
+In the simplest case, the typical scRNA-seq analysis workflow has the following form:
+
+1.  We compute quality control metrics to remove low-quality cells that would interfere with downstream analyses. These cells may have been damaged during processing or may not have been fully captured by the sequencing protocol. Common metrics includes the total counts per cell, the proportion of spike-in or mitochondrial reads and the number of detected features.
+2.  We convert the counts into normalized expression values to eliminate cell-specific biases (e.g., in capture efficiency). This allows us to perform explicit comparisons across cells in downstream steps like clustering. We also apply a transformation, typically log, to adjust for the mean-variance relationship.
+3.  We perform feature selection to pick a subset of interesting features for downstream analysis. This is done by modelling the variance across cells for each gene and retaining genes that are highly variable. The aim is to reduce computational overhead and noise from uninteresting genes.
+4.  We apply dimensionality reduction to compact the data and further reduce noise. Principal components analysis is typically used to obtain an initial low-rank representation for more computational work, followed by more aggressive methods like $t$-stochastic neighbor embedding for visualization purposes.
+5.  We cluster cells into groups according to similarities in their (normalized) expression profiles. This aims to obtain groupings that serve as empirical proxies for distinct biological states. We typically interpret these groupings by identifying differentially expressed marker genes between clusters.
+
+<img src="files/workflow.png" alt="workflow" width="600"/>
+
+For demonstration of the typical workflow, we use the a droplet-based mouse retina dataset from [Macosko et al., 2015](https://doi.org/10.1016/j.cell.2015.05.002) provided in the [scRNAseq](https://bioconductor.org/packages/scRNAseq) package. This starts from a count matrix and finishes with clusters in preparation for biological interpretation.
+
+We start by loading all required packages.
+
+```{r qstart-libs, message = FALSE}
+library(scRNAseq)
+library(scater)
+library(scran)
+library(bluster)
+```
+
+We then proceed with carrying out the typical workflow steps through a series of designated commands.
+
+```{r quick-start, message = FALSE}
+# Obtain dataset as a SingleCellExperiment
+sce <- MacoskoRetinaData()
+
+# Quality control (using mitochondrial genes)
+is.mito <- grepl("^MT-", rownames(sce))
+qcstats <- perCellQCMetrics(sce, subsets = list(Mito = is.mito))
+filtered <- quickPerCellQC(qcstats, percent_subsets = "subsets_Mito_percent")
+sce <- sce[, !filtered$discard]
+
+# Normalization
+sce <- logNormCounts(sce)
+
+# Feature selection
+dec <- modelGeneVar(sce)
+hvg <- getTopHVGs(dec, prop = 0.1)
+
+# Dimensionality reduction (PCA)
+sce <- runPCA(sce, ncomponents = 25, subset_row = hvg)
+
+# Clustering
+colLabels(sce) <- clusterCells(sce, use.dimred = "PCA",
+                               BLUSPARAM = NNGraphParam(cluster.fun = "louvain"))
+
+# Visualization
+sce <- runUMAP(sce, dimred = "PCA")
+
+# Marker detection
+markers <- findMarkers(sce, test.type = "wilcox", direction = "up", lfc = 1)
+```
+
+## The `SingleCellExperiment` data container
+
+One of the main strengths of the [Bioconductor](https://bioconductor.org) project lies in the use of a common data infrastructure that powers interoperability across packages. Users should be able to analyze their data using functions from different Bioconductor packages without the need to convert between formats.
+
+To this end, the `SingleCellExperiment` class (from the [SingleCellExperiment](https://bioconductor.org/packages/SingleCellExperiment) package) serves as the common currency for data exchange across 200+ single-cell-related Bioconductor packages. This class implements a data structure that stores all aspects of our single-cell data - gene-by-cell expression data, per-cell metadata and per-gene annotation - and manipulate them in a synchronized manner.
+
+<img src="files/SingleCellExperiment.png" alt="SingleCellExperiment" width="600"/>
+
+We start by loading the package.
+
+```{r sce-lib, message = FALSE}
+library(SingleCellExperiment)
+```
+
+Here we take a peak at the anatomy of a `SingleCellExperiment` by inspecting the components of the Macosko mouse retina dataset.
+
+```{r sce-show, message = FALSE}
+sce
+```
+
+Users familiar with the `SummarizedExperiment` class for storing bulk RNA-seq data will notice the similarity of the `SingleCellExperiment` class and the `SummarizedExperiment` class. In fact, the `SingleCellExperiment` class is a child of the `SummarizedExperiment` class.
+
+In an object-oriented programming paradigm, this means that the `SingleCellExperiment` class inherits all methods from the `SummarizedExperiment` class. In practice, this means that we can work with a `SingleCellExperiment` very much in the same way that we are used to when working with a `SummarizedExperiment`.
+
+This includes accessing experimental assay data via the `assay` acessor function.
+
+```{r sce-assays}
+assay(sce, "counts")[1:5,1:5]
+assay(sce, "logcounts")[1:5,1:5]
+```
+
+And accessing the cell metadata stored in the `colData` slot.
+
+```{r sce-colData}
+colData(sce)
+```
+
+A useful shortcut for accessing variables of the `colData` is using the `$` notation.
+
+```{r}
+head(sce$sizeFactor)
+```
+
+In addition to the basic fields inherited from `SummarizedExperiment`, the `SingleCellExperiment` also adds single-cell specific fields to the data structure.
+
+Most importantly, the `reducedDims` slot is specially designed to store reduced dimensionality representations of the primary data obtained by methods such as PCA, *t*-SNE, and UMAP.
+
+This slot contains a list of numeric matrices of low-reduced representations of the experimental assay data, where the rows represent the columns of the assay data (cells), and columns represent the dimensions. As this slot holds a list, we can store multiple PCA/*t*-SNE/UMAP results for the same dataset.
+
+```{r sce-redDim}
+reducedDims(sce)
+dim(reducedDim(sce, "PCA"))
+reducedDim(sce, "PCA")[1:5,1:5]
+dim(reducedDim(sce, "UMAP"))
+head(reducedDim(sce, "UMAP"))
+```
+
+*Exercise*: Subset the PCA representation to the first two PCs and store the result in the `reducedDims` slot under the name `PCA2`.
+
+## Data processing
+
+### Quality Control
+
+Low-quality libraries in scRNA-seq data can arise from a variety of sources such as cell damage during dissociation or failure in library preparation (e.g. inefficient reverse transcription or PCR amplification).
+
+These usually manifest as "cells" with low total counts, few expressed genes and high mitochondrial or spike-in proportions.
+
+To avoid misleading results in downstream analyses, we need to remove the problematic cells at the start of the analysis. This step is commonly referred to as quality control (QC) on the cells.
+
+Common choices of QC metrics are:
+
+-   library size: defined as the total sum of counts across all relevant features for each cell,
+-   number of expressed features: defined as the number of endogenous genes with non-zero counts for each cell,
+-   proportion of reads mapped to spike-in transcripts: calculated relative to the total count across all features (including spike-ins) for each cell.
+
+In the absence of spike-in transcripts, the proportion of reads mapped to genes in the mitochondrial genome can be used. High proportions are indicative of poor-quality cells, presumably because of loss of cytoplasmic RNA from perforated cells. The reasoning is that, in the presence of modest damage, the holes in the cell membrane permit efflux of individual transcript molecules but are too small to allow mitochondria to escape, leading to a relative enrichment of mitochondrial transcripts.
+
+We start by identifying mitochondrial genes in our `SingleCellExperiment`.
+
+```{r is-mito}
+is.mito <- grepl("^MT-", rownames(sce))
+table(is.mito)
+rownames(sce)[is.mito]
+```
+
+For each cell, we then calculate QC metrics using the `perCellQCMetrics` function from the [scater](https://bioconductor.org/packages/scater) package.
+
+```{r qcstats}
+qcstats <- perCellQCMetrics(sce, subsets = list(Mito = is.mito))
+head(qcstats)
+```
+
+The `sum` column contains the total count for each cell (library size). The `detected` column contains the number of detected genes (number of expressed features). The `subsets_Mito_percent` column contains the percentage of reads mapped to mitochondrial transcripts (proportion of reads mapped to mitochondrial genome).
+
+We then identify low-quality cells as outliers for these frequently used QC metrics.
+
+```{r qc-filter}
+filtered <- quickPerCellQC(qcstats, percent_subsets = "subsets_Mito_percent")
+head(filtered)
+table(filtered$discard)
+```
+
+And eventually remove the identified low-quality cells from our `SingleCellExperiment`.
+
+```{r qc-discard}
+sce <- sce[,!filtered$discard]
+sce
+```
+
+*Exercise*:
+
+A useful diagnostic involves plotting the proportion of mitochondrial counts against some of the other QC metrics. The aim is to confirm that there are no cells with eg. both large total counts and large mitochondrial counts, to ensure that we are not inadvertently removing high-quality cells that happen to be highly metabolically active (e.g., hepatocytes).
+
+Create a plot of library size (*x*-axis) against percentage of reads mapped to mitochondrial transcripts (*y*-axis). Color each point/cell by QC status, ie. whether the cell is kept or discarded from further analysis.
+
+Do you observe any cells in the top-right corner of the plot? To what kind of cells might these correspond to?
+
+### Normalization
+
+Systematic differences in sequencing coverage between libraries are often observed in single-cell RNA sequencing data. They typically arise from technical differences in cDNA capture or PCR amplification efficiency across cells Normalization aims to remove these differences such that they do not interfere with comparisons of the expression profiles between cells.
+
+Here, we focus on scaling normalization, which is the simplest and most commonly used class of normalization strategies. This involves dividing all counts for each cell by a cell-specific scaling factor, often called a "size factor".
+
+We use the `logNormCounts` function from the [scater](https://bioconductor.org/packages/scater) package to compute normalized expression values for each cell. This is done by dividing the count for each gene with the appropriate size factor for that cell. The function also log-transforms the normalized values, creating a new assay called `"logcounts"`. (Technically, these are "log-transformed normalized expression values", but that's too much of a mouthful to fit into the assay name.) These log-values will be the basis for all subsequent analyses.
+
+```{r log-norm}
+sce <- logNormCounts(sce)
+sce
+assay(sce, "logcounts")[1:5,1:5]
+```
+
+### Feature Selection
+
+Procedures like clustering and dimensionality reduction compare cells based on their gene expression profiles, which involves aggregating per-gene differences into a single (dis)similarity metric between a pair of cells. The choice of genes to use in this calculation has a major impact on the behavior of the metric and the performance of downstream methods. We want to select genes that contain useful information about the biology of the system while removing genes that contain random noise.
+
+The simplest approach to quantifying per-gene variation is to compute the variance of the log-normalized expression values (i.e., "log-counts" ) for each gene across all cells.
+
+Calculation of the per-gene variance is simple but feature selection requires modelling of the mean-variance relationship. The log-transformation is not a variance stabilizing transformation in most cases, which means that the total variance of a gene is driven more by its abundance than its underlying biological heterogeneity. To account for this effect, we use the `modelGeneVar()` function to fit a trend to the variance with respect to abundance across all genes.
+
+```{r feat-select}
+dec <- modelGeneVar(sce)
+head(dec)
+```
+
+Visualize the fit:
+
+```{r}
+fit <- metadata(dec)
+plot(fit$mean, fit$var, 
+     xlab="Mean of log-expression",
+     ylab="Variance of log-expression")
+curve(fit$trend(x), col = "dodgerblue", add = TRUE, lwd = 2)
+```
+
+At any given abundance, we assume that the variation in expression for most genes is driven by uninteresting processes like sampling noise. Under this assumption, the fitted value of the trend at any given gene's abundance represents an estimate of its uninteresting variation, which we call the technical component. We then define the biological component for each gene as the difference between its total variance and the technical component. This biological component represents the "interesting" variation for each gene and can be used as the metric for HVG selection.
+
+Ordering by most interesting genes for inspection:
+
+```{r}
+ind <- order(dec$bio, decreasing = TRUE)
+dec[ind,] 
+```
+
+Once we have quantified the per-gene variation, the next step is to select the subset of HVGs to use in downstream analyses. The most obvious selection strategy is to take the top *n* genes with the largest values for the relevant variance metric.
+
+Here, we select the top 10% of genes with the highest biological components.
+
+```{r top-hvgs}
+hvg <- getTopHVGs(dec, prop = 0.1)
+length(hvg)
+head(hvg)
+```
+
+### Dimensionality reduction
+
+Dimensionality reduction aims to reduce the number of separate dimensions in the data. This is possible because different genes are correlated if they are affected by the same biological process. Thus, we do not need to store separate information for individual genes, but can instead compress multiple features into a single dimension. This reduces computational work in downstream analyses like clustering, as calculations only need to be performed for a few dimensions rather than thousands of genes.
+
+#### Principal components analysis (PCA)
+
+Principal components analysis (PCA) discovers axes in high-dimensional space that capture the largest amount of variation. In the context of scRNA-seq, our assumption is that biological processes affect multiple genes in a coordinated manner. This means that the earlier PCs are likely to represent biological structure as more variation can be captured by considering the correlated behavior of many genes.
+
+This motivates the use of the earlier PCs in our downstream analyses, which concentrates the biological signal to simultaneously reduce computational work and remove noise.
+
+Here, we restrict the PCA to the highly-variable genes and retain the top 25 PCs for further analysis.
+
+```{r dim-red}
+sce <- runPCA(sce, ncomponents = 25, subset_row = hvg)
+pca <- reducedDim(sce, "PCA")
+dim(pca)
+pca[1:5,1:5]
+```
+
+*Exercise*:
+
+Subset the `SingleCellExperiment` to all cells assigned to the first ten clusters by the authors of the mouse retina study (stored in the `colData` variable `cluster`). For the resulting object, plot the first two PCs and color each cell based on cluster membership using `ggplot2`.
+
+Hint: see also the `plotReducedDim` function from the [scater](https://bioconductor.org/packages/scater) package.
+
+#### Non-linear methods for visualization (*t*-SNE / UMAP)
+
+The de facto standard for visualization of scRNA-seq data is the *t*-stochastic neighbor embedding (*t*-SNE) method ([Van der Maaten and Hinton 2008](https://www.jmlr.org/papers/volume9/vandermaaten08a/vandermaaten08a.pdf)). This attempts to find a low-dimensional representation of the data that preserves the distances between each point and its neighbors in the high-dimensional space. Unlike PCA, it is not restricted to linear transformations, nor is it obliged to accurately represent distances between distant populations. This means that it has much more freedom in how it arranges cells in low-dimensional space, enabling it to separate many distinct clusters in a complex population.
+
+```{r tsne}
+sce.sub <- subset(sce, , cluster %in% 1:10) 
+sce.sub <- runTSNE(sce.sub, dimred = "PCA")
+sce.sub$cluster <- factor(sce.sub$cluster, levels = 1:10)
+plotReducedDim(sce.sub, "TSNE", color_by = "cluster")
+```
+
+It is unwise to read too much into the relative sizes and positions of the visual clusters. *t*-SNE will inflate dense clusters and compress sparse ones, such that we cannot use the size as a measure of subpopulation heterogeneity. In addition, *t*-SNE is not obliged to preserve the relative locations of non-neighboring clusters, such that we cannot use their positions to determine relationships between distant clusters.
+
+The uniform manifold approximation and projection (UMAP) method ([McInnes, Healy, and Melville 2018](https://arxiv.org/abs/1802.03426)) is an alternative to *t*-SNE for non-linear dimensionality reduction. It is roughly similar to *t*-SNE in that it also tries to find a low-dimensional representation that preserves relationships between neighbors in high-dimensional space. However, the two methods are based on different theory, represented by differences in the various graph weighting equations.
+
+```{r umap}
+sce.sub <- runUMAP(sce.sub, dimred = "PCA")
+plotReducedDim(sce.sub, "UMAP", color_by = "cluster")
+```
+
+Compared to *t*-SNE, the UMAP visualization tends to have more compact visual clusters with more empty space between them. It also attempts to preserve more of the global structure than *t*-SNE. From a practical perspective, UMAP is much faster than *t*-SNE, which may be an important consideration for large datasets. UMAP plots are therefore increasingly displacing *t*-SNE plots as the method of choice for visualizing large scRNA-seq data sets.
+
+See also the [dedicated section](http://bioconductor.org/books/3.16/OSCA.basic/dimensionality-reduction.html#visualization-interpretation) on interpreting guidelines for *t*-SNE and UMAP plots in the OSCA book.
+
+### Clustering
+
+Clustering is an unsupervised learning procedure that is used to empirically define groups of cells with similar expression profiles. Its primary purpose is to summarize complex scRNA-seq data into a digestible format for human interpretation. This allows us to describe population heterogeneity in terms of discrete labels that are easily understood, rather than attempting to comprehend the high-dimensional manifold on which the cells truly reside. After annotation based on marker genes, the clusters can be treated as proxies for more abstract biological concepts such as cell types or states.
+
+Popularized by its use in [Seurat](https://cran.r-project.org/web/packages/Seurat/index.html), graph-based clustering is a flexible and scalable technique for clustering large scRNA-seq datasets. We first build a graph where each node is a cell that is connected to its nearest neighbors in the high-dimensional space. Edges are weighted based on the similarity between the cells involved, with higher weight given to cells that are more closely related. We then apply algorithms to identify "communities" of cells that are more connected to cells in the same community than they are to cells of different communities. Each community represents a cluster that we can use for downstream interpretation.
+
+Here, we use the `clusterCells()` function from the [scran](https://bioconductor.org/packages/scran) package to perform graph-based clustering using the [Louvain algorithm](https://doi.org/10.1088/1742-5468/2008/10/P10008) for community detection. All calculations are performed using the top PCs to take advantage of data compression and denoising. This function returns a vector containing cluster assignments for each cell in our `SingleCellExperiment` object.
+
+```{r cluster}
+colLabels(sce) <- clusterCells(sce, use.dimred = "PCA",
+                               BLUSPARAM = NNGraphParam(cluster.fun = "louvain"))
+table(colLabels(sce))
+```
+
+We assign the cluster assignments back into our `SingleCellExperiment` object as a `factor` in the column metadata. This allows us to conveniently visualize the distribution of clusters in eg. a *t*-SNE or a UMAP.
+
+```{r cluster-viz}
+sce <- runUMAP(sce, dimred = "PCA")
+plotReducedDim(sce, "UMAP", color_by = "label")
+```
+
+Exercise: The [Leiden algorithm](https://www.nature.com/articles/s41598-019-41695-z) is similar to the Louvain algorithm, but it is faster and has been shown to result in better connected communities. Modify the above call to `clusterCells` to carry out the community detection with the Leiden algorithm instead. Visualize the results in a UMAP plot.
+
+Hint: The `NNGraphParam` constructor has an argument `cluster.args`. This allows to specify arguments passed on to the `cluster_leiden` function from the [igraph](https://cran.r-project.org/web/packages/igraph/index.html) package. Use the `cluster.args` argument to parameterize the clustering to use modularity as the objective function and a resolution parameter of 0.5.
+
+### Marker gene detection
+
+To interpret clustering results as obtained in the previous section, we identify the genes that drive separation between clusters. These marker genes allow us to assign biological meaning to each cluster based on their functional annotation. In the simplest case, we have *a priori* knowledge of the marker genes associated with particular cell types, allowing us to treat the clustering as a proxy for cell type identity.
+
+The most straightforward approach to marker gene detection involves testing for differential expression between clusters. If a gene is strongly DE between clusters, it is likely to have driven the separation of cells in the clustering algorithm.
+
+Here, we perform a Wilcoxon rank sum test against a log2 fold change threshold of 1, focusing on up-regulated (positive) markers in one cluster when compared to another cluster.
+
+```{r marker-detect}
+markers <- findMarkers(sce, test.type = "wilcox", direction = "up", lfc = 1)
+markers
+```
+
+The resulting object contains a sorted marker gene list for each cluster, in which the top genes are those that contribute the most to the separation of that cluster from mall other clusters.
+
+Here, we inspect the ranked marker gene list for the first cluster.
+
+```{r marker-clust1}
+markers[[1]]
+```
+
+The `Top` field provides the the minimum rank across all pairwise comparisons. The `p.value` field provides the combined *p*-value across all comparisons, and the `FDR` field the BH-adjusted *p*-value for each gene. The `summary.AUC` provides area under the curve (here the concordance probability) from the comparison with the lowest *p*-value, the `AUC.n` fields provide the AUC for each pairwise comparison. The AUC is the probability that a randomly selected cell in cluster *A* has a greater expression of gene *X* than a randomly selected cell in *B*.
+
+We can then inspect the top marker genes for the first cluster using the `plotExpression` function from the [scater](https://bioconductor.org/packages/scater) package.
+
+```{r plot-markers, fig.width = 10, fig.height = 10}
+top.markers <- head(rownames(markers[[1]]))
+plotExpression(sce, features = top.markers, x = "label", color_by = "label")
+```

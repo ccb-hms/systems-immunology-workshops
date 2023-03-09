@@ -48,6 +48,10 @@ book:
         - session5/de_analysis.qmd
         - session5/enrichment_analysis.qmd
         - session5/pset5.qmd
+    - part: session6/session6.qmd
+      chapters:
+        - session6/osca.qmd
+        - session6/pSet6.qmd
     - part: resources/resources.qmd
       chapters:
         - resources/git.qmd
