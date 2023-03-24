@@ -20,6 +20,69 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1.6em;
   vertical-align: middle;
 }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 
@@ -305,7 +368,7 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="../session6/session6.html" class="sidebar-item-text sidebar-link">Session 5: Bulk RNA-seq</a>
+            <a href="../session6/session6.html" class="sidebar-item-text sidebar-link">Session 6: scRNA-seq 1</a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-expanded="true">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -376,6 +439,182 @@ ul.task-list li input[type="checkbox"] {
 <section id="problem-1" class="level2" data-number="29.1">
 <h2 data-number="29.1" class="anchored" data-anchor-id="problem-1"><span class="header-section-number">29.1</span> Problem 1</h2>
 <p>The experimental data package <a href="https://bioconductor.org/packages/fission">fission</a> stores time course RNA-seq data studying the stress response in fission yeast. Conduct a differential expression analysis with <code>DESeq2</code> between the mutant and the wild type strain, using time as a covariate. How many genes are differentially expressed, based on an adjusted significance level of 0.05? Inspect the results with a volcano plot and an MA plot.</p>
+<div class="callout-tip callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the fission data</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># BiocManager::install("fission")</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DESeq2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: S4Vectors</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: stats4</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: BiocGenerics</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'BiocGenerics'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:stats':
+
+    IQR, mad, sd, var, xtabs</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    anyDuplicated, aperm, append, as.data.frame, basename, cbind,
+    colnames, dirname, do.call, duplicated, eval, evalq, Filter, Find,
+    get, grep, grepl, intersect, is.unsorted, lapply, Map, mapply,
+    match, mget, order, paste, pmax, pmax.int, pmin, pmin.int,
+    Position, rank, rbind, Reduce, rownames, sapply, setdiff, sort,
+    table, tapply, union, unique, unsplit, which.max, which.min</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'S4Vectors'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    expand.grid, I, unname</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: IRanges</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'IRanges'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:grDevices':
+
+    windows</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: GenomicRanges</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: GenomeInfoDb</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: SummarizedExperiment</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: MatrixGenerics</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: matrixStats</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'MatrixGenerics'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:matrixStats':
+
+    colAlls, colAnyNAs, colAnys, colAvgsPerRowSet, colCollapse,
+    colCounts, colCummaxs, colCummins, colCumprods, colCumsums,
+    colDiffs, colIQRDiffs, colIQRs, colLogSumExps, colMadDiffs,
+    colMads, colMaxs, colMeans2, colMedians, colMins, colOrderStats,
+    colProds, colQuantiles, colRanges, colRanks, colSdDiffs, colSds,
+    colSums2, colTabulates, colVarDiffs, colVars, colWeightedMads,
+    colWeightedMeans, colWeightedMedians, colWeightedSds,
+    colWeightedVars, rowAlls, rowAnyNAs, rowAnys, rowAvgsPerColSet,
+    rowCollapse, rowCounts, rowCummaxs, rowCummins, rowCumprods,
+    rowCumsums, rowDiffs, rowIQRDiffs, rowIQRs, rowLogSumExps,
+    rowMadDiffs, rowMads, rowMaxs, rowMeans2, rowMedians, rowMins,
+    rowOrderStats, rowProds, rowQuantiles, rowRanges, rowRanks,
+    rowSdDiffs, rowSds, rowSums2, rowTabulates, rowVarDiffs, rowVars,
+    rowWeightedMads, rowWeightedMeans, rowWeightedMedians,
+    rowWeightedSds, rowWeightedVars</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: Biobase</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Welcome to Bioconductor
+
+    Vignettes contain introductory material; view with
+    'browseVignettes()'. To cite Bioconductor, see
+    'citation("Biobase")', and for packages 'citation("pkgname")'.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'Biobase'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:MatrixGenerics':
+
+    rowMedians</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:matrixStats':
+
+    anyMissing, rowMedians</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fission)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(fission)</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="co">#Run DESeq2</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>dds <span class="ot">&lt;-</span> <span class="fu">DESeqDataSet</span>(fission, <span class="at">design =</span> <span class="sc">~</span> minute <span class="sc">+</span> strain)</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>dds <span class="ot">&lt;-</span> <span class="fu">DESeq</span>(dds)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>estimating size factors</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>estimating dispersions</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>gene-wise dispersion estimates</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>mean-dispersion relationship</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>final dispersion estimates</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>fitting model and testing</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">results</span>(dds, <span class="at">alpha=</span><span class="fl">0.05</span>)</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="co">#How many genes are significant at 0.05?</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(res<span class="sc">$</span>padj <span class="sc">&lt;</span> <span class="fl">0.05</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 125</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Plots</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">as.data.frame</span>(res), </span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> log2FoldChange, <span class="at">y =</span> <span class="sc">-</span><span class="fu">log10</span>(padj))) <span class="sc">+</span> <span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 411 rows containing missing values (`geom_point()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="pset5_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotMA</span>(res)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="pset5_files/figure-html/unnamed-chunk-1-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</div>
+</div>
+</div>
 </section>
 <section id="problem-2" class="level2" data-number="29.2">
 <h2 data-number="29.2" class="anchored" data-anchor-id="problem-2"><span class="header-section-number">29.2</span> Problem 2</h2>
@@ -388,6 +627,359 @@ ul.task-list li input[type="checkbox"] {
 </ol>
 <p>Newer enrichment methods can account for these issues, but there are also tools such as <a href="http://revigo.irb.hr/">Revigo</a> which post-process enrichment results to give more useful lists of enriched terms.</p>
 <p>Take the results of one of the enrichment analyses you ran above and try inputting it into Revigo. Take a look at the results. Do you think these results are more or less useful than the original enrichment results?</p>
+<div class="callout-tip callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(EnrichmentBrowser)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: graph</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'EnrichmentBrowser'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:BiocGenerics':
+
+    normalize</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(airway)</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'dplyr'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:graph':
+
+    union</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:Biobase':
+
+    combine</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:matrixStats':
+
+    count</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:GenomicRanges':
+
+    intersect, setdiff, union</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:GenomeInfoDb':
+
+    intersect</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:IRanges':
+
+    collapse, desc, intersect, setdiff, slice, union</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:S4Vectors':
+
+    first, intersect, rename, setdiff, setequal, union</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:BiocGenerics':
+
+    combine, intersect, setdiff, union</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:stats':
+
+    filter, lag</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Data Preparation </span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(airway)</span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>airSE <span class="ot">&lt;-</span> airway[<span class="fu">grep</span>(<span class="st">"^ENSG"</span>, <span class="fu">names</span>(airway)), ]</span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>airSE<span class="sc">$</span>GROUP <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(airSE<span class="sc">$</span>dex <span class="sc">==</span> <span class="st">"trt"</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a>airSE<span class="sc">$</span>BLOCK <span class="ot">&lt;-</span> airway<span class="sc">$</span>cell</span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a>airSE <span class="ot">&lt;-</span> <span class="fu">deAna</span>(airSE, <span class="at">de.method =</span> <span class="st">"edgeR"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Excluding 47751 genes not satisfying min.cpm threshold</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>airSE <span class="ot">&lt;-</span> <span class="fu">idMap</span>(airSE, <span class="at">org =</span> <span class="st">"hsa"</span>, <span class="at">from =</span> <span class="st">"ENSEMBL"</span>, <span class="at">to =</span> <span class="st">"ENTREZID"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'AnnotationDbi'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:dplyr':
+
+    select</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code></code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Encountered 99 from.IDs with &gt;1 corresponding to.ID</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>(the first to.ID was chosen for each of them)</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Excluded 1967 from.IDs without a corresponding to.ID</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Encountered 9 to.IDs with &gt;1 from.ID (the first from.ID was chosen for each of them)</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Mapped from.IDs have been added to the rowData column ENSEMBL</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Let's grab the kegg gene sets and the GO BP terms</span></span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a>go.gs <span class="ot">&lt;-</span> <span class="fu">getGenesets</span>(<span class="at">org =</span> <span class="st">"hsa"</span>, <span class="at">db =</span> <span class="st">"go"</span>, <span class="at">onto =</span> <span class="st">"BP"</span>, <span class="at">mode =</span> <span class="st">"GO.db"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code></code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>kegg.gs <span class="ot">&lt;-</span> <span class="fu">getGenesets</span>(<span class="at">org =</span> <span class="st">"hsa"</span>, <span class="at">db =</span> <span class="st">"kegg"</span>)</span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a><span class="co">#Now we can  perform over-representation analysis with GO terms</span></span>
+<span id="cb66-4"><a href="#cb66-4" aria-hidden="true" tabindex="-1"></a>ora.air <span class="ot">&lt;-</span> <span class="fu">sbea</span>(<span class="at">method =</span> <span class="st">"ora"</span>, <span class="at">se =</span> airSE, <span class="at">gs =</span> go.gs, <span class="at">perm =</span> <span class="dv">0</span>)</span>
+<span id="cb66-5"><a href="#cb66-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb66-6"><a href="#cb66-6" aria-hidden="true" tabindex="-1"></a><span class="co">#And GSEA with KEGG terms</span></span>
+<span id="cb66-7"><a href="#cb66-7" aria-hidden="true" tabindex="-1"></a>gsea.air <span class="ot">&lt;-</span> <span class="fu">sbea</span>(<span class="at">method =</span> <span class="st">"gsea"</span>, <span class="at">se =</span> airSE, <span class="at">gs =</span> kegg.gs)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Excluding 23 genes not satisfying min.cpm threshold</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: 'memory.limit()' is no longer supported
+
+Warning: 'memory.limit()' is no longer supported</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Permutations: 1 -- 100</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Permutations: 101 -- 200</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Permutations: 201 -- 300</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Permutations: 301 -- 400</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Permutations: 401 -- 500</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Permutations: 501 -- 600</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Permutations: 601 -- 700</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Permutations: 701 -- 800</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Permutations: 801 -- 900</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Permutations: 901 -- 1000</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Processing ...</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gsRanking</span>(gsea.air)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>DataFrame with 9 rows and 4 columns
+                GENE.SET        ES       NES      PVAL
+             &lt;character&gt; &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt;
+1 hsa04912_GnRH_signal..    -0.415     -1.41    0.0263
+2 hsa04977_Vitamin_dig..     0.608      1.27    0.0266
+3 hsa04911_Insulin_sec..    -0.544     -1.36    0.0267
+4 hsa00533_Glycosamino..    -0.548     -1.44    0.0269
+5 hsa01522_Endocrine_r..    -0.388     -1.36    0.0270
+6 hsa05211_Renal_cell_..    -0.365     -1.40    0.0272
+7 hsa04666_Fc_gamma_R-..    -0.363     -1.29    0.0277
+8 hsa04750_Inflammator..    -0.505     -1.33    0.0277
+9 hsa05143_African_try..    -0.740     -1.39    0.0479</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Or maybe we want to run SPIA, a KEGG network-based method</span></span>
+<span id="cb82-2"><a href="#cb82-2" aria-hidden="true" tabindex="-1"></a>hsa.grn <span class="ot">&lt;-</span> <span class="fu">compileGRN</span>(<span class="at">org =</span> <span class="st">"hsa"</span>, <span class="at">db =</span> <span class="st">"kegg"</span>) <span class="co">#This line gets the pathway topology</span></span>
+<span id="cb82-3"><a href="#cb82-3" aria-hidden="true" tabindex="-1"></a>spia.air <span class="ot">&lt;-</span> <span class="fu">nbea</span>(<span class="at">method =</span> <span class="st">"spia"</span>, <span class="at">se =</span> airSE, <span class="at">gs =</span> kegg.gs, <span class="at">grn =</span> hsa.grn)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Done pathway 1 : RNA transport..
+Done pathway 2 : RNA degradation..
+Done pathway 3 : PPAR signaling pathway..
+Done pathway 4 : Fanconi anemia pathway..
+Done pathway 5 : MAPK signaling pathway..
+Done pathway 6 : ErbB signaling pathway..
+Done pathway 7 : Calcium signaling pathway..
+Done pathway 8 : Cytokine-cytokine receptor int..
+Done pathway 9 : Chemokine signaling pathway..
+Done pathway 10 : NF-kappa B signaling pathway..
+Done pathway 11 : Phosphatidylinositol signaling..
+Done pathway 12 : Neuroactive ligand-receptor in..
+Done pathway 13 : Cell cycle..
+Done pathway 14 : Oocyte meiosis..
+Done pathway 15 : p53 signaling pathway..
+Done pathway 16 : Sulfur relay system..
+Done pathway 17 : SNARE interactions in vesicula..
+Done pathway 18 : Regulation of autophagy..
+Done pathway 19 : Protein processing in endoplas..
+Done pathway 20 : Lysosome..
+Done pathway 21 : mTOR signaling pathway..
+Done pathway 22 : Apoptosis..
+Done pathway 23 : Vascular smooth muscle contrac..
+Done pathway 24 : Wnt signaling pathway..
+Done pathway 25 : Dorso-ventral axis formation..
+Done pathway 26 : Notch signaling pathway..
+Done pathway 27 : Hedgehog signaling pathway..
+Done pathway 28 : TGF-beta signaling pathway..
+Done pathway 29 : Axon guidance..
+Done pathway 30 : VEGF signaling pathway..
+Done pathway 31 : Osteoclast differentiation..
+Done pathway 32 : Focal adhesion..
+Done pathway 33 : ECM-receptor interaction..
+Done pathway 34 : Cell adhesion molecules (CAMs)..
+Done pathway 35 : Adherens junction..
+Done pathway 36 : Tight junction..
+Done pathway 37 : Gap junction..
+Done pathway 38 : Complement and coagulation cas..
+Done pathway 39 : Antigen processing and present..
+Done pathway 40 : Toll-like receptor signaling p..
+Done pathway 41 : NOD-like receptor signaling pa..
+Done pathway 42 : RIG-I-like receptor signaling ..
+Done pathway 43 : Cytosolic DNA-sensing pathway..
+Done pathway 44 : Jak-STAT signaling pathway..
+Done pathway 45 : Natural killer cell mediated c..
+Done pathway 46 : T cell receptor signaling path..
+Done pathway 47 : B cell receptor signaling path..
+Done pathway 48 : Fc epsilon RI signaling pathwa..
+Done pathway 49 : Fc gamma R-mediated phagocytos..
+Done pathway 50 : Leukocyte transendothelial mig..
+Done pathway 51 : Intestinal immune network for ..
+Done pathway 52 : Circadian rhythm - mammal..
+Done pathway 53 : Long-term potentiation..
+Done pathway 54 : Neurotrophin signaling pathway..
+Done pathway 55 : Retrograde endocannabinoid sig..
+Done pathway 56 : Glutamatergic synapse..
+Done pathway 57 : Cholinergic synapse..
+Done pathway 58 : Serotonergic synapse..
+Done pathway 59 : GABAergic synapse..
+Done pathway 60 : Dopaminergic synapse..
+Done pathway 61 : Long-term depression..
+Done pathway 62 : Olfactory transduction..
+Done pathway 63 : Taste transduction..
+Done pathway 64 : Phototransduction..
+Done pathway 65 : Regulation of actin cytoskelet..
+Done pathway 66 : Insulin signaling pathway..
+Done pathway 67 : GnRH signaling pathway..
+Done pathway 68 : Progesterone-mediated oocyte m..
+Done pathway 69 : Melanogenesis..
+Done pathway 70 : Adipocytokine signaling pathwa..
+Done pathway 71 : Type II diabetes mellitus..
+Done pathway 72 : Type I diabetes mellitus..
+Done pathway 73 : Maturity onset diabetes of the..
+Done pathway 74 : Aldosterone-regulated sodium r..
+Done pathway 75 : Endocrine and other factor-reg..
+Done pathway 76 : Vasopressin-regulated water re..
+Done pathway 77 : Salivary secretion..
+Done pathway 78 : Gastric acid secretion..
+Done pathway 79 : Pancreatic secretion..
+Done pathway 80 : Carbohydrate digestion and abs..
+Done pathway 81 : Bile secretion..
+Done pathway 82 : Mineral absorption..
+Done pathway 83 : Alzheimer's disease..
+Done pathway 84 : Parkinson's disease..
+Done pathway 85 : Amyotrophic lateral sclerosis ..
+Done pathway 86 : Huntington's disease..
+Done pathway 87 : Prion diseases..
+Done pathway 88 : Cocaine addiction..
+Done pathway 89 : Amphetamine addiction..
+Done pathway 90 : Morphine addiction..
+Done pathway 91 : Alcoholism..
+Done pathway 92 : Bacterial invasion of epitheli..
+Done pathway 93 : Vibrio cholerae infection..
+Done pathway 94 : Epithelial cell signaling in H..
+Done pathway 95 : Pathogenic Escherichia coli in..
+Done pathway 96 : Shigellosis..
+Done pathway 97 : Salmonella infection..
+Done pathway 98 : Pertussis..
+Done pathway 99 : Legionellosis..
+Done pathway 100 : Leishmaniasis..
+Done pathway 101 : Chagas disease (American trypa..
+Done pathway 102 : African trypanosomiasis..
+Done pathway 103 : Malaria..
+Done pathway 104 : Toxoplasmosis..
+Done pathway 105 : Amoebiasis..
+Done pathway 106 : Staphylococcus aureus infectio..
+Done pathway 107 : Tuberculosis..
+Done pathway 108 : Hepatitis C..
+Done pathway 109 : Measles..
+Done pathway 110 : Influenza A..
+Done pathway 111 : HTLV-I infection..
+Done pathway 112 : Herpes simplex infection..
+Done pathway 113 : Epstein-Barr virus infection..
+Done pathway 114 : Pathways in cancer..
+Done pathway 115 : Transcriptional misregulation ..
+Done pathway 116 : Viral carcinogenesis..
+Done pathway 117 : Colorectal cancer..
+Done pathway 118 : Renal cell carcinoma..
+Done pathway 119 : Pancreatic cancer..
+Done pathway 120 : Endometrial cancer..
+Done pathway 121 : Glioma..
+Done pathway 122 : Prostate cancer..
+Done pathway 123 : Thyroid cancer..
+Done pathway 124 : Basal cell carcinoma..
+Done pathway 125 : Melanoma..
+Done pathway 126 : Bladder cancer..
+Done pathway 127 : Chronic myeloid leukemia..
+Done pathway 128 : Acute myeloid leukemia..
+Done pathway 129 : Small cell lung cancer..
+Done pathway 130 : Non-small cell lung cancer..
+Done pathway 131 : Asthma..
+Done pathway 132 : Autoimmune thyroid disease..
+Done pathway 133 : Systemic lupus erythematosus..
+Done pathway 134 : Rheumatoid arthritis..
+Done pathway 135 : Allograft rejection..
+Done pathway 136 : Graft-versus-host disease..
+Done pathway 137 : Arrhythmogenic right ventricul..
+Done pathway 138 : Dilated cardiomyopathy..
+Done pathway 139 : Viral myocarditis..</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb84"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gsRanking</span>(spia.air)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>DataFrame with 37 rows and 6 columns
+                  GENE.SET      SIZE       NDE     T.ACT    STATUS      PVAL
+               &lt;character&gt; &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt;
+1   hsa04510_Focal_adhes..       160        91      6.58         1  6.17e-05
+2   hsa05221_Acute_myelo..        49        30     17.40         1  3.17e-04
+3   hsa05222_Small_cell_..        71        41     24.90         1  8.20e-04
+4   hsa05220_Chronic_mye..        67        41      9.04         1  1.01e-03
+5   hsa05200_Pathways_in..       245       123     25.80         1  1.03e-03
+...                    ...       ...       ...       ...       ...       ...
+33   hsa04540_Gap_junction        61        33      7.05         1    0.0442
+34  hsa04972_Pancreatic_..        42        21     -2.69        -1    0.0450
+35  hsa05130_Pathogenic_..        40        16    -16.60        -1    0.0458
+36  hsa04672_Intestinal_..        18         9     -3.07        -1    0.0459
+37  hsa04664_Fc_epsilon_..        49        25     16.70         1    0.0479</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
 
 
 </section>
@@ -534,7 +1126,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   </div>
   <div class="nav-page nav-page-next">
       <a href="../session6/session6.html" class="pagination-link">
-        <span class="nav-page-text">Session 5: Bulk RNA-seq</span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text">Session 6: scRNA-seq 1</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

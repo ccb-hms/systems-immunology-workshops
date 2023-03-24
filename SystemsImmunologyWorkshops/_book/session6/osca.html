@@ -369,7 +369,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="../session6/session6.html" class="sidebar-item-text sidebar-link">Session 5: scRNA-seq 1</a>
+            <a href="../session6/session6.html" class="sidebar-item-text sidebar-link">Session 6: scRNA-seq 1</a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-expanded="true">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -616,12 +616,12 @@ names(2): PCA UMAP</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">reducedDim</span>(sce, <span class="st">"PCA"</span>)[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>                      PC1        PC2        PC3      PC4       PC5
-r1_GGCCGCAGTCCG -10.39905 0.15677709  0.5330181 4.540134 -1.018913
-r1_CTTGTGCGGGAA -10.34839 0.47533936  0.3780652 5.105311 -1.619633
-r1_GCGCAACTGCTC -10.47332 0.39723149  0.7291247 4.561465 -1.003403
-r1_GATTGGGAGGCA -10.18998 0.08892315 -0.1959918 4.980799 -1.841600
-r1_CCTCCTAGTTGG -10.57438 0.12170276  0.2046049 4.336352 -1.250160</code></pre>
+<pre><code>                      PC1        PC2        PC3       PC4       PC5
+r1_GGCCGCAGTCCG -10.39905 0.15677709  0.5330181 -4.540134 -1.018913
+r1_CTTGTGCGGGAA -10.34839 0.47533936  0.3780652 -5.105311 -1.619633
+r1_GCGCAACTGCTC -10.47332 0.39723149  0.7291247 -4.561465 -1.003403
+r1_GATTGGGAGGCA -10.18998 0.08892315 -0.1959918 -4.980799 -1.841600
+r1_CCTCCTAGTTGG -10.57438 0.12170276  0.2046049 -4.336352 -1.250160</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(<span class="fu">reducedDim</span>(sce, <span class="st">"UMAP"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -630,12 +630,12 @@ r1_CCTCCTAGTTGG -10.57438 0.12170276  0.2046049 4.336352 -1.250160</code></pre>
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">reducedDim</span>(sce, <span class="st">"UMAP"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                     [,1]     [,2]
-r1_GGCCGCAGTCCG  7.196574 5.617271
-r1_CTTGTGCGGGAA  7.206385 5.706479
-r1_GCGCAACTGCTC  7.210877 5.588615
-r1_GATTGGGAGGCA  7.212703 5.690267
-r1_CCTCCTAGTTGG  7.202605 5.628194
-r1_AGTCAAGCCCTC -4.111977 5.513789</code></pre>
+r1_GGCCGCAGTCCG -6.866276 5.599598
+r1_CTTGTGCGGGAA -6.829534 5.562110
+r1_GCGCAACTGCTC -6.916276 5.621826
+r1_GATTGGGAGGCA -6.843490 5.564856
+r1_CCTCCTAGTTGG -6.872377 5.589969
+r1_AGTCAAGCCCTC  4.671948 5.242036</code></pre>
 </div>
 </div>
 <p><em>Exercise</em>: Subset the PCA representation to the first two PCs and store the result in the <code>reducedDims</code> slot under the name <code>PCA2</code>.</p>
@@ -875,12 +875,12 @@ MT-RNR2    3.45614   1.20942   2.42701 -1.217592    0.999987           1</code><
 </div>
 <div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>pca[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>                      PC1         PC2        PC3       PC4        PC5
-r1_GGCCGCAGTCCG -10.47089 -0.16970918  0.4811100 -4.696597 -0.9206715
-r1_CTTGTGCGGGAA -10.42688 -0.47419951  0.3144957 -5.307922 -1.4892991
-r1_GCGCAACTGCTC -10.54620 -0.39601153  0.6531475 -4.737640 -0.9271435
-r1_GATTGGGAGGCA -10.26394 -0.09917153 -0.2666505 -5.175493 -1.6992644
-r1_CCTCCTAGTTGG -10.61930 -0.09928218  0.1348716 -4.507015 -1.1091080</code></pre>
+<pre><code>                      PC1        PC2        PC3      PC4       PC5
+r1_GGCCGCAGTCCG -10.47089 0.16970918 -0.4811100 4.696597 0.9206715
+r1_CTTGTGCGGGAA -10.42688 0.47419951 -0.3144957 5.307922 1.4892991
+r1_GCGCAACTGCTC -10.54620 0.39601153 -0.6531475 4.737640 0.9271435
+r1_GATTGGGAGGCA -10.26394 0.09917153  0.2666505 5.175493 1.6992644
+r1_CCTCCTAGTTGG -10.61930 0.09928218 -0.1348716 4.507015 1.1091080</code></pre>
 </div>
 </div>
 <p><em>Exercise</em>:</p>
@@ -923,8 +923,8 @@ r1_CCTCCTAGTTGG -10.61930 -0.09928218  0.1348716 -4.507015 -1.1091080</code></pr
 <span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(<span class="fu">colLabels</span>(sce))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
-   1    2    3    4    5    6    7    8    9   10   11 
-3839 2343 4357 1850 2587 6150  480 2826 5599 5529 9447 </code></pre>
+   1    2    3    4    5    6    7    8    9   10   11   12   13 
+3479 2517  181 4168 1851 2573  198 7293  480 2840 5422 5107 8898 </code></pre>
 </div>
 </div>
 <p>We assign the cluster assignments back into our <code>SingleCellExperiment</code> object as a <code>factor</code> in the column metadata. This allows us to conveniently visualize the distribution of clusters in eg. a <em>t</em>-SNE or a UMAP.</p>
@@ -935,7 +935,7 @@ r1_CCTCCTAGTTGG -10.61930 -0.09928218  0.1348716 -4.507015 -1.1091080</code></pr
 <p><img src="osca_files/figure-html/cluster-viz-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>Exercise: The <a href="https://www.nature.com/articles/s41598-019-41695-z">Leiden algorithm</a> is similar to the Louvain algorithm, but it is faster and has been shown to result in better connected communities. Modify the above call to <code>clusterCells</code> to carry out the community detection with the Leiden algorithm instead. Visualize the results in a UMAP plot.</p>
+<p><strong>Exercise:</strong> The <a href="https://www.nature.com/articles/s41598-019-41695-z">Leiden algorithm</a> is similar to the Louvain algorithm, but it is faster and has been shown to result in better connected communities. Modify the above call to <code>clusterCells</code> to carry out the community detection with the Leiden algorithm instead. Visualize the results in a UMAP plot.</p>
 <p>Hint: The <code>NNGraphParam</code> constructor has an argument <code>cluster.args</code>. This allows to specify arguments passed on to the <code>cluster_leiden</code> function from the <a href="https://cran.r-project.org/web/packages/igraph/index.html">igraph</a> package. Use the <code>cluster.args</code> argument to parameterize the clustering to use modularity as the objective function and a resolution parameter of 0.5.</p>
 </section>
 <section id="marker-gene-detection" class="level3" data-number="30.4.6">
@@ -947,8 +947,8 @@ r1_CCTCCTAGTTGG -10.61930 -0.09928218  0.1348716 -4.507015 -1.1091080</code></pr
 <div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>markers <span class="ot">&lt;-</span> <span class="fu">findMarkers</span>(sce, <span class="at">test.type =</span> <span class="st">"wilcox"</span>, <span class="at">direction =</span> <span class="st">"up"</span>, <span class="at">lfc =</span> <span class="dv">1</span>)</span>
 <span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>markers</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>List of length 11
-names(11): 1 2 3 4 5 6 7 8 9 10 11</code></pre>
+<pre><code>List of length 13
+names(13): 1 2 3 4 5 6 7 8 9 10 11 12 13</code></pre>
 </div>
 </div>
 <p>The resulting object contains a sorted marker gene list for each cluster, in which the top genes are those that contribute the most to the separation of that cluster from mall other clusters.</p>
@@ -956,46 +956,46 @@ names(11): 1 2 3 4 5 6 7 8 9 10 11</code></pre>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>markers[[<span class="dv">1</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>DataFrame with 24658 rows and 14 columns
+<pre><code>DataFrame with 24658 rows and 16 columns
                     Top      p.value          FDR summary.AUC     AUC.2
               &lt;integer&gt;    &lt;numeric&gt;    &lt;numeric&gt;   &lt;numeric&gt; &lt;numeric&gt;
-MEG3                  1  0.00000e+00  0.00000e+00    0.862212  0.850364
-SNHG11                1  0.00000e+00  0.00000e+00    0.763092  0.772366
-SYT1                  2 7.95243e-255 2.45114e-251    0.780618  0.451190
-CALM1                 2  0.00000e+00  0.00000e+00    0.826011  0.687781
-TTC3                  2  0.00000e+00  0.00000e+00    0.798470  0.696917
+MEG3                  1  0.00000e+00  0.00000e+00    0.888463  0.845977
+TUBA1A                1  9.44436e-93  1.55253e-89    0.618491  0.475081
+SNHG11                1  0.00000e+00  0.00000e+00    0.739359  0.746507
+SYT1                  2 1.39150e-257 4.28896e-254    0.787200  0.445947
+CALM1                 2  0.00000e+00  0.00000e+00    0.819012  0.641825
 ...                 ...          ...          ...         ...       ...
-VSIG1             24654            1            1           0         0
-GM16390           24655            1            1           0         0
-GM25207           24656            1            1           0         0
-1110059M19RIK     24657            1            1           0         0
-GM20861           24658            1            1           0         0
-                  AUC.3     AUC.4     AUC.5     AUC.6     AUC.7      AUC.8
-              &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt;  &lt;numeric&gt;
-MEG3           0.450284  0.796402  0.467974  0.884303  0.842058 0.47148192
-SNHG11         0.586209  0.766138  0.731216  0.767731  0.770991 0.76665004
-SYT1           0.314796  0.780618  0.307406  0.547071  0.817541 0.39325214
-CALM1          0.400633  0.736977  0.453023  0.807735  0.465667 0.00842123
-TTC3           0.380391  0.703290  0.381376  0.794377  0.723661 0.45495121
-...                 ...       ...       ...       ...       ...        ...
-VSIG1                 0         0         0         0         0          0
-GM16390               0         0         0         0         0          0
-GM25207               0         0         0         0         0          0
-1110059M19RIK         0         0         0         0         0          0
-GM20861               0         0         0         0         0          0
-                  AUC.9    AUC.10    AUC.11
-              &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt;
-MEG3           0.862717  0.867328  0.862212
-SNHG11         0.763115  0.769987  0.763092
-SYT1           0.572133  0.576903  0.627491
-CALM1          0.766641  0.844552  0.826011
-TTC3           0.799176  0.792930  0.798470
-...                 ...       ...       ...
-VSIG1                 0         0         0
-GM16390               0         0         0
-GM25207               0         0         0
-1110059M19RIK         0         0         0
-GM20861               0         0         0</code></pre>
+VSIG1             24653            1            1           0         0
+GM16390           24654            1            1           0         0
+GM25207           24655            1            1           0         0
+1110059M19RIK     24656            1            1           0         0
+GM20861           24657            1            1           0         0
+                  AUC.3     AUC.4     AUC.5     AUC.6     AUC.7     AUC.8
+              &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt;
+MEG3          0.6823435  0.452022  0.806585  0.478549 0.1814640  0.888463
+TUBA1A        0.1177991  0.314720  0.425543  0.291106 0.4608110  0.551061
+SNHG11        0.0780595  0.552940  0.742181  0.705132 0.0224885  0.742499
+SYT1          0.5334295  0.312969  0.787200  0.306610 0.0587842  0.558274
+CALM1         0.1535273  0.382751  0.720211  0.427866 0.0121595  0.790286
+...                 ...       ...       ...       ...       ...       ...
+VSIG1                 0         0         0         0         0         0
+GM16390               0         0         0         0         0         0
+GM25207               0         0         0         0         0         0
+1110059M19RIK         0         0         0         0         0         0
+GM20861               0         0         0         0         0         0
+                  AUC.9     AUC.10    AUC.11    AUC.12    AUC.13
+              &lt;numeric&gt;  &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt;
+MEG3           0.851448 0.48777190  0.868714  0.876063  0.868428
+TUBA1A         0.510270 0.33683924  0.557312  0.568311  0.618491
+SNHG11         0.747063 0.74284864  0.739116  0.746561  0.739359
+SYT1           0.824606 0.39838052  0.574880  0.574974  0.636706
+CALM1          0.441906 0.00711705  0.753439  0.831255  0.819012
+...                 ...        ...       ...       ...       ...
+VSIG1                 0          0         0         0         0
+GM16390               0          0         0         0         0
+GM25207               0          0         0         0         0
+1110059M19RIK         0          0         0         0         0
+GM20861               0          0         0         0         0</code></pre>
 </div>
 </div>
 <p>The <code>Top</code> field provides the the minimum rank across all pairwise comparisons. The <code>p.value</code> field provides the combined <em>p</em>-value across all comparisons, and the <code>FDR</code> field the BH-adjusted <em>p</em>-value for each gene. The <code>summary.AUC</code> provides area under the curve (here the concordance probability) from the comparison with the lowest <em>p</em>-value, the <code>AUC.n</code> fields provide the AUC for each pairwise comparison. The AUC is the probability that a randomly selected cell in cluster <em>A</em> has a greater expression of gene <em>X</em> than a randomly selected cell in <em>B</em>.</p>
@@ -1149,7 +1149,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="../session6/session6.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Session 5: scRNA-seq 1</span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Session 6: scRNA-seq 1</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

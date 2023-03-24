@@ -6,6 +6,32 @@ Please submit this problem set either as a R notebook (quarto or RMarkdown) or a
 
 The experimental data package [fission](https://bioconductor.org/packages/fission) stores time course RNA-seq data studying the stress response in fission yeast. Conduct a differential expression analysis with `DESeq2` between the mutant and the wild type strain, using time as a covariate. How many genes are differentially expressed, based on an adjusted significance level of 0.05? Inspect the results with a volcano plot and an MA plot.
 
+::: {.callout-tip icon="false" collapse="true"}
+## Solution
+```{r}
+# Load the fission data
+# BiocManager::install("fission")
+library(DESeq2)
+library(fission)
+library(ggplot2)
+data(fission)
+
+#Run DESeq2
+dds <- DESeqDataSet(fission, design = ~ minute + strain)
+dds <- DESeq(dds)
+res <- results(dds, alpha=0.05)
+
+#How many genes are significant at 0.05?
+sum(res$padj < 0.05, na.rm = TRUE)
+
+#Plots
+ggplot(as.data.frame(res), 
+       aes(x = log2FoldChange, y = -log10(padj))) + geom_point()
+plotMA(res)
+```
+:::
+
+
 ## Problem 2
 
 Perform gene set enrichment analysis on the **airway** dataset using the same experiment setup as above:
@@ -21,3 +47,39 @@ Perform gene set enrichment analysis on the **airway** dataset using the same ex
 Newer enrichment methods can account for these issues, but there are also tools such as [Revigo](http://revigo.irb.hr/) which post-process enrichment results to give more useful lists of enriched terms.
 
 Take the results of one of the enrichment analyses you ran above and try inputting it into Revigo. Take a look at the results. Do you think these results are more or less useful than the original enrichment results?
+
+::: {.callout-tip icon="false" collapse="true"}
+## Solution
+```{r}
+library(EnrichmentBrowser)
+library(airway)
+library(dplyr)
+
+# Data Preparation 
+data(airway)
+airSE <- airway[grep("^ENSG", names(airway)), ]
+airSE$GROUP <- ifelse(airSE$dex == "trt", 1, 0)
+airSE$BLOCK <- airway$cell
+airSE <- deAna(airSE, de.method = "edgeR")
+airSE <- idMap(airSE, org = "hsa", from = "ENSEMBL", to = "ENTREZID")
+
+
+# Let's grab the kegg gene sets and the GO BP terms
+go.gs <- getGenesets(org = "hsa", db = "go", onto = "BP", mode = "GO.db")
+kegg.gs <- getGenesets(org = "hsa", db = "kegg")
+
+#Now we can  perform over-representation analysis with GO terms
+ora.air <- sbea(method = "ora", se = airSE, gs = go.gs, perm = 0)
+
+#And GSEA with KEGG terms
+gsea.air <- sbea(method = "gsea", se = airSE, gs = kegg.gs)  
+gsRanking(gsea.air)
+
+#Or maybe we want to run SPIA, a KEGG network-based method
+hsa.grn <- compileGRN(org = "hsa", db = "kegg") #This line gets the pathway topology
+spia.air <- nbea(method = "spia", se = airSE, gs = kegg.gs, grn = hsa.grn)
+gsRanking(spia.air)
+```
+:::
+
+

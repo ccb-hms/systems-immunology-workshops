@@ -312,7 +312,7 @@ sce <- runUMAP(sce, dimred = "PCA")
 plotReducedDim(sce, "UMAP", color_by = "label")
 ```
 
-Exercise: The [Leiden algorithm](https://www.nature.com/articles/s41598-019-41695-z) is similar to the Louvain algorithm, but it is faster and has been shown to result in better connected communities. Modify the above call to `clusterCells` to carry out the community detection with the Leiden algorithm instead. Visualize the results in a UMAP plot.
+**Exercise:** The [Leiden algorithm](https://www.nature.com/articles/s41598-019-41695-z) is similar to the Louvain algorithm, but it is faster and has been shown to result in better connected communities. Modify the above call to `clusterCells` to carry out the community detection with the Leiden algorithm instead. Visualize the results in a UMAP plot.
 
 Hint: The `NNGraphParam` constructor has an argument `cluster.args`. This allows to specify arguments passed on to the `cluster_leiden` function from the [igraph](https://cran.r-project.org/web/packages/igraph/index.html) package. Use the `cluster.args` argument to parameterize the clustering to use modularity as the objective function and a resolution parameter of 0.5.
 
