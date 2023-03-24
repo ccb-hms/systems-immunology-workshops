@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.269">
+<meta name="generator" content="quarto-1.2.335">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -388,7 +388,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="../resources/resources.html" class="sidebar-item-text sidebar-link">Resources</a>
+            <a href="../session7/session7.html" class="sidebar-item-text sidebar-link">Session 7: scRNA-seq 2</a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" aria-expanded="true">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -396,7 +396,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../resources/git.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Getting Started with Git &amp; Github</span></a>
+  <a href="../session7/seurat.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Single-cell analysis with Seurat</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../session7/pSet7.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Problem set 7: Seurat</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../resources/resources.html" class="sidebar-item-text sidebar-link">Resources</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../resources/git.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Getting Started with Git &amp; Github</span></a>
   </div>
 </li>
       </ul>
@@ -476,12 +496,12 @@ Attaching package: 'BiocGenerics'</code></pre>
 <div class="cell-output cell-output-stderr">
 <pre><code>The following objects are masked from 'package:base':
 
-    anyDuplicated, aperm, append, as.data.frame, basename, cbind,
-    colnames, dirname, do.call, duplicated, eval, evalq, Filter, Find,
-    get, grep, grepl, intersect, is.unsorted, lapply, Map, mapply,
-    match, mget, order, paste, pmax, pmax.int, pmin, pmin.int,
-    Position, rank, rbind, Reduce, rownames, sapply, setdiff, sort,
-    table, tapply, union, unique, unsplit, which.max, which.min</code></pre>
+    anyDuplicated, append, as.data.frame, basename, cbind, colnames,
+    dirname, do.call, duplicated, eval, evalq, Filter, Find, get, grep,
+    grepl, intersect, is.unsorted, lapply, Map, mapply, match, mget,
+    order, paste, pmax, pmax.int, pmin, pmin.int, Position, rank,
+    rbind, Reduce, rownames, sapply, setdiff, sort, table, tapply,
+    union, unique, unsplit, which.max, which.min</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
 <pre><code>
@@ -656,6 +676,9 @@ Attaching package: 'EnrichmentBrowser'</code></pre>
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(airway)</span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'dplyr' was built under R version 4.2.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
 <pre><code>
 Attaching package: 'dplyr'</code></pre>
 </div>
@@ -709,16 +732,16 @@ Attaching package: 'dplyr'</code></pre>
 
     intersect, setdiff, setequal, union</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Data Preparation </span></span>
-<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(airway)</span>
-<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>airSE <span class="ot">&lt;-</span> airway[<span class="fu">grep</span>(<span class="st">"^ENSG"</span>, <span class="fu">names</span>(airway)), ]</span>
-<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>airSE<span class="sc">$</span>GROUP <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(airSE<span class="sc">$</span>dex <span class="sc">==</span> <span class="st">"trt"</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span>
-<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a>airSE<span class="sc">$</span>BLOCK <span class="ot">&lt;-</span> airway<span class="sc">$</span>cell</span>
-<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a>airSE <span class="ot">&lt;-</span> <span class="fu">deAna</span>(airSE, <span class="at">de.method =</span> <span class="st">"edgeR"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Data Preparation </span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(airway)</span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>airSE <span class="ot">&lt;-</span> airway[<span class="fu">grep</span>(<span class="st">"^ENSG"</span>, <span class="fu">names</span>(airway)), ]</span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>airSE<span class="sc">$</span>GROUP <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(airSE<span class="sc">$</span>dex <span class="sc">==</span> <span class="st">"trt"</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span>
+<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a>airSE<span class="sc">$</span>BLOCK <span class="ot">&lt;-</span> airway<span class="sc">$</span>cell</span>
+<span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a>airSE <span class="ot">&lt;-</span> <span class="fu">deAna</span>(airSE, <span class="at">de.method =</span> <span class="st">"edgeR"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Excluding 47751 genes not satisfying min.cpm threshold</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>airSE <span class="ot">&lt;-</span> <span class="fu">idMap</span>(airSE, <span class="at">org =</span> <span class="st">"hsa"</span>, <span class="at">from =</span> <span class="st">"ENSEMBL"</span>, <span class="at">to =</span> <span class="st">"ENTREZID"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>airSE <span class="ot">&lt;-</span> <span class="fu">idMap</span>(airSE, <span class="at">org =</span> <span class="st">"hsa"</span>, <span class="at">from =</span> <span class="st">"ENSEMBL"</span>, <span class="at">to =</span> <span class="st">"ENTREZID"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>
 Attaching package: 'AnnotationDbi'</code></pre>
@@ -732,39 +755,40 @@ Attaching package: 'AnnotationDbi'</code></pre>
 <pre><code></code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Encountered 99 from.IDs with &gt;1 corresponding to.ID</code></pre>
+<pre><code>Encountered 92 from.IDs with &gt;1 corresponding to.ID</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
 <pre><code>(the first to.ID was chosen for each of them)</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Excluded 1967 from.IDs without a corresponding to.ID</code></pre>
+<pre><code>Excluded 1979 from.IDs without a corresponding to.ID</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Encountered 9 to.IDs with &gt;1 from.ID (the first from.ID was chosen for each of them)</code></pre>
+<pre><code>Encountered 10 to.IDs with &gt;1 from.ID (the first from.ID was chosen for each of them)</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Mapped from.IDs have been added to the rowData column ENSEMBL</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Let's grab the kegg gene sets and the GO BP terms</span></span>
-<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a>go.gs <span class="ot">&lt;-</span> <span class="fu">getGenesets</span>(<span class="at">org =</span> <span class="st">"hsa"</span>, <span class="at">db =</span> <span class="st">"go"</span>, <span class="at">onto =</span> <span class="st">"BP"</span>, <span class="at">mode =</span> <span class="st">"GO.db"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Let's grab the kegg gene sets and the GO BP terms</span></span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>go.gs <span class="ot">&lt;-</span> <span class="fu">getGenesets</span>(<span class="at">org =</span> <span class="st">"hsa"</span>, <span class="at">db =</span> <span class="st">"go"</span>, <span class="at">onto =</span> <span class="st">"BP"</span>, <span class="at">mode =</span> <span class="st">"GO.db"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code></code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>kegg.gs <span class="ot">&lt;-</span> <span class="fu">getGenesets</span>(<span class="at">org =</span> <span class="st">"hsa"</span>, <span class="at">db =</span> <span class="st">"kegg"</span>)</span>
-<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a><span class="co">#Now we can  perform over-representation analysis with GO terms</span></span>
-<span id="cb66-4"><a href="#cb66-4" aria-hidden="true" tabindex="-1"></a>ora.air <span class="ot">&lt;-</span> <span class="fu">sbea</span>(<span class="at">method =</span> <span class="st">"ora"</span>, <span class="at">se =</span> airSE, <span class="at">gs =</span> go.gs, <span class="at">perm =</span> <span class="dv">0</span>)</span>
-<span id="cb66-5"><a href="#cb66-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb66-6"><a href="#cb66-6" aria-hidden="true" tabindex="-1"></a><span class="co">#And GSEA with KEGG terms</span></span>
-<span id="cb66-7"><a href="#cb66-7" aria-hidden="true" tabindex="-1"></a>gsea.air <span class="ot">&lt;-</span> <span class="fu">sbea</span>(<span class="at">method =</span> <span class="st">"gsea"</span>, <span class="at">se =</span> airSE, <span class="at">gs =</span> kegg.gs)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>kegg.gs <span class="ot">&lt;-</span> <span class="fu">getGenesets</span>(<span class="at">org =</span> <span class="st">"hsa"</span>, <span class="at">db =</span> <span class="st">"kegg"</span>)</span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a><span class="co">#Now we can  perform over-representation analysis with GO terms</span></span>
+<span id="cb67-4"><a href="#cb67-4" aria-hidden="true" tabindex="-1"></a>ora.air <span class="ot">&lt;-</span> <span class="fu">sbea</span>(<span class="at">method =</span> <span class="st">"ora"</span>, <span class="at">se =</span> airSE, <span class="at">gs =</span> go.gs, <span class="at">perm =</span> <span class="dv">0</span>)</span>
+<span id="cb67-5"><a href="#cb67-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb67-6"><a href="#cb67-6" aria-hidden="true" tabindex="-1"></a><span class="co">#And GSEA with KEGG terms</span></span>
+<span id="cb67-7"><a href="#cb67-7" aria-hidden="true" tabindex="-1"></a>gsea.air <span class="ot">&lt;-</span> <span class="fu">sbea</span>(<span class="at">method =</span> <span class="st">"gsea"</span>, <span class="at">se =</span> airSE, <span class="at">gs =</span> kegg.gs)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Excluding 23 genes not satisfying min.cpm threshold</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: 'memory.limit()' is no longer supported
-
-Warning: 'memory.limit()' is no longer supported</code></pre>
+<pre><code>Warning: 'memory.limit()' is no longer supported</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: 'memory.limit()' is no longer supported</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Permutations: 1 -- 100</code></pre>
@@ -799,7 +823,7 @@ Warning: 'memory.limit()' is no longer supported</code></pre>
 <div class="cell-output cell-output-stderr">
 <pre><code>Processing ...</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gsRanking</span>(gsea.air)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gsRanking</span>(gsea.air)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>DataFrame with 9 rows and 4 columns
                 GENE.SET        ES       NES      PVAL
@@ -814,9 +838,9 @@ Warning: 'memory.limit()' is no longer supported</code></pre>
 8 hsa04750_Inflammator..    -0.505     -1.33    0.0277
 9 hsa05143_African_try..    -0.740     -1.39    0.0479</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Or maybe we want to run SPIA, a KEGG network-based method</span></span>
-<span id="cb82-2"><a href="#cb82-2" aria-hidden="true" tabindex="-1"></a>hsa.grn <span class="ot">&lt;-</span> <span class="fu">compileGRN</span>(<span class="at">org =</span> <span class="st">"hsa"</span>, <span class="at">db =</span> <span class="st">"kegg"</span>) <span class="co">#This line gets the pathway topology</span></span>
-<span id="cb82-3"><a href="#cb82-3" aria-hidden="true" tabindex="-1"></a>spia.air <span class="ot">&lt;-</span> <span class="fu">nbea</span>(<span class="at">method =</span> <span class="st">"spia"</span>, <span class="at">se =</span> airSE, <span class="at">gs =</span> kegg.gs, <span class="at">grn =</span> hsa.grn)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb84"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Or maybe we want to run SPIA, a KEGG network-based method</span></span>
+<span id="cb84-2"><a href="#cb84-2" aria-hidden="true" tabindex="-1"></a>hsa.grn <span class="ot">&lt;-</span> <span class="fu">compileGRN</span>(<span class="at">org =</span> <span class="st">"hsa"</span>, <span class="at">db =</span> <span class="st">"kegg"</span>) <span class="co">#This line gets the pathway topology</span></span>
+<span id="cb84-3"><a href="#cb84-3" aria-hidden="true" tabindex="-1"></a>spia.air <span class="ot">&lt;-</span> <span class="fu">nbea</span>(<span class="at">method =</span> <span class="st">"spia"</span>, <span class="at">se =</span> airSE, <span class="at">gs =</span> kegg.gs, <span class="at">grn =</span> hsa.grn)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Done pathway 1 : RNA transport..
@@ -959,22 +983,22 @@ Done pathway 137 : Arrhythmogenic right ventricul..
 Done pathway 138 : Dilated cardiomyopathy..
 Done pathway 139 : Viral myocarditis..</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb84"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gsRanking</span>(spia.air)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb86"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gsRanking</span>(spia.air)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>DataFrame with 37 rows and 6 columns
                   GENE.SET      SIZE       NDE     T.ACT    STATUS      PVAL
                &lt;character&gt; &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt;
-1   hsa04510_Focal_adhes..       160        91      6.58         1  6.17e-05
-2   hsa05221_Acute_myelo..        49        30     17.40         1  3.17e-04
-3   hsa05222_Small_cell_..        71        41     24.90         1  8.20e-04
-4   hsa05220_Chronic_mye..        67        41      9.04         1  1.01e-03
-5   hsa05200_Pathways_in..       245       123     25.80         1  1.03e-03
+1   hsa04510_Focal_adhes..       160        91      6.52         1  6.16e-05
+2   hsa05221_Acute_myelo..        49        30     17.60         1  1.02e-04
+3   hsa05222_Small_cell_..        71        41     25.10         1  4.45e-04
+4   hsa05220_Chronic_mye..        67        41      9.68         1  9.53e-04
+5   hsa05200_Pathways_in..       245       123     24.40         1  1.05e-03
 ...                    ...       ...       ...       ...       ...       ...
-33   hsa04540_Gap_junction        61        33      7.05         1    0.0442
-34  hsa04972_Pancreatic_..        42        21     -2.69        -1    0.0450
-35  hsa05130_Pathogenic_..        40        16    -16.60        -1    0.0458
-36  hsa04672_Intestinal_..        18         9     -3.07        -1    0.0459
-37  hsa04664_Fc_epsilon_..        49        25     16.70         1    0.0479</code></pre>
+33  hsa04672_Intestinal_..        18         9     -3.07        -1    0.0383
+34  hsa04080_Neuroactive..        58        25      3.10         1    0.0391
+35   hsa04540_Gap_junction        61        33      6.89         1    0.0446
+36  hsa04664_Fc_epsilon_..        49        25     16.80         1    0.0461
+37  hsa04726_Serotonergi..        53        28      5.60         1    0.0499</code></pre>
 </div>
 </div>
 </div>

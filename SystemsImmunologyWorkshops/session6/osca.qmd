@@ -1,4 +1,5 @@
-# Single-cell analysis with Bioconductor 
+# Single-cell analysis with Bioconductor
+
 ## Setup
 
 The "Orchestrating single-cell analysis with Bioconductor" ([OSCA](https://bioconductor.org/books/release/OSCA/)) online book describes common workflows for the analysis of single-cell RNA-seq data (scRNA-seq).
@@ -185,6 +186,11 @@ A useful diagnostic involves plotting the proportion of mitochondrial counts aga
 Create a plot of library size (*x*-axis) against percentage of reads mapped to mitochondrial transcripts (*y*-axis). Color each point/cell by QC status, ie. whether the cell is kept or discarded from further analysis.
 
 Do you observe any cells in the top-right corner of the plot? To what kind of cells might these correspond to?
+```{r}
+library("ggplot2")
+qc <- data.frame(qcstats[,c("sum","subsets_Mito_percent")])
+ggplot(qc, aes(x=sum, y=subsets_Mito_percent, color=filtered$discard))+geom_point()+xlim(0,100000)
+```
 
 ### Normalization
 
@@ -275,7 +281,7 @@ The de facto standard for visualization of scRNA-seq data is the *t*-stochastic 
 sce.sub <- subset(sce, , cluster %in% 1:10) 
 sce.sub <- runTSNE(sce.sub, dimred = "PCA")
 sce.sub$cluster <- factor(sce.sub$cluster, levels = 1:10)
-plotReducedDim(sce.sub, "TSNE", color_by = "cluster")
+plotReducedDim(sce.sub, "TSNE", colour_by = "cluster")
 ```
 
 It is unwise to read too much into the relative sizes and positions of the visual clusters. *t*-SNE will inflate dense clusters and compress sparse ones, such that we cannot use the size as a measure of subpopulation heterogeneity. In addition, *t*-SNE is not obliged to preserve the relative locations of non-neighboring clusters, such that we cannot use their positions to determine relationships between distant clusters.
@@ -284,7 +290,7 @@ The uniform manifold approximation and projection (UMAP) method ([McInnes, Healy
 
 ```{r umap}
 sce.sub <- runUMAP(sce.sub, dimred = "PCA")
-plotReducedDim(sce.sub, "UMAP", color_by = "cluster")
+plotReducedDim(sce.sub, "UMAP", colour_by = "cluster")
 ```
 
 Compared to *t*-SNE, the UMAP visualization tends to have more compact visual clusters with more empty space between them. It also attempts to preserve more of the global structure than *t*-SNE. From a practical perspective, UMAP is much faster than *t*-SNE, which may be an important consideration for large datasets. UMAP plots are therefore increasingly displacing *t*-SNE plots as the method of choice for visualizing large scRNA-seq data sets.
@@ -309,10 +315,10 @@ We assign the cluster assignments back into our `SingleCellExperiment` object as
 
 ```{r cluster-viz}
 sce <- runUMAP(sce, dimred = "PCA")
-plotReducedDim(sce, "UMAP", color_by = "label")
+plotReducedDim(sce, "UMAP", colour_by = "label")
 ```
 
-**Exercise:** The [Leiden algorithm](https://www.nature.com/articles/s41598-019-41695-z) is similar to the Louvain algorithm, but it is faster and has been shown to result in better connected communities. Modify the above call to `clusterCells` to carry out the community detection with the Leiden algorithm instead. Visualize the results in a UMAP plot.
+Exercise: The [Leiden algorithm](https://www.nature.com/articles/s41598-019-41695-z) is similar to the Louvain algorithm, but it is faster and has been shown to result in better connected communities. Modify the above call to `clusterCells` to carry out the community detection with the Leiden algorithm instead. Visualize the results in a UMAP plot.
 
 Hint: The `NNGraphParam` constructor has an argument `cluster.args`. This allows to specify arguments passed on to the `cluster_leiden` function from the [igraph](https://cran.r-project.org/web/packages/igraph/index.html) package. Use the `cluster.args` argument to parameterize the clustering to use modularity as the objective function and a resolution parameter of 0.5.
 
@@ -343,5 +349,5 @@ We can then inspect the top marker genes for the first cluster using the `plotEx
 
 ```{r plot-markers, fig.width = 10, fig.height = 10}
 top.markers <- head(rownames(markers[[1]]))
-plotExpression(sce, features = top.markers, x = "label", color_by = "label")
+plotExpression(sce, features = top.markers, x = "label", colour_by = "label")
 ```

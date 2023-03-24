@@ -1,0 +1,17 @@
+# Problem set 7: Seurat
+
+## Problem 1: PCA
+
+Determining the dimensionality of a dataset and how many PCs to retain for downstream analysis comes with some uncertainty. To explore the effect of this decision, repeat the downstream analysis steps when retaining a different number of PCs (5, 15, and 50). Do you observe differences in the clustering and cluster marker detection step?
+
+Challenge: [Macosko et al.](https://doi.org/10.1016/j.cell.2015.05.002) describes a resampling test inspired by the [JackStraw procedure](https://doi.org/10.1093/bioinformatics/btu674). This involves randomly permuting a subset of the data and rerunning PCA, thereby constructing a null distribution of feature scores, and repeating this procedure. Perform the jackstraw test and inspect the *p*-values for the first 15 PCs. What do you observe? Hint: use the `JackStraw`, `ScoreJackStraw`, and `JackStrawPlot` functions.
+
+## Problem 2: Marker Identification
+
+Seurat has several [tests for differential expression](https://satijalab.org/seurat/articles/de_vignette.html) for the detection of marker genes for the identified clusters. This includes classical statistical tests such as Student's *t*-test and the Wilcoxon rank sum test (default), but also differential expression tests specifically developed for RNA-seq data such as [DESeq2](https://bioconductor.org/packages/DESeq2) and [MAST](https://bioconductor.org/packages/MAST). Inspect the effect of identifying markers for cluster 2 when using either Student's *t*-test or a ROC analysis for differential expression analysis between clusters. Do you end up with a different set of top 10 markers for cluster 2? Hint: see the `test.use` argument of the `FindMarkers` function.
+
+Challenge: Especially for larger datasets, the identification of markers for each cluster can be a time-consuming step. As another option to speed up these computations, use the `max.cells.per.ident` argument to downsample each cluster to have no more than 100 cells. How does this impact the markers that you identify for each cluster?
+
+## Problem 2: OSCA vs Seurat
+
+The typical processing of single-cell data with OSCA and Seurat is very similar and should produce overall roughly identical results. Return to your chosen single-cell dataset from Problem set 3 from the OSCA session and perform a typical analysis with Seurat as outlined in this tutorial. Compare your results with regard to the identified and annotated clusters.

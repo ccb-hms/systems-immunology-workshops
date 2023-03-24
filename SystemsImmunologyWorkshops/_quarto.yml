@@ -52,6 +52,10 @@ book:
       chapters:
         - session6/osca.qmd
         - session6/pSet6.qmd
+    - part: session7/session7.qmd
+      chapters:
+        - session7/seurat.qmd
+        - session7/pSet7.qmd
     - part: resources/resources.qmd
       chapters:
         - resources/git.qmd
