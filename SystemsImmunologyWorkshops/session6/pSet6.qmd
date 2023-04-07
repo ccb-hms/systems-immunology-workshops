@@ -6,12 +6,284 @@ Please submit this problem set either as a R notebook (quarto or RMarkdown) or a
 
 Take a closer look at the `qcstats` data frame computed in the quality control section above. Produce boxplots for (i) the total count for each cell (`sum`), (ii) the number of expressed features (`detected`), and (iii) the percentage of reads mapped to mitochondrial genes (`subsets_Mito_percent`). Identify outliers for all three QC criteria, ie those cells that are below the 5% quantile for `sum` and `detected`, and those cells that are above the 95% quantile for `subsets_Mito_percent` (Hint: see the `quantile` function).
 
+::: {.callout-tip icon="false" collapse="true"}
+## Solution
+
+
+:::
+
 ## Problem 2: Dimensionality reduction
 
 -   The choice of the number of PCs that we retain for downstream analysis should be based on how much of the total variance is explained by each PC. Therefore, visualize the percentage of variance explained for each PC in a scree plot and identify the elbow point, ie the point where the amount of variance explained seem to level off. Hint: inspect the `"percentVar"` attribute of the `reducedDim` slot using `attr`.
 -   A key parameter of visualizing scRNA-seq data in a *t*-SNE plot is the `perplexity` parameter, which determines the granularity of the visualization. Produce *t*-SNE plots for different settings of the `perplexity` parameter (chose values between 5 and 100). How do increasing values of the `perplexity` parameter influence the visualization?
 -   Important parameters for visualizing scRNA-seq data in a UMAP plot are the number of neighbors (`n_neighbors`) and the minimum distance between embedded points (`min_dist`). Explore the effect of these parameters on the granularity of the output for different settings of the `n_neighbors` parameter (chose integer values between 2 and 100) and different settings of the `min_dist` parameter (chose values between 0 and 1).
 
+::: {.callout-tip icon="false" collapse="true"}
+## Solution
+Let's start by taking a look at the `qcstats` data frame.
+
+```{r}
+qcstats
+```
+
+We then take a look at the distribution of the three QC criteria.
+
+(i) The total count for each cell (`sum`):
+
+```{r}
+hist(qcstats$sum, breaks = 50)
+boxplot(qcstats$sum)
+summary(qcstats$sum)
+```
+
+Outliers:
+
+```{r}
+q05 <- quantile(qcstats$sum, 0.05)
+q05
+hist(log10(qcstats$sum), breaks = 50)
+abline(v = log10(q05), col = "red")
+```
+
+Which cells are those?:
+
+```{r}
+ind <- qcstats$sum < q05
+discard.cells <- rownames(qcstats)[ind]
+length(discard.cells)
+head(discard.cells)
+```
+
+(ii) The number of expressed features (`detected`): 
+
+```{r}
+hist(qcstats$detected, breaks = 50)
+boxplot(qcstats$detected)
+summary(qcstats$detected)
+```
+
+Outliers:
+
+```{r}
+q05 <- quantile(qcstats$detected, 0.05)
+q05
+hist(log10(qcstats$detected), breaks = 50)
+abline(v = log10(q05), col = "red")
+```
+
+Which cells are those?:
+
+```{r}
+ind <- qcstats$detected < q05
+discard.cells <- rownames(qcstats)[ind]
+length(discard.cells)
+head(discard.cells)
+```
+
+(iii) The percentage of reads mapped to mitochondrial genes (`subsets_Mito_percent`):
+
+```{r}
+hist(qcstats$subsets_Mito_percent, breaks = 50)
+boxplot(qcstats$subsets_Mito_percent)
+summary(qcstats$subsets_Mito_percent)
+```
+
+Outliers:
+
+```{r}
+q95 <- quantile(qcstats$subsets_Mito_percent, 0.95)
+q95
+hist(qcstats$subsets_Mito_percent, breaks = 50)
+abline(v = q95, col = "red")
+```
+
+Which cells are those?:
+
+```{r}
+ind <- qcstats$subsets_Mito_percent > q95
+discard.cells <- rownames(qcstats)[ind]
+length(discard.cells)
+head(discard.cells)
+```
+
+Note: The identification of outliers in the standard OSCA QC with the 
+`quickPerCellQC` function is based on the 
+[median absolute deviation (MAD)](https://en.wikipedia.org/wiki/Median_absolute_deviation).
+The default requires 3 MADs away from the median for a value to be called an outlier.
+
+Note: In the OSCA session we identified highly-variable genes (HVGs) as the top
+10% of genes with the highest biological component. It is also possible to use
+a *p*-value threshold instead. See the [feature selection strategies](http://bioconductor.org/books/3.16/OSCA.advanced/more-hvgs.html#based-on-significance) 
+in the advanced chapter of the OSCA book. 
+
+```{r}
+percent.var <- attr(reducedDim(sce), "percentVar")
+percent.var
+plot(percent.var, log = "y", xlab = "PC", ylab = "Variance explained (%)")
+```
+
+2ii. 
+
+We restrict here to a subset of 3000 cells for demonstration purposes:
+
+```{r}
+ind <- sample(1:ncol(sce), 3000)
+sce <- sce[,ind]
+
+# Feature selection
+dec <- modelGeneVar(sce)
+hvg <- getTopHVGs(dec, prop = 0.1)
+
+# Dimensionality reduction (PCA)
+sce <- runPCA(sce, ncomponents = 25, subset_row = hvg)
+
+# Clustering
+colLabels(sce) <- clusterCells(sce, use.dimred = "PCA",
+                               BLUSPARAM = NNGraphParam(cluster.fun = "louvain"))
+```
+
+We start by performing and visualizing a *t*-SNE with default settings
+(this takes a couple of minutes, not suitable for interactive demo):
+
+```{r}
+sce <- runTSNE(sce, dimred = "PCA")
+plotTSNE(sce, color_by = "label")
+```
+
+We then inspect a range of settings for the `perplexity` parameter:
+
+```{r tsne-perplexity, fig.width=15, fig.asp=0.3}
+sce <- runTSNE(sce, dimred = "PCA", perplexity = 5)
+out5 <- plotTSNE(sce, color_by = "label") + ggtitle("perplexity = 5")
+
+sce <- runTSNE(sce, dimred = "PCA", perplexity = 20)
+out20 <- plotTSNE(sce, color_by = "label") + ggtitle("perplexity = 20")
+
+sce <- runTSNE(sce, dimred = "PCA", perplexity = 80)
+out80 <- plotTSNE(sce, color_by = "label") + ggtitle("perplexity = 80")
+
+gridExtra::grid.arrange(out5, out20, out80, ncol = 3)
+```
+
+Larger values of `perplexity` result in a more clustered/clumped embedding where
+nearby points on the manifold are drawn closer together, while larger values
+result in a more even dispersal of points.
+
+2iii. 
+
+Number of neighbors:
+
+```{r umap-n_neighbors, fig.width=15, fig.asp=0.3}
+sce <- runUMAP(sce, dimred = "PCA", n_neighbors = 5)
+out5 <- plotUMAP(sce, color_by = "label") + ggtitle("n_neighbors = 5")
+
+sce <- runUMAP(sce, dimred = "PCA", n_neighbors = 20)
+out20 <- plotUMAP(sce, color_by = "label") + ggtitle("n_neighbors = 20")
+
+sce <- runUMAP(sce, dimred = "PCA", n_neighbors = 80)
+out80 <- plotUMAP(sce, color_by = "label") + ggtitle("n_neighbors = 80")
+
+gridExtra::grid.arrange(out5, out20, out80, ncol = 3)
+```
+
+Larger values of `n_neighbors` result in more global views of the manifold,
+while smaller values result in more local data being preserved.
+
+Minimum distance between embedded points:
+
+```{r umap-min_dist, fig.width=15, fig.asp=0.3}
+sce <- runUMAP(sce, dimred = "PCA", min_dist = 0.1)
+out01 <- plotUMAP(sce, color_by = "label") + ggtitle("min_dist = 0.1")
+
+sce <- runUMAP(sce, dimred = "PCA", min_dist = 0.5)
+out05 <- plotUMAP(sce, color_by = "label") + ggtitle("min_dist = 0.5")
+
+sce <- runUMAP(sce, dimred = "PCA", min_dist = 0.9)
+out09 <- plotUMAP(sce, color_by = "label") + ggtitle("min_dist = 0.9")
+
+gridExtra::grid.arrange(out01, out05, out09, ncol = 3)
+```
+
+Smaller values of `min_dist` result in a more clustered/clumped embedding where
+nearby points on the manifold are drawn closer together, while larger values
+result in a more even dispersal of points.
+
+:::
+
 ## Problem 3: Analysis
 
 The [scRNAseq](https://bioconductor.org/packages/scRNAseq) package provides gene-level counts for a collection of public scRNA-seq datasets, stored as `SingleCellExperiment` objects with annotated cell- and gene-level metadata. Consult the vignette of the [scRNAseq](https://bioconductor.org/packages/scRNAseq) package to inspect all available datasets and select a dataset of your choice. Perform a typical scRNA-seq analysis on this dataset including QC, normalization, feature selection, dimensionality reduction, clustering, and marker gene detection.
+
+::: {.callout-tip icon="false" collapse="true"}
+## Solution
+
+Obtain and inspect the data:
+
+```{r, message = FALSE}
+sce <- ZeiselBrainData()
+sce
+colData(sce)
+```
+
+QC:
+
+```{r}
+is.mito <- grepl("^mt-", rownames(sce))
+table(is.mito)
+table(rowData(sce)$featureType)
+```
+
+```{r}
+qcstats <- perCellQCMetrics(sce, subsets = list(Mito = is.mito))
+qcstats
+filtered <- quickPerCellQC(qcstats, percent_subsets = "subsets_Mito_percent")
+table(filtered$discard)
+sce <- sce[, !filtered$discard]
+```
+
+Normalization:
+
+```{r}
+sce <- logNormCounts(sce)
+```
+
+Feature selection:
+
+```{r}
+dec <- modelGeneVar(sce)
+hvg <- getTopHVGs(dec, prop = 0.1)
+head(dec[hvg,])
+```
+
+Dimensionality reduction (PCA):
+
+```{r}
+sce <- runPCA(sce, ncomponents = 25, subset_row = hvg)
+percent.var <- attr(reducedDim(sce), "percentVar")
+plot(percent.var, log = "y", xlab = "PC", ylab = "Variance explained (%)")
+```
+
+Clustering:
+
+```{r}
+colLabels(sce) <- clusterCells(sce, use.dimred = "PCA",
+                               BLUSPARAM = NNGraphParam(cluster.fun = "louvain"))
+table(colLabels(sce))
+```
+
+Visualization:
+
+```{r}
+sce <- runUMAP(sce, dimred = "PCA")
+plotUMAP(sce, color_by = "label")
+```
+
+Marker detection:
+
+```{r}
+markers <- findMarkers(sce, test.type = "wilcox", direction = "up", lfc = 1)
+length(markers)
+markers[[1]]
+```
+
+:::

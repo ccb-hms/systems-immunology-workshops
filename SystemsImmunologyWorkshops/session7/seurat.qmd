@@ -91,9 +91,60 @@ pbmc
 
 Change the `min.cells` and `min.features` argument to include features detected in at least 1% of the cells, and cells where at least 1% of the features are expressed.
 
+::: {.callout-tip icon="false" collapse="true"}
+## Solution
+Number of cells
+
+```{r nr-cells}
+nr.cells <- 0.01 * ncol(pbmc.data)
+nr.cells
+```
+
+Number of features
+
+```{r nr-features}
+nr.features <- round(0.01 * nrow(pbmc.data))
+nr.features
+```
+
+```{r create-pbmc2}
+# Initialize the Seurat object with the raw (non-normalized data).
+pbmc2 <- CreateSeuratObject(counts = pbmc.data, project = "pbmc", 
+                            min.cells = nr.cells, min.features = nr.features)
+pbmc2
+```
+
+:::
+
 **Challenge**:
 
 Apply an expression threshold of 2 UMI for a feature to be called detected / expressed. Proceed with filtering out features not detected in at least 1% of the cells, and cells where not at least 1% of the features are expressed. Note: this will require to apply the filtering on the actual count matrix itself prior to creating the Seurat object.
+
+::: {.callout-tip icon="false" collapse="true"}
+## Solution
+
+Apply threshold:
+
+```{r expr-thresh}
+gr1 <- pbmc.data > 1
+rm <- rowMeans(gr1)
+cm <- colMeans(gr1) 
+```
+
+Filter the count matrix:
+
+```{r filter-thresh}
+thresh.data <- pbmc.data[rm >= 0.01, cm >= 0.01]
+dim(thresh.data)
+```
+
+Create Seurat object on filtered count matrix:
+
+```{r create-pbmc-thresh}
+pbmc3 <- CreateSeuratObject(counts = thresh.data, project = "pbmc")
+pbmc3
+```
+:::
 
 ## Standard pre-processing workflow
 
@@ -148,6 +199,20 @@ VlnPlot(pbmc, ncol = 3,
 
 **Exercise**: As we discussed in the OSCA session, a useful diagnostic involves plotting the proportion of mitochondrial counts against some of the other QC metrics. Create a plot of library size (*x*-axis) against percentage of reads mapped to mitochondrial transcripts (*y*-axis) for each cell. Hint: use the `FeatureScatter` function.
 
+::: {.callout-tip icon="false" collapse="true"}
+## Solution
+
+```{r}
+pbmc[["percent.mt"]] <- PercentageFeatureSet(pbmc, pattern = "^MT-")
+p1 <- FeatureScatter(pbmc, feature1 = "nCount_RNA", feature2 = "percent.mt") 
+p1
+```
+
+Note: `FeatureScatter` is typically used to visualize feature-feature relationships, 
+but can be used for other numeric data stored in the Seurat object, incl. cell 
+metadata column, PC scores, among others.
+:::
+
 **Challenge**: Combine this plot with another scatter plot of library size (*x*-axis) against the number of expressed features (*y*-axis) for each cell.
 
 We then use these QC metrics to filter cells. Here,
@@ -161,6 +226,15 @@ pbmc <- subset(pbmc, subset = nFeature_RNA > 200 &
                               percent.mt < 5)
 pbmc
 ```
+
+::: {.callout-tip icon="false" collapse="true"}
+## Solution
+```{r, fig.height=7, fig.width=13}
+p2 <- FeatureScatter(pbmc, feature1 = "nCount_RNA", feature2 = "nFeature_RNA") 
+p1 + p2
+```
+
+:::
 
 ## Normalizing the data
 
@@ -254,9 +328,23 @@ DimHeatmap(pbmc, dims = 1, cells = 500, balanced = TRUE)
 
 Use the `DimHeatmap` function to produce heatmaps for the first 15 PCs. Based on these heatmaps, which PCs would you include for further downstream analysis?
 
+::: {.callout-tip icon="false" collapse="true"}
+## Solution
+
+```{r multi-heatmap, fig.height=15, fig.width=9}
+DimHeatmap(pbmc, dims = 1:15, cells = 500, balanced = TRUE)
+```
+:::
+
 **Challenge**:
 
 PC3 and PC8 look different than the other heatmaps in that they display small condensed blocks on only one side of the heatmap. How do interpret these small condensed blocks?
+
+::: {.callout-tip icon="false" collapse="true"}
+## Solution
+
+These seem to represent low abundant cell types.
+:::
 
 ## Determine the 'dimensionality' of the dataset
 
@@ -328,6 +416,16 @@ The `min.pct` argument requires a feature to be detected at a minimum percentage
 
 **Exercise**: Find markers for every cluster compared to all remaining cells and report only the positive ones surpassing a log2 fold change threshold of 0.25. Hint: Use the `FindAllMarkers` function.
 
+::: {.callout-tip icon="false" collapse="true"}
+## Solution
+
+```{r}
+pbmc.markers <- FindAllMarkers(pbmc, only.pos = TRUE, 
+                               min.pct = 0.25, logfc.threshold = 0.25)
+head(pbmc.markers)
+```
+:::
+
 **Challenge**: Use the result of the above call to `FindAllMarkers` and extract the top2 marker genes for each cluster when sorted by log2 fold change.
 
 Seurat provides several plots for visualizing marker expression. `VlnPlot()` (shows expression probability distributions across clusters), and `FeaturePlot()` (visualizes feature expression on a tSNE or PCA plot) are the most commonly used visualizations.
@@ -338,6 +436,42 @@ feats <- c("MS4A1", "GNLY", "CD3E", "CD14",
            "FCER1A", "FCGR3A", "LYZ", "PPBP", "CD8A")
 FeaturePlot(pbmc, features = feats)
 ```
+
+::: {.callout-tip icon="false" collapse="true"}
+## Solution
+
+
+The base R way of doing things:
+
+```{r}
+spl <- split(pbmc.markers, pbmc.markers$cluster)
+getTop2FC <- function(df) 
+{
+    ind <- order(df$avg_log2FC, decreasing = TRUE)
+    df <- df[ind,]
+    df <- head(df, n = 2)
+    return(df)
+} 
+spl <- lapply(spl, getTop2FC)
+do.call(rbind, spl)
+```
+
+The tidyverse way of doing things:
+
+```{r}
+library(dplyr)
+pbmc.markers %>% group_by(cluster) %>% slice_max(n = 2, order_by = avg_log2FC)
+```
+
+`DoHeatmap()` generates an expression heatmap for given cells and features. 
+In this case, we are plotting the top 10 markers 
+(or all markers if less than 10) for each cluster.
+
+```{r clusterHeatmap, fig.height=8, fig.width=15}
+pbmc.markers %>% group_by(cluster) %>% top_n(n = 10, wt = avg_log2FC) -> top10
+DoHeatmap(pbmc, features = top10$gene) + NoLegend()
+```
+:::
 
 ## Assigning cell type identity to clusters
 
@@ -428,7 +562,28 @@ pbmc.sce
 
 **Exercise**: Use the `pbmc.sce` object to plot the expression level of MS4A1 across cell types using functionality from the [scater](https://bioconductor.org/packages/scater) package. (Hint: use the `plotExpression` function).
 
+::: {.callout-tip icon="false" collapse="true"}
+## Solution
+
+
+```{r sobj2sce-solve}
+p1 <- plotExpression(pbmc.sce, features = "MS4A1", x = "ident") + 
+      theme(axis.text.x = element_text(angle = 45, hjust = 1))
+p1
+```
+:::
+
 **Challenge**: Combine the marker gene expression plot with a reduced dimension plot of all cells in PCA space, with cells colored by cell type. (Hint: use the `plotPCA` function).
+
+::: {.callout-tip icon="false" collapse="true"}
+## Solution
+
+```{r sobj2sce-solve-ext, fig.width = 10}
+p2 <- plotPCA(pbmc.sce, colour_by = "ident")
+p1 + p2
+```
+
+:::
 
 Seurat also allows conversion from `SingleCellExperiment` objects to Seurat objects; we demonstrate this on some publicly available data from the [scRNAseq](https://bioconductor.org/packages/scRNAseq) package.
 
@@ -444,5 +599,23 @@ manno.seurat
 
 **Exercise**: Use the `manno.seurat` object to produce a PCA plot with cells colored by timepoint (Hint: use the `DimPlot` function).
 
+::: {.callout-tip icon="false" collapse="true"}
+## Solution
+
+```{r sce2sobj-solve}
+p1 <- DimPlot(manno.seurat, reduction = "PCA", group.by = "Timepoint") + NoLegend()
+p1
+```
+:::
+
 **Challenge**: Combine the PCA plot with a ridge plot of ACTB expression, stratified by time point. (Hint: use the `RidgePlot` function).
 
+
+::: {.callout-tip icon="false" collapse="true"}
+## Solution
+```{r sce2sobj-solve-ext, fig.width = 10}
+p2 <- RidgePlot(manno.seurat, features = "ACTB", group.by = "Timepoint")
+p1 + p2
+```
+
+:::

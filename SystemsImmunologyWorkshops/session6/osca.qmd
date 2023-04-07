@@ -129,6 +129,18 @@ head(reducedDim(sce, "UMAP"))
 
 *Exercise*: Subset the PCA representation to the first two PCs and store the result in the `reducedDims` slot under the name `PCA2`.
 
+::: {.callout-tip icon="false" collapse="true"}
+## Solution
+
+```{r pca2}
+pca2 <- reducedDim(sce, "PCA")[,1:2]
+head(pca2)
+reducedDim(sce, "PCA2") <- pca2
+sce
+head(reducedDim(sce, "PCA2"))
+```
+:::
+
 ## Data processing
 
 ### Quality Control
@@ -186,11 +198,26 @@ A useful diagnostic involves plotting the proportion of mitochondrial counts aga
 Create a plot of library size (*x*-axis) against percentage of reads mapped to mitochondrial transcripts (*y*-axis). Color each point/cell by QC status, ie. whether the cell is kept or discarded from further analysis.
 
 Do you observe any cells in the top-right corner of the plot? To what kind of cells might these correspond to?
-```{r}
-library("ggplot2")
-qc <- data.frame(qcstats[,c("sum","subsets_Mito_percent")])
-ggplot(qc, aes(x=sum, y=subsets_Mito_percent, color=filtered$discard))+geom_point()+xlim(0,100000)
+
+::: {.callout-tip icon="false" collapse="true"}
+## Solution
+Create the `data.frame` for plotting:
+
+```{r qc}
+df <- data.frame(qcstats[,c("sum", "subsets_Mito_percent")], 
+                 discard = filtered$discard)
+df$discard <- factor(df$discard, levels = c(TRUE, FALSE))
+head(df)
 ```
+
+Plot:
+
+```{r qc-plot}
+ggplot(df, aes(x = sum, y = subsets_Mito_percent)) + 
+    geom_point(aes(color = discard), size = 0.5) + theme_bw()
+```
+
+:::
 
 ### Normalization
 
@@ -273,6 +300,34 @@ Subset the `SingleCellExperiment` to all cells assigned to the first ten cluster
 
 Hint: see also the `plotReducedDim` function from the [scater](https://bioconductor.org/packages/scater) package.
 
+::: {.callout-tip icon="false" collapse="true"}
+## Solution
+Create the `data.frame` for plotting:
+
+```{r pca}
+sce.sub <- subset(sce, , cluster %in% 1:10)
+sce.sub$cluster <- factor(sce.sub$cluster, levels = 1:10) 
+df <- data.frame(reducedDim(sce.sub, "PCA")[,1:2], cluster = sce.sub$cluster)
+head(df)
+```
+
+Plot with `ggplot2`:
+
+```{r pca-plot}
+ggplot(df, aes(x = PC1, y = PC2)) + 
+    geom_point(aes(color = cluster), size = 0.5) + theme_bw()
+```
+
+Alternatively, use the the `plotReducedDim` function from the 
+[scater](https://bioconductor.org/packages/scater) package for convenience.
+
+```{r pca-plot-scater}
+plotReducedDim(sce.sub, "PCA", color_by = "cluster")
+```
+
+
+:::
+
 #### Non-linear methods for visualization (*t*-SNE / UMAP)
 
 The de facto standard for visualization of scRNA-seq data is the *t*-stochastic neighbor embedding (*t*-SNE) method ([Van der Maaten and Hinton 2008](https://www.jmlr.org/papers/volume9/vandermaaten08a/vandermaaten08a.pdf)). This attempts to find a low-dimensional representation of the data that preserves the distances between each point and its neighbors in the high-dimensional space. Unlike PCA, it is not restricted to linear transformations, nor is it obliged to accurately represent distances between distant populations. This means that it has much more freedom in how it arranges cells in low-dimensional space, enabling it to separate many distinct clusters in a complex population.
@@ -321,6 +376,32 @@ plotReducedDim(sce, "UMAP", colour_by = "label")
 Exercise: The [Leiden algorithm](https://www.nature.com/articles/s41598-019-41695-z) is similar to the Louvain algorithm, but it is faster and has been shown to result in better connected communities. Modify the above call to `clusterCells` to carry out the community detection with the Leiden algorithm instead. Visualize the results in a UMAP plot.
 
 Hint: The `NNGraphParam` constructor has an argument `cluster.args`. This allows to specify arguments passed on to the `cluster_leiden` function from the [igraph](https://cran.r-project.org/web/packages/igraph/index.html) package. Use the `cluster.args` argument to parameterize the clustering to use modularity as the objective function and a resolution parameter of 0.5.
+
+::: {.callout-tip icon="false" collapse="true"}
+## Solution
+Parameterize the clustering:
+
+```{r cluster-par}
+cargs <- list(objective_function = "modularity", 
+              resolution_parameter = 0.5)
+blpar <- NNGraphParam(cluster.fun = "leiden", cluster.args = cargs)
+```
+
+Cluster:
+
+```{r cluster}
+nn <- clusterCells(sce, use.dimred = "PCA", BLUSPARAM = blpar)
+table(nn)
+```
+
+Visualize the clustering:
+
+```{r cluster-viz}
+sce$leiden <- nn
+plotReducedDim(sce, "UMAP", color_by = "leiden")
+```
+
+:::
 
 ### Marker gene detection
 
